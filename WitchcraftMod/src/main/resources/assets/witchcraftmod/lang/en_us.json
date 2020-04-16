@@ -1,4 +1,8 @@
 {
 	"block.witchcraftmod.hellshroom": "Hellshroom",
-	"block.witchcraftmod.hellshroom_block": "Hellshroom Block"
+	"block.witchcraftmod.hellshroom_block": "Hellshroom Block",
+	"block.witchcraftmod.hellshroom_stem": "Hellshroom Stem",
+	"block.witchcraftmod.vibrant_ore": "vibrant ore",
+	"block.witchcraftmod.vibrant_block": "vibrant_block"
+	
 }

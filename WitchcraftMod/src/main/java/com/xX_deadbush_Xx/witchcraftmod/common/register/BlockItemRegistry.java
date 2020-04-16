@@ -1,4 +1,4 @@
-package com.xX_deadbush_Xx.witchcraftmod.register;
+package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import java.util.Arrays;
 import java.util.List;

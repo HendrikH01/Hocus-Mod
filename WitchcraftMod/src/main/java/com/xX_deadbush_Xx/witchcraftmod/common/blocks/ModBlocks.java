@@ -19,4 +19,10 @@ public class ModBlocks {
 				() -> new ModMushroomBlock(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().sound(SoundType.PLANT)));	 	
 		public static final RegistryObject<Block> HELLSHROOM_BLOCK = BLOCKS.register("hellshroom_block", 
 				() -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> HELLSHROOM_STEM = BLOCKS.register("hellshroom_stem", 
+				() -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> VIBRANT_ORE = BLOCKS.register("vibrant_ore", 
+				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> VIBRANT_BLOCK = BLOCKS.register("vibrant_block", 
+				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
 }

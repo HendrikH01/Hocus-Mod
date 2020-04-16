@@ -2,6 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
 import java.util.Random;
 
+import com.xX_deadbush_Xx.witchcraftmod.common.world.gen.features.FeatureConfigs;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.gen.features.Features;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
@@ -26,7 +27,7 @@ public class ModMushroomBlock extends MushroomBlock implements IGrowable {
 	    ConfiguredFeature<BigMushroomFeatureConfig, ?> configuredfeature;
 	    
 	    if (this == ModBlocks.HELLSHROOM.get()) {
-	    	configuredfeature = Features.HUGE_HELLSHROOM.get().withConfiguration(DefaultBiomeFeatures.BIG_RED_MUSHROOM);
+	    	configuredfeature = Features.HUGE_HELLSHROOM.get().withConfiguration(FeatureConfigs.BIG_HELLSHROOM);
 	    } else {
     		worldIn.setBlockState(blockpos, blockstate, 3);
     		return false;

@@ -12,6 +12,7 @@ public class ModItems {
 	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WitchcraftMod.MOD_ID);
 	
 	public static final RegistryObject<Item> VIBRANT_CRYSTAL = ITEMS.register("vibrant_crystal",
-			() -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	 	
-	
+			() -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));
+	public static final RegistryObject<Item> VIBRANT_DUST = ITEMS.register("vibrant_dust",
+			() -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	
 }
