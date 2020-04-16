@@ -21,8 +21,8 @@ public class WitchcraftMod {
 	public static final String MOD_ID = "witchcraftmod";
 	
     public WitchcraftMod() {
-    	System.out.println("hendrik");
     	IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    	
     	modEventBus.addListener(this::setup);
     	modEventBus.addListener(this::doClientStuff);
     	
@@ -40,7 +40,7 @@ public class WitchcraftMod {
     private void doClientStuff(final FMLClientSetupEvent event) {
     	SetupEvents.clientSetup(event);
     }
-
+ 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
     	
