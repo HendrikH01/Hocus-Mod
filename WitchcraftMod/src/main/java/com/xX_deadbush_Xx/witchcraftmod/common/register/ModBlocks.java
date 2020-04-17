@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.DryingRackBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModMushroomBlock;
 
 import net.minecraft.block.Block;
@@ -28,5 +29,6 @@ public class ModBlocks {
 				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
 		public static final RegistryObject<Block> HARDENED_NETHERRACK = BLOCKS.register("hardened_netherrack", 
 				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE)));
-
+		public static final RegistryObject<Block> DRYING_RACK = BLOCKS.register("drying_rack", 
+				() -> new DryingRackBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.5F, 5.0F).sound(SoundType.WOOD)));
 }

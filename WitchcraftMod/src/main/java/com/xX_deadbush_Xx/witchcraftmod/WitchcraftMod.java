@@ -1,9 +1,8 @@
 package com.xX_deadbush_Xx.witchcraftmod;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.register.ModFeatures;
-import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBiomes;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.setup.SetupEvents;
 
 import net.minecraftforge.common.MinecraftForge;
@@ -29,6 +28,7 @@ public class WitchcraftMod {
     	
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModTileEntities.TILE_ENTITIES.register(modEventBus);
         //ModFeatures.FEATURES.register(modEventBus);
         //ModBiomes.BIOMES.register(modEventBus);
 
