@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.setup;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModBlocks;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;

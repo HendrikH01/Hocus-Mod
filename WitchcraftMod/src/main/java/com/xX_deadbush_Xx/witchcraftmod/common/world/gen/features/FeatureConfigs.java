@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.world.gen.features;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModBlocks;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.BigMushroomFeatureConfig;

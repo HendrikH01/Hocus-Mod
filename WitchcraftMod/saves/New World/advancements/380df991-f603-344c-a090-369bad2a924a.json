@@ -1,9 +1,21 @@
 {
+  "minecraft:recipes/misc/white_dye": {
+    "criteria": {
+      "has_bone_meal": "2020-04-16 23:38:42 +0200"
+    },
+    "done": true
+  },
   "minecraft:adventure/adventuring_time": {
     "criteria": {
       "minecraft:beach": "2020-04-16 22:45:46 +0200"
     },
     "done": false
+  },
+  "minecraft:recipes/building_blocks/bone_block": {
+    "criteria": {
+      "has_bonemeal": "2020-04-16 23:38:42 +0200"
+    },
+    "done": true
   },
   "DataVersion": 2230
 }

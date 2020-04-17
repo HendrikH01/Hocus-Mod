@@ -1,6 +1,7 @@
-package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
+package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModMushroomBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.HugeMushroomBlock;
@@ -21,8 +22,11 @@ public class ModBlocks {
 				() -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
 		public static final RegistryObject<Block> HELLSHROOM_STEM = BLOCKS.register("hellshroom_stem", 
 				() -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
-		public static final RegistryObject<Block> VIBRANT_ORE = BLOCKS.register("vibrant_ore", 
+		public static final RegistryObject<Block> VIBRANT_CRYSTAL_ORE = BLOCKS.register("vibrant_crystal_ore", 
 				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
 		public static final RegistryObject<Block> VIBRANT_BLOCK = BLOCKS.register("vibrant_block", 
 				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> HARDENED_NETHERRACK = BLOCKS.register("hardened_netherrack", 
+				() -> new Block(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE)));
+
 }

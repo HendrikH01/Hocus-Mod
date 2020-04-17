@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.WitchcraftItemGroup;
-import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModBlocks;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

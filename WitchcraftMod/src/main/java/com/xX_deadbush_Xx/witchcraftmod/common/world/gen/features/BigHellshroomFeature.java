@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.function.Function;
 
 import com.mojang.datafixers.Dynamic;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModBlocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.feature.AbstractBigMushroomFeature;

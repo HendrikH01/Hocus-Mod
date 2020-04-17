@@ -1,4 +1,4 @@
-package com.xX_deadbush_Xx.witchcraftmod.common.items;
+package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 
