@@ -19,6 +19,19 @@ archivesBaseName = 'modid'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+repositories {
+    maven {
+        url "http://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        url "https://maven.tterrag.com/"
+    }
+    maven {
+        url = "https://maven.theillusivec4.top/"
+    }
+    mavenLocal()
+}
+
 minecraft {
     // The mappings can be changed at any time, and must be in the following format.
     // snapshot_YYYYMMDD   Snapshot are built nightly.
@@ -108,7 +121,10 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
-
+    
+  	compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
+  	// at runtime, use the full JEI jar
+  	runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

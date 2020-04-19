@@ -1,5 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.setup;
 
+import com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities.DryingRackRenderer;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import net.minecraft.client.renderer.RenderType;
@@ -10,6 +11,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class SetupEvents {
 	public static void clientSetup(final FMLClientSetupEvent event) {
     	RenderTypeLookup.setRenderLayer(ModBlocks.HELLSHROOM.get(), RenderType.getCutout());
+    	
+    	DryingRackRenderer.register();
 	}
 
 	public static void commonSetup(FMLCommonSetupEvent event) {

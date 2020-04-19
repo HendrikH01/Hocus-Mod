@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
+import javax.annotation.Nullable;
+
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
 
@@ -12,6 +14,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -22,7 +25,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class DryingRackBlock extends Block {
+public class DryingRackBlock<IBlockState> extends Block {
 
 	private static final VoxelShape SHAPE_NORTH = Block.makeCuboidShape(2.0D, 0.0D, 0.0D, 14.0D, 16.0D, 16.0D);
 	private static final VoxelShape SHAPE_WEST = Block.makeCuboidShape(0.0D, 2.0D, 0.0D, 16.0D, 16.0D, 14.0D);
@@ -34,8 +37,12 @@ public class DryingRackBlock extends Block {
 		super(properties);
 	}
 	
+	public static Direction getDirection(BlockState state) {
+		return state.get(FACING);
+	}
+	
 	@Override
-	public TileEntity createTileEntity(BlockState blockstate, IBlockReader world) {
+	public TileEntity createTileEntity(@Nullable BlockState blockstate, IBlockReader world) {
 		return ModTileEntities.DRYING_RACK.get().create();		
 	}
 	
@@ -46,7 +53,7 @@ public class DryingRackBlock extends Block {
 	
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		switch(state.get(this.FACING)) {
+		switch(state.get(FACING)) {
 		case NORTH:
 			return SHAPE_NORTH;
 		case WEST:

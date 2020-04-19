@@ -58,6 +58,10 @@ public class DryingRackRecipe implements IDryingRackRecipe {
 	
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(this.input);
+		return NonNullList.from(null, this.input);
+	}
+	
+	public Ingredient getInput() {
+		return this.input;
 	}
 }
