@@ -19,7 +19,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class BlockItemRegistry {
 	@SubscribeEvent
 	public static void onRegistryEvent(final RegistryEvent.Register<Item> evt) {
-		final List<String> specialblocks = Arrays.asList("hellshroom");
+		final List<String> specialblocks = Arrays.asList("chalk_block");
 		
 		final IForgeRegistry<Item> registry = evt.getRegistry();
 		ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> !specialblocks.contains(block.getRegistryName().getNamespace())).forEach((block) -> {
@@ -31,14 +31,6 @@ public class BlockItemRegistry {
 
 		});
 		
-		if(!specialblocks.isEmpty()) {
-			ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).filter(block -> specialblocks.contains(block.getRegistryName().getNamespace())).forEach((block) -> {
-				final Item.Properties properties = new Item.Properties().group(WitchcraftItemGroup.instance);
-				BlockItem itemblock = new BlockItem(block, properties);
-				itemblock.setRegistryName(block.getRegistryName());
-				registry.register(itemblock);
-				System.out.println("registered special block! :o");
-			});
-		}
+		//REGISTER SPECIAL ITEMS HERE
 	}
 }

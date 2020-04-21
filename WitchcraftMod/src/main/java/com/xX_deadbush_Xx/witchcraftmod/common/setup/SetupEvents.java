@@ -11,7 +11,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class SetupEvents {
 	public static void clientSetup(final FMLClientSetupEvent event) {
     	RenderTypeLookup.setRenderLayer(ModBlocks.HELLSHROOM.get(), RenderType.getCutout());
-    	
+    	RenderTypeLookup.setRenderLayer(ModBlocks.CHALK_BLOCK.get(), RenderType.getCutout());
+
     	DryingRackRenderer.register();
 	}
 

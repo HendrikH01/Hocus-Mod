@@ -1,9 +1,11 @@
 package com.xX_deadbush_Xx.witchcraftmod;
 
+import com.xX_deadbush_Xx.witchcraftmod.common.potion.ModPotions;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.setup.SetupEvents;
+import com.xX_deadbush_Xx.witchcraftmod.common.util.HUDOverlayHandler;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -26,10 +28,11 @@ public class WitchcraftMod {
     	modEventBus.addListener(this::setup);
     	modEventBus.addListener(this::doClientStuff);
     	
+        ModPotions.POTIONS.register(modEventBus);
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModTileEntities.TILE_ENTITIES.register(modEventBus);
-        //ModFeatures.FEATURES.register(modEventBus);
+        
         //ModBiomes.BIOMES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);

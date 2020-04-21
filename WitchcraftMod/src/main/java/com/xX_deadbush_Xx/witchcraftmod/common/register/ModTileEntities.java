@@ -12,5 +12,8 @@ public class ModTileEntities {
 	public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = new DeferredRegister<>(ForgeRegistries.TILE_ENTITIES, WitchcraftMod.MOD_ID);
 
 	public static final RegistryObject<TileEntityType<DryingRackTile>> DRYING_RACK = TILE_ENTITIES.register("drying_rack_tile",
-			() -> TileEntityType.Builder.create(DryingRackTile::new, ModBlocks.DRYING_RACK.get()).build(null));	 
+			() -> TileEntityType.Builder.create(DryingRackTile::new, ModBlocks.DRYING_RACK.get()).build(null));
+	public static final RegistryObject<TileEntityType<DryingRackTile>> RITUAL_STONE = TILE_ENTITIES.register("ritual_stone_tile",
+			() -> TileEntityType.Builder.create(DryingRackTile::new, ModBlocks.RITUAL_STONE.get()).build(null));	 
+
 }

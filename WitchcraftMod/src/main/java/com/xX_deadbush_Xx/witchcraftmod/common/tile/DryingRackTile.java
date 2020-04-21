@@ -1,11 +1,10 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
+import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.WitchcraftJEIPlugin;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
@@ -13,16 +12,12 @@ import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -30,18 +25,15 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class DryingRackTile extends TileEntity implements ITickableTileEntity, IInventory {
-	private List<ItemStack> inventory = new ArrayList<>();
+public class DryingRackTile extends BasicItemHolderTile implements ITickableTileEntity {
 	private int ticksUntilDry = 1000;
-	private boolean swappedItemThisTick = false;
 	
 	public DryingRackTile(TileEntityType<?> tileEntityTypeIn) {
-		super(tileEntityTypeIn);
+		super(tileEntityTypeIn, 1);
 	}
 	
 	public DryingRackTile() {
 		this(ModTileEntities.DRYING_RACK.get());
-		this.inventory.add(ItemStack.EMPTY);
 	}
 	
 	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {
@@ -95,7 +87,7 @@ public class DryingRackTile extends TileEntity implements ITickableTileEntity, I
 			System.out.println(recipe.getRecipeOutput());
 			this.setItem(recipe.getRecipeOutput());
 			this.markDirty();
-		} else System.out.println("null");
+		}
 	}
 
 	private DryingRackRecipe getRecipe(ItemStack stack) {
@@ -109,31 +101,6 @@ public class DryingRackTile extends TileEntity implements ITickableTileEntity, I
 			}
 		}
 		return null;
-	}
-
-	@Nullable
-	@Override
-	 public SUpdateTileEntityPacket getUpdatePacket() {
-		CompoundNBT comp = new CompoundNBT();
-		write(comp);
-		return new SUpdateTileEntityPacket(this.pos, 42, comp); //42 is an arbitrary number which wont be used by forge. It is only used for vanilla TEs
-	}
-	
-	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		read(pkt.getNbtCompound());
-	}
-	
-	@Override
-	public CompoundNBT getUpdateTag() {
-	    CompoundNBT tag = new CompoundNBT();
-	    write(tag);
-	    return tag;
-	}
-		
-	@Override
-	public void handleUpdateTag(CompoundNBT tag) {
-	    this.read(tag);
 	}
 	
 	@Override
@@ -154,70 +121,12 @@ public class DryingRackTile extends TileEntity implements ITickableTileEntity, I
 		this.ticksUntilDry = compound.getInt("tickUntilDry");
 	}
 
-	@Override
-	public void clear() {
-		this.inventory.clear();
-	}
-
-	@Override
-	public int getSizeInventory() {
-		return 1;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return false;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int index) {
-		return this.inventory.get(index);
-	}
-
-	@Override
-	public ItemStack decrStackSize(int index, int amount) {
-		ItemStack stack = this.inventory.get(index);
-		ItemStack stack2 = stack.copy();
-		if(stack.getCount() > amount) {
-			stack2.setCount(amount);
-			this.inventory.get(index).shrink(amount);
-		} else {
-			this.inventory.set(index, ItemStack.EMPTY);
-		}
-		this.markDirty();
-		System.out.println(stack2);
-		return stack2;
-	}
-
-	@Override
-	public ItemStack removeStackFromSlot(int index) {
-		ItemStack stack = this.inventory.get(index).copy();
-		this.inventory.set(index, ItemStack.EMPTY);
-		return stack;
-	}
-
-	@Override
-	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.inventory.set(index, stack);
-	}
-
-	@Override
-	public boolean isUsableByPlayer(PlayerEntity player) {
-		return false;
-	}
-	
-	@Override
-	public void markDirty() {
-		this.world.markBlockRangeForRenderUpdate(this.pos, this.getBlockState(), this.getBlockState());
-		this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
-		super.markDirty();
-	}
 	
 	public class DryingRackItemHandler implements IItemHandlerModifiable {
 		private List<ItemStack> inv;
 
-		public DryingRackItemHandler(List<ItemStack> inventory) {
-			this.inv = inventory;
+		public DryingRackItemHandler(ItemStack[] inv) {
+			this.inv = Arrays.asList(inv);
 		}
 
 		@Override

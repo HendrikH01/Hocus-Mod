@@ -1,0 +1,16 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "particle": "witchcraftmod:blocks/modelled/chalk/dot",
+        "line": "witchcraftmod:blocks/modelled/chalk/dot"
+    },
+    "elements": [
+        {   "from": [ 0, 0.2501, 0 ],
+            "to": [ 16, 0.2501, 16 ],
+            "shade": false,
+            "faces": {
+                "up": { "uv": [ 0, 0, 16, 16], "texture": "#line", "tintindex": 0 }
+            }
+        }
+    ]
+}
