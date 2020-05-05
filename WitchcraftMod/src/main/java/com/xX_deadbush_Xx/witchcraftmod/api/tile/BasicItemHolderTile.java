@@ -23,7 +23,7 @@ public class BasicItemHolderTile extends TileEntity implements IInventory {
 		this.inventory = new ItemStack[this.size];
 		this.clear();
 		for(int i = 0; i < initialStacks.length; i++) {
-			this.inventory[i] = initialStacks[i];
+			this.getInventory()[i] = initialStacks[i];
 		}
 	}
 	
@@ -56,7 +56,7 @@ public class BasicItemHolderTile extends TileEntity implements IInventory {
 	
 	@Override
 	public void clear() {
-		Arrays.fill(inventory, ItemStack.EMPTY);
+		Arrays.fill(getInventory(), ItemStack.EMPTY);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class BasicItemHolderTile extends TileEntity implements IInventory {
 
 	@Override
 	public boolean isEmpty() {
-		for(ItemStack stack : this.inventory ){
+		for(ItemStack stack : this.getInventory() ){
 			if(!stack.equals(ItemStack.EMPTY)) return false;
 		}
 		return true;
@@ -74,34 +74,33 @@ public class BasicItemHolderTile extends TileEntity implements IInventory {
 
 	@Override
 	public ItemStack getStackInSlot(int index) {
-		return this.inventory[index];
+		return this.getInventory()[index];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int index, int amount) {
-		ItemStack stack = this.inventory[index];
+		ItemStack stack = this.getInventory()[index];
 		ItemStack stack2 = stack.copy();
 		if(stack.getCount() > amount) {
 			stack2.setCount(amount);
-			this.inventory[index].shrink(amount);
+			this.getInventory()[index].shrink(amount);
 		} else {
-			this.inventory[index] = ItemStack.EMPTY;
+			this.getInventory()[index] = ItemStack.EMPTY;
 		}
 		this.markDirty();
-		System.out.println(stack2);
 		return stack2;
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		ItemStack stack = this.inventory[index].copy();
-		this.inventory[index] = ItemStack.EMPTY;
+		ItemStack stack = this.getInventory()[index].copy();
+		this.getInventory()[index] = ItemStack.EMPTY;
 		return stack;
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.inventory[index] =  stack;
+		this.getInventory()[index] =  stack;
 	}
 
 	@Override
@@ -114,6 +113,10 @@ public class BasicItemHolderTile extends TileEntity implements IInventory {
 		this.world.markBlockRangeForRenderUpdate(this.pos, this.getBlockState(), this.getBlockState());
 		this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
 		super.markDirty();
+	}
+
+	public ItemStack[] getInventory() {
+		return inventory;
 	}
 
 }

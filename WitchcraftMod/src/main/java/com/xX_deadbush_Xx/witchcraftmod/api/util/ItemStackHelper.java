@@ -1,6 +1,9 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.util;
 
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class ItemStackHelper {
 	
@@ -26,5 +29,14 @@ public class ItemStackHelper {
 	
 	public static void setMaxStackCount(ItemStack stack) {
 		stack.setCount(stack.getMaxStackSize());
+	}
+
+	public static void spawnItem(World worldIn, ItemStack stack, BlockPos pos) {
+        spawnItem(worldIn, stack, pos.getX(), pos.getY() + 0.5F, pos.getZ());
+	}
+	
+	public static void spawnItem(World worldIn, ItemStack stack, float x, float y, float z) {
+        ItemEntity itementity = new ItemEntity(worldIn, x, y, z, stack);
+        worldIn.addEntity(itementity);
 	}
 }

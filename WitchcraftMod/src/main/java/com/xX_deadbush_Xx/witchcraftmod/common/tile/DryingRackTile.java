@@ -10,13 +10,13 @@ import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.WitchcraftJEIPlugin;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 
-import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Hand;
@@ -48,17 +48,12 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 				if(this.hasItem()) {
 					if(heldItem.equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
 					else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
-						this.spawnItem(worldIn, this.getItem());
+						ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
 					}
 				}
 				setItem(items);
 			}
 		}
-	}
-
-	private void spawnItem(World worldIn, ItemStack stack) {
-        ItemEntity itementity = new ItemEntity(this.world, this.pos.getX(), this.pos.getY() + 0.5F, this.pos.getZ(), stack);
-        worldIn.addEntity(itementity);
 	}
 
 	public boolean hasItem() {
@@ -84,7 +79,6 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	
 	private void craft(DryingRackRecipe recipe) {
 		if(recipe != null) {
-			System.out.println(recipe.getRecipeOutput());
 			this.setItem(recipe.getRecipeOutput());
 			this.markDirty();
 		}
@@ -96,7 +90,7 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 		List<IRecipe<?>> recipes = WitchcraftJEIPlugin.findRecipesByType(ModRecipeTypes.DRYING_RACK_TYPE);
 		for(IRecipe<?> r : recipes) {
 			DryingRackRecipe recipe = (DryingRackRecipe) r;
-			if(recipe.matches(new RecipeWrapper(new DryingRackTile.DryingRackItemHandler(this.inventory)), this.world)) {
+			if(recipe.matches(new RecipeWrapper(new DryingRackTile.DryingRackItemHandler(this.getInventory())), this.world)) {
 				return recipe;
 			}
 		}

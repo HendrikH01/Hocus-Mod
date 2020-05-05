@@ -13,8 +13,10 @@
   	"item.witchcraftmod.splash_potion.effect.poison": "Splash Potion of Poison",
   	"item.witchcraftmod.lingering_potion.effect.poison": "Lingering Potion of Poison",
   	
-  	
   	"item.witchcraftmod.wet_chalk": "Wet Chalk",
-  	"item.witchcraftmod.magic_chalk": "Magic Chalk"
-
+  	"item.witchcraftmod.magic_chalk": "Magic Chalk",
+  	"item.witchcraftmod.ritual_activator": "Creative Ritual Activator",
+  	"item.witchcraftmod.particle_debugger": "Particle Debug Item"
+	
+	
 }

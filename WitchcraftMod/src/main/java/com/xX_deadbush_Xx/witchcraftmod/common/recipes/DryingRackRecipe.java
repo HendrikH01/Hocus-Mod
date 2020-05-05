@@ -1,8 +1,5 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.recipes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Nullable;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IDryingRackRecipe;

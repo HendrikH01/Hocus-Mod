@@ -17,19 +17,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
-public class DryingRackSerializer<T extends DryingRackRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<DryingRackRecipe> {
-	private IFactory<T> factory;
+public class DryingRackSerializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<DryingRackRecipe> {
 
-	public DryingRackSerializer(IFactory<T> factory) {
-		this.factory = factory;
-	}
-	
 	@Override
 	public DryingRackRecipe read(ResourceLocation recipeId, JsonObject json) {
 		ItemStack output = CraftingHelper.getItemStack(JSONUtils.getJsonObject(json, "output"), true);
 		Ingredient input = Ingredient.deserialize(JSONUtils.getJsonObject(json, "input"));
 
-		return this.factory.create(recipeId, output, input);
+		return new DryingRackRecipe(recipeId, output, input);
 	}
 
 	@Override
@@ -37,7 +32,7 @@ public class DryingRackSerializer<T extends DryingRackRecipe> extends ForgeRegis
 		ItemStack output = buffer.readItemStack();
 		Ingredient input = Ingredient.read(buffer);
 		
-		return this.factory.create(recipeId, output, input);
+		return new DryingRackRecipe(recipeId, output, input);
 	}
 
 	@Override
@@ -47,8 +42,4 @@ public class DryingRackSerializer<T extends DryingRackRecipe> extends ForgeRegis
 		
 		buffer.writeItemStack(recipe.getRecipeOutput(), false);
 	}
-	
-    public interface IFactory<T extends DryingRackRecipe> {
-        T create(ResourceLocation id, ItemStack output, Ingredient input);
-    }
 }

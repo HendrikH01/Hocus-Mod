@@ -1,5 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
@@ -50,13 +51,18 @@ public class RitualStone extends Block {
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}
-
+	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
-		TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof RitualStoneTile) {
-        	RitualStoneTile ritualStoneTile = ((RitualStoneTile) tileEntity);
-        }
-		return ActionResultType.SUCCESS;
+		if(worldIn.isRemote) return ActionResultType.SUCCESS;
+		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
+			TileEntity tileEntity = worldIn.getTileEntity(pos);
+	        if (tileEntity instanceof RitualStoneTile) {
+	        	RitualStoneTile ritualStoneTile = ((RitualStoneTile) tileEntity);
+	        	if(player.getHeldItemMainhand().getItem().equals(ModItems.RITUAL_ACTIVATOR.get())) ritualStoneTile.activateRitual(worldIn, player);
+	        	else ritualStoneTile.swapItems(worldIn, player);
+	        }
+			return ActionResultType.SUCCESS;
+		} else return ActionResultType.PASS;
 	}
 }

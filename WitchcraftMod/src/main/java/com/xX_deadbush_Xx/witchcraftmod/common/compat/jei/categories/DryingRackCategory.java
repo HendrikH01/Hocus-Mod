@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IDryingRackRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
+import com.xX_deadbush_Xx.witchcraftmod.common.util.WitchcraftLib;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -16,18 +17,18 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
-public class DryingRackRecipeCategory implements IRecipeCategory<IDryingRackRecipe> {
+public class DryingRackCategory implements IRecipeCategory<IDryingRackRecipe> {
 	private final String localizedName;
 	private final IDrawable background;
 	private final IDrawable icon;
 	
-    public DryingRackRecipeCategory(IGuiHelper guiHelper) {
+    public DryingRackCategory(IGuiHelper guiHelper) {
 		localizedName = I18n.format("witchcraftmod.jei.drying_rack");
 		background = guiHelper.createBlankDrawable(150, 130);
 		icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.DRYING_RACK.get()));
     }
 
-	public static final ResourceLocation UID = new ResourceLocation("witchcraftmod", "drying_rack");
+	public static final ResourceLocation UID = WitchcraftLib.DRYING_RACK_ID;
 
 	@Override
 	public ResourceLocation getUid() {

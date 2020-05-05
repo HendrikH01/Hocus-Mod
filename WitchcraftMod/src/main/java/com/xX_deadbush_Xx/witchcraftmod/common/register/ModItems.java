@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.register;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.WitchcraftItemGroup;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagicChalk;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -14,7 +15,12 @@ public class ModItems {
 	
 	public static final RegistryObject<Item> VIBRANT_CRYSTAL = ITEMS.register("vibrant_crystal", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> VIBRANT_DUST = ITEMS.register("vibrant_dust", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	
+	public static final RegistryObject<Item> ADONIS_SEED_POD = ITEMS.register("adonis_seed_pod", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	
+	public static final RegistryObject<Item> BELLADONNA_BERRY = ITEMS.register("belladonna_berry", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	
+
 	public static final RegistryObject<Item> MAGIC_CHALK = ITEMS.register("magic_chalk", () -> new MagicChalk(new Item.Properties().group(WitchcraftItemGroup.instance).maxDamage(50)));	
 	public static final RegistryObject<Item> WET_CHALK = ITEMS.register("wet_chalk", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	
+	public static final RegistryObject<Item> RITUAL_ACTIVATOR = ITEMS.register("ritual_activator", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));	
+	public static final RegistryObject<Item> PARTICLE_DEBUGGER = ITEMS.register("particle_debugger", () -> new ParticleDebugger(new Item.Properties().group(WitchcraftItemGroup.instance)));	
 
 }

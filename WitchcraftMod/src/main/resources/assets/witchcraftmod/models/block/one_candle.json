@@ -1,0 +1,33 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "witchcraftmod:blocks/modelled/candle/candle1",
+		"particle": "witchcraftmod:blocks/modelled/candle/candle1"
+	},
+	"elements": [
+		{
+			"from": [6.5, 0, 6.5],
+			"to": [9.5, 6, 9.5],
+			"faces": {
+				"north": {"uv": [0, 0, 3, 6], "texture": "#0"},
+				"east": {"uv": [9, 0, 12, 6], "texture": "#0"},
+				"south": {"uv": [3, 0, 6, 6], "texture": "#0"},
+				"west": {"uv": [6, 0, 9, 6], "texture": "#0"},
+				"up": {"uv": [0, 13, 3, 16], "texture": "#0"},
+				"down": {"uv": [3, 13, 6, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 5.5, 7.5],
+			"to": [8, 7.5, 8.5],
+			"faces": {
+				"north": {"uv": [0, 0, 0, 2], "texture": "#0"},
+				"east": {"uv": [0, 9, 1, 11], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 2], "texture": "#0"},
+				"west": {"uv": [0, 9, 1, 11], "texture": "#0"},
+				"up": {"uv": [0, 0, 0, 1], "texture": "#0"},
+				"down": {"uv": [0, 0, 0, 1], "texture": "#0"}
+			}
+		}
+	]
+}

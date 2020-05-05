@@ -18,14 +18,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @OnlyIn(Dist.CLIENT)
-//unused @Mod.EventBusSubscriber(modid = WitchcraftMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = WitchcraftMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class HUDOverlayHandler {
-	@SubscribeEvent(priority = EventPriority.LOW)
+	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void drawPlayerStats(RenderGameOverlayEvent.Pre evt) {
-		System.out.println("test");
 		if(evt.getType() == ElementType.HEALTH) {
 			evt.setCanceled(true);
-			System.out.println("cancelled");
 			
 			Minecraft mc = Minecraft.getInstance();
 			PlayerEntity player =  mc.player;

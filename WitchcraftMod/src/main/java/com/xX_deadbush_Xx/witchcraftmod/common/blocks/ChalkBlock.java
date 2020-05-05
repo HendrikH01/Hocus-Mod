@@ -53,11 +53,12 @@ public class ChalkBlock extends Block {
     
     public static BlockState getStateForPlacement(IBlockReader worldIn, BlockPos pos) {
     	ChalkBlock instance = (ChalkBlock) ModBlocks.CHALK_BLOCK.get();
-        return instance.getDefaultState()
+        BlockState state =  instance.getDefaultState()
         		.with(WEST, instance.getSide(worldIn, pos, Direction.WEST))
         		.with(EAST, instance.getSide(worldIn, pos, Direction.EAST))
         		.with(NORTH, instance.getSide(worldIn, pos, Direction.NORTH))
         		.with(SOUTH, instance.getSide(worldIn, pos, Direction.SOUTH));
+	    return state;    
     }
     
     public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
@@ -120,8 +121,8 @@ public class ChalkBlock extends Block {
 	
 	protected static boolean canConnectTo(BlockState blockState, IBlockReader world, BlockPos pos, @Nullable Direction side) {
 	    Block block = blockState.getBlock();
-	    if(block == ModBlocks.CHALK_BLOCK.get()) return true;
-	    if(block == ModBlocks.RITUAL_STONE.get()) return true;
+	    if(block.equals(ModBlocks.RITUAL_STONE.get())) return true;
+	    if(block.equals(ModBlocks.CHALK_BLOCK.get())) return true;
 	    return false;
 	}
 	

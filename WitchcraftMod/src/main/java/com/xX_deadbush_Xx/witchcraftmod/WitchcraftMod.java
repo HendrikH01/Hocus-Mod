@@ -1,11 +1,10 @@
 package com.xX_deadbush_Xx.witchcraftmod;
 
+import com.xX_deadbush_Xx.witchcraftmod.common.event.SetupEvents;
 import com.xX_deadbush_Xx.witchcraftmod.common.potion.ModPotions;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
-import com.xX_deadbush_Xx.witchcraftmod.common.setup.SetupEvents;
-import com.xX_deadbush_Xx.witchcraftmod.common.util.HUDOverlayHandler;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
