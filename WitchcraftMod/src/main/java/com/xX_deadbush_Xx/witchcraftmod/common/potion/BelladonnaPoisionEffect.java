@@ -20,8 +20,6 @@ public class BelladonnaPoisionEffect extends Effect {
 	
 	@Override
 	public void performEffect(LivingEntity entityLivingBaseIn, int amplifier) {
-		//System.out.println(entityLivingBaseIn);
-		entityLivingBaseIn.handleStatusUpdate(id);
         entityLivingBaseIn.attackEntityFrom(DamageSource.MAGIC, 0.5F + 0.5F * amplifier);
 	}
 	
