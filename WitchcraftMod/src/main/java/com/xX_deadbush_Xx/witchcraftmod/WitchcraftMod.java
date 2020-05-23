@@ -23,7 +23,6 @@ public class WitchcraftMod {
 	
     public WitchcraftMod() {
     	IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-    	
     	modEventBus.addListener(this::setup);
     	modEventBus.addListener(this::doClientStuff);
     	

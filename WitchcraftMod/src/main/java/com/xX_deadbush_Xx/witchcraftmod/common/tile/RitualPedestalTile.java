@@ -3,7 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 import java.util.Random;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.ItemStackHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;

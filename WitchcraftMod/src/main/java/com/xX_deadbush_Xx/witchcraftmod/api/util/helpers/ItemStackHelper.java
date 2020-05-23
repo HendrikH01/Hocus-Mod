@@ -1,4 +1,4 @@
-package com.xX_deadbush_Xx.witchcraftmod.api.util;
+package com.xX_deadbush_Xx.witchcraftmod.api.util.helpers;
 
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.ItemStack;

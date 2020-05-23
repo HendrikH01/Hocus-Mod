@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes;
 
-import static com.xX_deadbush_Xx.witchcraftmod.common.util.WitchcraftLib.*;
+import static com.xX_deadbush_Xx.witchcraftmod.api.util.WitchcraftLib.*;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.DryingRackSerializer;

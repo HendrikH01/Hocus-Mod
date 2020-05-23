@@ -1,13 +1,27 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
-public interface IRitual {
-	 public boolean multiblockComplete(BlockPos ritualStonePos, World worldIn);
+import net.minecraft.entity.player.PlayerEntity;
+
+public interface IRitual {	 
+	 public boolean conditionsMet();
 	 
-	 public boolean conditionsMet(BlockPos ritualStonePos, World worldIn, PlayerEntity player);
+	 /**
+	  * Only call when conditionsMet is true
+	  */
+	 public void tick();
+	 
+	 public IRitualConfig getConfig();
 	 	 
-	 public void activate(BlockPos ritualStonePos, World worldIn, PlayerEntity player);
+	 public void stopRitual(boolean shouldDoChalkAnimation);
+
+	 public void activate();
+	 	 
+	 public GlowType getGlowType();
+
+	 public boolean multiblockComplete(SmallRitualConfig config);
+	 
+	 public int getAge();
 }

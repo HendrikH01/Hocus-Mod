@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.effect;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.effects.GrowthRitualEffect;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.effects.IParticleEffect;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.effects.PedestalDisappearEffect;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.effects.RitualItemCreateEffect;
@@ -40,6 +41,7 @@ public class ClientParticleHandler {
 		switch(type) {
 			case PEDESTAL_DISAPPEAR: return new PedestalDisappearEffect(worldIn, x, y, z, args);
 			case RITUAL_ITEM_CREATE: return new RitualItemCreateEffect(worldIn, x, y, z, args);
+			case GROWTH_RITUAL: return new GrowthRitualEffect(worldIn, x, y, z, args);
 		}
 		return null;
 	}
@@ -50,6 +52,7 @@ public class ClientParticleHandler {
 	
 	public enum EffectType {
 		PEDESTAL_DISAPPEAR,
-		RITUAL_ITEM_CREATE;
+		RITUAL_ITEM_CREATE, 
+		GROWTH_RITUAL;
 	}
 }

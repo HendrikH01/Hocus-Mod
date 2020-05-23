@@ -1,7 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler;
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ShimmerParticle;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
@@ -19,10 +18,10 @@ public class ParticleDebugger extends Item {
 	public ActionResultType onItemUse(ItemUseContext context) {
 		World world = context.getWorld();
 		if(world.isRemote) {
-			System.out.println("outtt");
+			System.out.println("Attempted to spawn particle with debugger");
 			Direction blockFace = context.getFace();
 			BlockPos pos = context.getPos().offset(blockFace);
-			ClientParticleHandler.addEffect(EffectType.RITUAL_ITEM_CREATE, world, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+			world.addParticle(ShimmerParticle.getData(true, 0xFDFFE7, 12), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
 			return ActionResultType.SUCCESS;
 		} else return ActionResultType.PASS;
 	}

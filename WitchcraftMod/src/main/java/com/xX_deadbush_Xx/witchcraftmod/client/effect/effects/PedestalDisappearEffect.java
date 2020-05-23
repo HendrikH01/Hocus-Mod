@@ -2,8 +2,8 @@ package com.xX_deadbush_Xx.witchcraftmod.client.effect.effects;
 
 import java.util.Random;
 
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.WitchcraftMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler;
-import com.xX_deadbush_Xx.witchcraftmod.common.util.WitchcraftMathHelper;
 
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
@@ -64,5 +64,4 @@ public class PedestalDisappearEffect implements IParticleEffect {
 			this.diff = 4;
 		}
 	}
-
 }

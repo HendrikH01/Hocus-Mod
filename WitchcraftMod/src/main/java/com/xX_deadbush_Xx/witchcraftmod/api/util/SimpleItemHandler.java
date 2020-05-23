@@ -2,6 +2,8 @@ package com.xX_deadbush_Xx.witchcraftmod.api.util;
 
 import java.util.Arrays;
 
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraftforge.items.IItemHandlerModifiable;

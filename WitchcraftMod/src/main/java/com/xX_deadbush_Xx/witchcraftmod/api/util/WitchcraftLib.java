@@ -1,4 +1,4 @@
-package com.xX_deadbush_Xx.witchcraftmod.common.util;
+package com.xX_deadbush_Xx.witchcraftmod.api.util;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 

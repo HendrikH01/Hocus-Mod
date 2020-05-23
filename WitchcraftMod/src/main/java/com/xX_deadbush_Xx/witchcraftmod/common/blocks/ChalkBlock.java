@@ -6,12 +6,16 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.EnumProperty;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
@@ -25,16 +29,20 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
-public class ChalkBlock extends Block {
+public class ChalkBlock extends Block implements IRitualBlock {
    public static final BooleanProperty NORTH = BlockStateProperties.NORTH;
    public static final BooleanProperty EAST = BlockStateProperties.EAST;
    public static final BooleanProperty SOUTH = BlockStateProperties.SOUTH;
    public static final BooleanProperty WEST = BlockStateProperties.WEST;
+   public static final IntegerProperty POWER = BlockStateProperties.POWER_0_15;
+   public static final EnumProperty<GlowType> GLOW_TYPE = ModBlockStateProperties.GLOW_TYPE;
+   
    public static final Map<Direction, BooleanProperty> FACING_PROPERTY_MAP = Maps.newEnumMap(ImmutableMap.of(Direction.NORTH, NORTH, Direction.EAST, EAST, Direction.SOUTH, SOUTH, Direction.WEST, WEST));
    protected static final VoxelShape[] SHAPES = new VoxelShape[]{Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 13.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 13.0D, 1.0D, 16.0D), Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 3.0D, 16.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 3.0D, 16.0D, 1.0D, 16.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(3.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 13.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D)};
 
 	public ChalkBlock(Properties properties) {
 		super(properties);
+	    this.setDefaultState(this.stateContainer.getBaseState().with(POWER, 0));
 	}
 	
     public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
@@ -48,7 +56,8 @@ public class ChalkBlock extends Block {
         		.with(WEST, this.getSide(iblockreader, blockpos, Direction.WEST))
         		.with(EAST, this.getSide(iblockreader, blockpos, Direction.EAST))
         		.with(NORTH, this.getSide(iblockreader, blockpos, Direction.NORTH))
-        		.with(SOUTH, this.getSide(iblockreader, blockpos, Direction.SOUTH));
+        		.with(SOUTH, this.getSide(iblockreader, blockpos, Direction.SOUTH))
+        		.with(GLOW_TYPE, GlowType.WHITE);
     }
     
     public static BlockState getStateForPlacement(IBlockReader worldIn, BlockPos pos) {
@@ -57,7 +66,8 @@ public class ChalkBlock extends Block {
         		.with(WEST, instance.getSide(worldIn, pos, Direction.WEST))
         		.with(EAST, instance.getSide(worldIn, pos, Direction.EAST))
         		.with(NORTH, instance.getSide(worldIn, pos, Direction.NORTH))
-        		.with(SOUTH, instance.getSide(worldIn, pos, Direction.SOUTH));
+        		.with(SOUTH, instance.getSide(worldIn, pos, Direction.SOUTH))
+        		.with(GLOW_TYPE, GlowType.WHITE);
 	    return state;    
     }
     
@@ -162,6 +172,10 @@ public class ChalkBlock extends Block {
    }
 
    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-      builder.add(NORTH, EAST, SOUTH, WEST);
+      builder.add(NORTH, EAST, SOUTH, WEST, GLOW_TYPE, POWER);
+   }
+
+   public static int getColor(BlockState state) {
+	   return state.get(GLOW_TYPE).getColor(state.get(POWER));
    }
 }

@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IDryingRackRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.WitchcraftLib;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
-import com.xX_deadbush_Xx.witchcraftmod.common.util.WitchcraftLib;
 
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;

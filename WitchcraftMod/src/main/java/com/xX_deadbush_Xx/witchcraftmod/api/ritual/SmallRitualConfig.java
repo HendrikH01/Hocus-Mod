@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 
-public class SmallRitualConfig {
+public class SmallRitualConfig implements IRitualConfig {
 	Logger LOGGER;
 	private final NonNullList<Block> junctionBlocks;
 	
@@ -23,6 +23,7 @@ public class SmallRitualConfig {
 		this.junctionBlocks = list;
 	}
 	
+	@Override
 	public boolean matches(NonNullList<Block> blocks) { //S-W-N-E
 		if(blocks.size() != 4) return false; 
 		
