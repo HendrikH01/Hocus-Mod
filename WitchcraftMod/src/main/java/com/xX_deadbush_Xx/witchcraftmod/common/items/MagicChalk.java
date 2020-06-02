@@ -28,7 +28,7 @@ public class MagicChalk extends Item {
 		BlockState stateForPlacement = ChalkBlock.getStateForPlacement(world, pos);
 		if(stateForPlacement.isValidPosition(world, pos) && canBeReplaced(stateToReplace)) {
 			Block.replaceBlock(stateToReplace, stateForPlacement, world, pos, 1);
- 
+			
 			PlayerEntity player = context.getPlayer();
 			
 			if(!player.abilities.isCreativeMode) {

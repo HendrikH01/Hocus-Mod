@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "witchcraftmod:block/drying_rack"
+    },
+    "facing=south": {
+      "model": "witchcraftmod:block/drying_rack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "witchcraftmod:block/drying_rack",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "witchcraftmod:block/drying_rack",
+      "y": 90
+    }
+  }
+}

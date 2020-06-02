@@ -19,6 +19,10 @@ archivesBaseName = 'modid'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+sourceSets {
+    main.resources.srcDirs += 'src/generated/resources'
+}
+
 repositories {
     maven {
         url = "http://dvs1.progwml6.com/files/maven/"
@@ -83,20 +87,17 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
+			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'examplemod', '--all', '--output', file('src/generated/resources/')
-
             mods {
-                examplemod {
+                witchcraftmod {
                     source sourceSets.main
                 }
             }
+            args '--mod', 'witchcraftmod', '--all',
+                    '--existing', '"' + file('src/main/resources/') + '"',
+                    '--existing', '"' + file('src/generated/resources/') + '"',
+                    '--output', '"' + file('src/generated/resources/') + '"'
         }
     }
 }
@@ -129,7 +130,7 @@ dependencies {
   	// at runtime, use the full JEI jar
   	runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
   	
-  	compile 'com.github.lazyMods:Baubles:1.7.1'
+  	//compile 'com.github.lazyMods:Baubles:1.7.1'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

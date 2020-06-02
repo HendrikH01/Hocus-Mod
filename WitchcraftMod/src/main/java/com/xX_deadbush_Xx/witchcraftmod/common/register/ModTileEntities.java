@@ -2,6 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
@@ -19,4 +20,6 @@ public class ModTileEntities {
 			() -> TileEntityType.Builder.create(RitualStoneTile::new, ModBlocks.RITUAL_STONE.get()).build(null));	 
 	public static final RegistryObject<TileEntityType<RitualPedestalTile>> RITUAL_PEDESTAL = TILE_ENTITIES.register("ritual_pedestal_tile",
 			() -> TileEntityType.Builder.create(RitualPedestalTile::new, ModBlocks.RITUAL_PEDESTAL.get()).build(null));
+	public static final RegistryObject<TileEntityType<MortarTile>> MORTAR_TILE = TILE_ENTITIES.register("mortar_tile",
+			() -> TileEntityType.Builder.create(MortarTile::new, ModBlocks.STONE_MORTAR.get()).build(null));
 }

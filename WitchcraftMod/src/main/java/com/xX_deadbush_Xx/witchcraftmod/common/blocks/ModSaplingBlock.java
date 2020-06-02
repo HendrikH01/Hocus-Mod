@@ -47,10 +47,11 @@ public class ModSaplingBlock extends BushBlock implements IGrowable {
 
 	@Override
 	public void grow(ServerWorld serverWorld, Random rand, BlockPos pos, BlockState state) {
+		System.out.println("grow " + state.get(STAGE) + this.tree.get());
 		if (state.get(STAGE) == 0) {
 			serverWorld.setBlockState(pos, state.cycle(STAGE), 4);
 		} else if (!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) {
-			this.tree.get().func_225545_a_(serverWorld, serverWorld.getChunkProvider().getChunkGenerator(), pos, state, rand);
+			this.tree.get().place(serverWorld, serverWorld.getChunkProvider().getChunkGenerator(), pos, state, rand);
 		}
 	}
 

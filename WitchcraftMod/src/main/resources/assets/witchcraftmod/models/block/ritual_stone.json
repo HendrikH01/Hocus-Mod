@@ -198,8 +198,8 @@
 				"textures": {"3": "witchcraftmod:blocks/modelled/ritual_stone/4"},
 				"brightness": 10,
 				"elements": [{
-					"from": [3, 12.5, 3],
-					"to": [13, 12.5, 13],
+					"from": [3, 12.01, 3],
+					"to": [13, 12.01, 13],
 					"faces": {
 						"up": {"uv": [0, 0, 16, 16], "texture": "#3", "tintindex": 255}
 					}

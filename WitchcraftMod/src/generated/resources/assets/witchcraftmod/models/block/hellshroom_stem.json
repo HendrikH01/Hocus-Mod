@@ -1,0 +1,27 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "texture": "witchcraftmod:blocks/hellshroom_stem",
+    "particle": "witchcraftmod:blocks/hellshroom_stem"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        0
+      ],
+      "faces": {
+        "north": {
+          "texture": "#texture",
+          "cullface": "north"
+        }
+      }
+    }
+  ]
+}

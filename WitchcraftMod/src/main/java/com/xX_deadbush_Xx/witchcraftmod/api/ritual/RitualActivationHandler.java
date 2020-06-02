@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.RitualRegistry;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import net.minecraft.util.NonNullList;
 public class RitualActivationHandler {
 	public static IRitual getRitual(RitualStoneTile tile, PlayerEntity player) {
 		 RitualTier tier = determineTier(tile);
+		 System.out.println("Tier: " + tier);
 		 if(tier == null) return null;
 		 
 		 Block[] junctionblocks = getJunctionBlocks(tile, tier).stream().map(s -> s.getBlock()).toArray(Block[]::new);
@@ -22,9 +24,13 @@ public class RitualActivationHandler {
 	}
 	
 	private static RitualTier determineTier(RitualStoneTile tile) {
-		if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().offset(Direction.NORTH))) {
-			if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().offset(Direction.NORTH, 3))) {
-				if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().offset(Direction.NORTH, 6))) {
+		System.out.println(tile.getPos().north().toString());
+		 
+		if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().north())) {
+			 System.out.println("1");
+			if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().north(3))) {
+				 System.out.println("2");
+				if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().north(6))) {
 					return RitualTier.LARGE;
 				} else return RitualTier.MEDIUM;
 			} else return RitualTier.SMALL;
@@ -34,10 +40,10 @@ public class RitualActivationHandler {
 	private static List<BlockState> getJunctionBlocks(RitualStoneTile tile, RitualTier tier) {
 		switch(tier) {
 		case SMALL: {
-			return RitualHelper.getRitualPositionsSmall(tile.getWorld(), tile.getPos()).get("junctionblocks").stream().map(tile.getWorld()::getBlockState).collect(Collectors.toList());
+			return RitualHelper.getRitualPositionsSmall(tile.getWorld(), tile.getPos()).junctionBlocks.stream().map(tile.getWorld()::getBlockState).collect(Collectors.toList());
 		}
 		case MEDIUM: {
-			
+			return RitualHelper.getRitualPositionsMedium(tile.getWorld(), tile.getPos()).junctionBlocks.stream().map(tile.getWorld()::getBlockState).collect(Collectors.toList());
 		}
 		case LARGE: {
 			
@@ -50,14 +56,17 @@ public class RitualActivationHandler {
 		Class<? extends IRitualConfig> clazz;
 		switch(tier) {
 		case SMALL: clazz = SmallRitualConfig.class; break;
-		case MEDIUM: clazz = SmallRitualConfig.class; break;
+		case MEDIUM: clazz = MediumRitualConfig.class; break;
 		case LARGE: clazz = SmallRitualConfig.class; break;
 		default: return null;
 		}
-		
+		System.out.println(tier + " " + clazz);
+
 		for(IRitualConfig config : RitualRegistry.getConfigs().stream().filter(clazz::isInstance).collect(Collectors.toList())) {
+			System.out.println(config.toString() + " " + config.getClass());
 			if(config.matches(blocks)) return RitualRegistry.create(RitualRegistry.getConfigName(config), tile, player);
 		}
+		System.out.println("No ritual found mathcing blocks: " + blocks);
 		return null;
 	}
 }

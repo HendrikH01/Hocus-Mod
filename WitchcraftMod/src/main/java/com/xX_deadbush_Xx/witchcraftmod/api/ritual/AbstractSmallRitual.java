@@ -2,21 +2,19 @@ package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ListHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper.RitualPositionHolder;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualStone;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -31,22 +29,21 @@ public abstract class AbstractSmallRitual implements IRitual {
 	
 	//Need to be saved to TE nbt
 	protected int age = 0;
-	protected int chalkCooldownTimer = 0;
+	protected boolean doespowerdownanimation = false;
 	
 	public AbstractSmallRitual(RitualStoneTile tile, PlayerEntity player) {
 		this.worldIn = tile.getWorld();
 		this.tile = tile;
 		this.performingPlayer = player;
 		
-		Map<String, List<BlockPos>> positions = RitualHelper.getRitualPositionsSmall(tile.getWorld(), tile.getPos());
-		chalkpositions = positions.get("chalk"); nonRitualBlocks = positions.get("nonritual"); junctionBlocks = positions.get("junctionblocks");
+		RitualPositionHolder positions = RitualHelper.getRitualPositionsSmall(tile.getWorld(), tile.getPos());
+		chalkpositions = positions.chalkpositions; nonRitualBlocks = positions.nonRitualBlocks; junctionBlocks = positions.junctionBlocks;
 	}
 	
 	public void tick() {
 		this.age++;
-		if(this.chalkCooldownTimer > 0) {
-			if(this.chalkCooldownTimer == 1) this.stopRitual(false);
-			this.chalkCooldownTimer--;
+		if(this.doespowerdownanimation) {
+			if(this.tile.glowpower == 1) this.stopRitual(false);
 			return;
 		}
 		int stonepower = worldIn.getBlockState(tile.getPos()).get(RitualStone.POWER);
@@ -62,14 +59,14 @@ public abstract class AbstractSmallRitual implements IRitual {
 	}
 	
 	@Override
-	public boolean multiblockComplete(SmallRitualConfig config) {
+	public boolean multiblockComplete(IRitualConfig config) {
 		for(BlockPos pos : this.nonRitualBlocks) {
 			if(RitualHelper.stopsRitual(this.worldIn, pos)) {
 				System.out.println("stopped ritual because of block at: " + pos);
 				return false;
 			}
 		}
-		return chalkInPlace() && junctionBlocksInPlace(config);
+		return chalkInPlace() && junctionBlocksInPlace((SmallRitualConfig) config);
 	}
 	
 	public boolean chalkInPlace() {
@@ -96,10 +93,14 @@ public abstract class AbstractSmallRitual implements IRitual {
 	
 	public void stopRitual(boolean shouldDoChalkAnimation) {
 		if(shouldDoChalkAnimation) {
-			this.chalkCooldownTimer = 30;
+			this.doespowerdownanimation = true;
 		} else {
 			this.tile.currentritual = null;
 			this.resetChalk();
 		}
+	}
+	
+	public boolean isPoweringDown() {
+		return doespowerdownanimation;
 	}
 }

@@ -19,7 +19,7 @@ public class DryingRackRecipe implements IDryingRackRecipe {
 	private Ingredient input;
 
 	
-	public DryingRackRecipe(ResourceLocation id, ItemStack output, Ingredient input) {
+	public DryingRackRecipe(ResourceLocation id, Ingredient input, ItemStack output) {
 		this.id = id;
 		this.output = output;
 		this.input = input;

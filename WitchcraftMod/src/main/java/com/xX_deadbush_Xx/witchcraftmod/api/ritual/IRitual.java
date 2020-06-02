@@ -20,8 +20,10 @@ public interface IRitual {
 	 public void activate();
 	 	 
 	 public GlowType getGlowType();
-
-	 public boolean multiblockComplete(SmallRitualConfig config);
 	 
 	 public int getAge();
+
+	 boolean multiblockComplete(IRitualConfig config);
+	 
+	 boolean isPoweringDown();
 }

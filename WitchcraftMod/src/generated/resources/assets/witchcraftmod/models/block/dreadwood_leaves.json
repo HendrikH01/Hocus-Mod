@@ -1,0 +1,6 @@
+{
+  "parent": "block/leaves",
+  "textures": {
+    "all": "witchcraftmod:blocks/dreadwood_leaves"
+  }
+}

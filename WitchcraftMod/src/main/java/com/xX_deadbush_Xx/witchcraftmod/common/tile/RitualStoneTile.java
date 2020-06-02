@@ -1,13 +1,13 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualRegistry;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualStone;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.RitualRegistry;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -37,7 +37,7 @@ public class RitualStoneTile extends BasicItemHolderTile implements ITickableTil
 	
 	public void activateRitual(World worldIn, PlayerEntity player, IRitual ritual) {
 		if(this.world.isRemote || ritual == null) return;
-		System.out.println("Activating ritual: " + RitualRegistry.INSTANCE.getName(ritual));
+		System.out.println("Activating ritual: " + RitualRegistry.getName(ritual));
 		this.currentritual = ritual;
 		this.currentritual.activate();
 	}
@@ -63,7 +63,9 @@ public class RitualStoneTile extends BasicItemHolderTile implements ITickableTil
 	
 	private void updateGlow(GlowType glowtype) {
 		this.glowpower += this.diffglowpower;
-		this.diffglowpower = this.glowpower == 15 ? -0.5F : this.currentritual == null ? -0.5F : this.glowpower <= 7 ? 0.5F : this.diffglowpower; //nested tenaries yay
+		this.diffglowpower = this.glowpower == 15 || this.currentritual == null || this.currentritual.isPoweringDown() ?
+				-0.5F : this.glowpower <= 7 ?
+						0.5F : this.diffglowpower; //nested tenaries yay
 		this.world.setBlockState(this.pos, this.getBlockState().with(RitualStone.GLOW_TYPE, glowtype).with(RitualStone.POWER, (int)this.glowpower));
 	}
 

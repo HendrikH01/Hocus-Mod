@@ -21,7 +21,7 @@ public class DreadwoodTreeConfig extends AbstractSmallTreeFeature<TreeFeatureCon
 	}
 
 	@Override
-	protected boolean func_225557_a_(IWorldGenerationReader worldIn, Random rand, BlockPos pos, Set<BlockPos> posset1, Set<BlockPos> posset2, MutableBoundingBox boundingbox, TreeFeatureConfig config) {
+	protected boolean place(IWorldGenerationReader worldIn, Random rand, BlockPos pos, Set<BlockPos> posset1, Set<BlockPos> posset2, MutableBoundingBox boundingbox, TreeFeatureConfig config) {
 	      int baseheight = config.baseHeight + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
 	      int trunkheight = config.trunkHeight >= 0 ? config.trunkHeight + rand.nextInt(config.trunkHeightRandom + 1) : baseheight - (config.foliageHeight + rand.nextInt(config.foliageHeightRandom + 1));
 	      int k = config.foliagePlacer.func_225573_a_(rand, trunkheight, baseheight, config);

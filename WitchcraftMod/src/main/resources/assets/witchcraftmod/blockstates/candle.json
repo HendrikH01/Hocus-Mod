@@ -1,7 +1,0 @@
-{
-    "variants": {
-        "candlecount=1": { "model": "witchcraftmod:block/one_candle" },
-        "candlecount=2": { "model": "witchcraftmod:block/two_candles" },
-        "candlecount=3": { "model": "witchcraftmod:block/three_candles" }
-  }
-}
