@@ -23,6 +23,8 @@ public class OneInOneOutSerializer<T extends IOneInOneOutRecipe> extends ForgeRe
 	
 	@Override
 	public T read(ResourceLocation recipeId, JsonObject json) {
+		System.out.println(recipeId);
+		System.out.println(json);
 		Ingredient input = Ingredient.deserialize(JSONUtils.getJsonObject(json, "input"));
 		ItemStack output = CraftingHelper.getItemStack(JSONUtils.getJsonObject(json, "output"), true);
 		return (T) factory.create(recipeId, input, output);

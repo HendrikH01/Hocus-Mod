@@ -25,17 +25,16 @@ public class ItemModelsDataGen extends ItemModelProvider {
 	@Override
 	protected void registerModels() {
 		File dir = generator.getOutputFolder().resolve("assets/" + WitchcraftMod.MOD_ID + "/models/item").toFile();
-		System.out.println(generator.getOutputFolder() + "/asset");
-		System.out.println(dir.listFiles());
-		dir.listFiles(new FilenameFilter() {
+		
+		for(File f : dir.listFiles(new FilenameFilter() {
 			@Override
-			public boolean accept(File file, String name) {
-				System.out.println(file.getPath() + " " + name + " " +FilenameUtils.getExtension(name));
-				return FilenameUtils.getExtension(file.getPath()) == "json";
-			}});
-		
-		//for(File f : new File(folder).listFiles()) f.delete();
-		
+			public boolean accept(File parent, String name) {
+				if (name.endsWith(".json")) System.out.println("deleting: " + name);
+				return name.endsWith(".json");
+			}})) {
+			f.delete();
+		}
+				
 		Registry.ITEM.stream().filter(item -> WitchcraftMod.MOD_ID.equals(item.getRegistryName().getNamespace()))
 		.forEach(item -> {
 			String name = item.getRegistryName().getPath();
@@ -55,8 +54,13 @@ public class ItemModelsDataGen extends ItemModelProvider {
 	private ResourceLocation getTextureRL(String name) {
 		return new ResourceLocation(WitchcraftMod.MOD_ID, "items/" + name);
 	}
+	
 	@Override
 	public String getName() {
 		return "Witchcraft Item Models";
+	}
+	
+	public File getModel(String name) {
+		return generator.getOutputFolder().resolve("assets/" + WitchcraftMod.MOD_ID + "/models/item/" + name).toFile();
 	}
 }

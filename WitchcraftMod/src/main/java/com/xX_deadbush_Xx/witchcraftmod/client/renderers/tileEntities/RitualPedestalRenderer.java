@@ -15,8 +15,12 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
+@SuppressWarnings("deprecation")
+@OnlyIn(Dist.CLIENT)
 public class RitualPedestalRenderer extends TileEntityRenderer<RitualPedestalTile> {
 	
 	public RitualPedestalRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
@@ -25,7 +29,7 @@ public class RitualPedestalRenderer extends TileEntityRenderer<RitualPedestalTil
 
 	@Override
 	public void render(RitualPedestalTile tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {		
-	    if(tileEntityIn.hasItem()) {
+		if(tileEntityIn.hasItem()) {
 			long time = System.currentTimeMillis();
 		    Quaternion rotation = Vector3f.YP.rotationDegrees((time/20)%360);
 			

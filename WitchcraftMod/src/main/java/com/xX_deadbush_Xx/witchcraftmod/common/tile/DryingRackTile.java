@@ -1,12 +1,11 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
-import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.WitchcraftJEIPlugin;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 
@@ -16,13 +15,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tags.Tag;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class DryingRackTile extends BasicItemHolderTile implements ITickableTileEntity {
@@ -61,11 +58,11 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	}
 	
 	public ItemStack getItem() {
-		return this.getStackInSlot(0);
+		return this.inventory.getStackInSlot(0);
 	}
 	
 	public void setItem(ItemStack stack) {
-		this.setInventorySlotContents(0, stack);
+		this.inventory.setStackInSlot(0, stack);
 	}
 	
 	@Override
@@ -87,10 +84,10 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	private DryingRackRecipe getRecipe(ItemStack stack) {
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = WitchcraftJEIPlugin.findRecipesByType(ModRecipeTypes.DRYING_RACK_TYPE);
+		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.DRYING_RACK_TYPE);
 		for(IRecipe<?> r : recipes) {
 			DryingRackRecipe recipe = (DryingRackRecipe) r;
-			if(recipe.matches(new RecipeWrapper(new DryingRackTile.DryingRackItemHandler(this.getInventory())), this.world)) {
+			if(recipe.matches(new RecipeWrapper(this.inventory), this.world)) {
 				return recipe;
 			}
 		}
@@ -113,58 +110,5 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 			this.setItem(ItemStack.read(item));
 		}
 		this.ticksUntilDry = compound.getInt("tickUntilDry");
-	}
-
-	
-	public class DryingRackItemHandler implements IItemHandlerModifiable {
-		private List<ItemStack> inv;
-
-		public DryingRackItemHandler(ItemStack[] inv) {
-			this.inv = Arrays.asList(inv);
-		}
-
-		@Override
-		public int getSlots() {
-			return 1;
-		}
-
-		@Override
-		public ItemStack getStackInSlot(int slot) {
-			return inv.get(slot);
-		}
-
-		@Override
-		public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-			return ItemStackHelper.mergeStacks(inv.get(slot), stack);
-		}
-
-		@Override
-		public ItemStack extractItem(int slot, int amount, boolean simulate) {
-			ItemStack stack = inv.get(slot);
-			ItemStack stack2 = stack.copy();
-			if(stack.getCount() > amount) {
-				stack2.setCount(amount);
-				stack.shrink(amount);
-			} else {
-				stack = ItemStack.EMPTY;
-			}
-			return stack2;
-		}
-
-		@Override
-		public int getSlotLimit(int slot) {
-			return 1;
-		}
-
-		@Override
-		public boolean isItemValid(int slot, ItemStack stack) {
-			if(inv.get(slot).equals(ItemStack.EMPTY)) return true;
-			return ItemStackHelper.canMergeStacks(inv.get(slot), stack);
-		}
-
-		@Override
-		public void setStackInSlot(int slot, ItemStack stack) {
-			inv.set(slot, stack);
-		}
 	}
 }

@@ -14,6 +14,8 @@
   "block.witchcraftmod.ritual_pedestal": "Ritual Pedestal",
   "block.witchcraftmod.ritual_stone": "Ritual Stone",
   "block.witchcraftmod.stone_mortar": "Vibrant Crystal Ore",
+  "block.witchcraftmod.table": "Table",
+  "block.witchcraftmod.tool_table": "Tool Table",
   "block.witchcraftmod.vibrant_block": "Vibrant Block",
   "block.witchcraftmod.vibrant_crystal_ore": "Vibrant Crystal Ore",
   "effect.witchcraftmod.belladonna_poison": "Belladonna Poison",
@@ -25,8 +27,11 @@
   "item.witchcraftmod.dreadwood_stick": "Dreadwood Stick",
   "item.witchcraftmod.magic_chalk": "Magic Chalk",
   "item.witchcraftmod.particle_debugger": "Particle Debugger",
+  "item.witchcraftmod.pestle": "Pestle",
   "item.witchcraftmod.sacrifice_knife": "Sacrifice Knife",
+  "item.witchcraftmod.sledge_hammer": "Sledge Hammer",
   "item.witchcraftmod.vibrant_crystal": "Vibrant Crystal",
   "item.witchcraftmod.vibrant_dust": "Vibrant Dust",
-  "item.witchcraftmod.wet_chalk": "Wet Chalk"
+  "item.witchcraftmod.wet_chalk": "Wet Chalk",
+  "item.witchcraftmod.wood_saw": "Wood Saw"
 }

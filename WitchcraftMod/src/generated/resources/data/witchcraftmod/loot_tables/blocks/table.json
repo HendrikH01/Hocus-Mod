@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "witchcraftmod:testblock"
+          "name": "witchcraftmod:table"
         }
       ],
       "conditions": [

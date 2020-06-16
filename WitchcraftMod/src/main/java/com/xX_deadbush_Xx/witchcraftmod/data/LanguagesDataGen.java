@@ -37,6 +37,10 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.VIBRANT_CRYSTAL::get, "Vibrant Crystal");
 		addItem(ModItems.VIBRANT_DUST::get, "Vibrant Dust");
 		addItem(ModItems.WET_CHALK::get, "Wet Chalk");
+		addItem(ModItems.PESTLE::get, "Pestle");
+		addItem(ModItems.WOOD_SAW::get, "Wood Saw");
+		addItem(ModItems.SLEDGE_HAMMER::get, "Sledge Hammer");
+
 	}
 
 	private void blocks() {
@@ -57,7 +61,8 @@ public class LanguagesDataGen extends LanguageProvider {
 		addBlock(ModBlocks.VIBRANT_BLOCK::get, "Vibrant Block");
 		addBlock(ModBlocks.VIBRANT_CRYSTAL_ORE::get, "Vibrant Crystal Ore");
 		addBlock(ModBlocks.STONE_MORTAR::get, "Vibrant Crystal Ore");
-
+		addBlock(ModBlocks.TABLE::get, "Table");
+		addBlock(ModBlocks.TOOL_TABLE::get, "Tool Table");
 	}
 
 	@Override

@@ -14,8 +14,12 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 
+@SuppressWarnings("deprecation")
+@OnlyIn(Dist.CLIENT)
 public class RitualStoneRenderer extends TileEntityRenderer<RitualStoneTile>{
 	
 	public RitualStoneRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {

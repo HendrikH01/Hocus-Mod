@@ -79,7 +79,7 @@ public class SmallFusionRecipe implements ISmallFusionRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipeTypes.SMALL_FUSION_SERIALIZER;
+		return ModRecipeTypes.SMALL_FUSION_SERIALIZER.get();
 	}
 	
 	@Override

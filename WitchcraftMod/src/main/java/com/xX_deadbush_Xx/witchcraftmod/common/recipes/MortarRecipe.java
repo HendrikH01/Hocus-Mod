@@ -50,7 +50,7 @@ public class MortarRecipe implements IMortarRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipeTypes.MORTAR_SERIALIZER;
+		return ModRecipeTypes.MORTAR_SERIALIZER.get();
 	}
 	
 	@Override

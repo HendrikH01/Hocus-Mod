@@ -34,7 +34,9 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.VIBRANT_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_BLOCK)));
 		simpleBlock(ModBlocks.VIBRANT_CRYSTAL_ORE.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_CRYSTAL_ORE)));
 		simpleBlock(ModBlocks.STONE_MORTAR.get(), models().getExistingFile(getModelPath(ModBlocks.STONE_MORTAR)));
-
+		
+		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));
+		horizontalBlock(ModBlocks.TOOL_TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TOOL_TABLE)));
 		horizontalBlock(ModBlocks.DRYING_RACK.get(), models().getExistingFile(getModelPath(ModBlocks.DRYING_RACK)));
 		
 		getVariantBuilder(ModBlocks.CANDLE.get())

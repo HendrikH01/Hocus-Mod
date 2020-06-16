@@ -50,11 +50,11 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 	}
 	
 	public ItemStack getItem() {
-		return getStackInSlot(0);
+		return this.inventory.getStackInSlot(0);
 	}
 	
 	public void setItem(ItemStack stack) {
-		setInventorySlotContents(0, stack);
+		this.inventory.setStackInSlot(0, stack);
 	}
 	
 	public boolean hasItem() {
@@ -62,7 +62,7 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 	}
 	
 	public void useForCrafting() {
-		this.removeStackFromSlot(0);
+ 		this.inventory.removeStackFromSlot(0);
 		this.markDirty();
 	}
 	

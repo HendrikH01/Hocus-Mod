@@ -4,13 +4,18 @@ import java.util.function.Supplier;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.BushBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.trees.Tree;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer.Builder;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
@@ -27,6 +32,7 @@ public class ModSaplingBlock extends BushBlock implements IGrowable {
 	public ModSaplingBlock(Supplier<Tree> treeIn, Properties properties) {
 		super(properties);
 		this.tree = treeIn;
+	    this.setDefaultState(this.stateContainer.getBaseState().with(STAGE, 0));
 	}
 
 	@Override
@@ -47,10 +53,12 @@ public class ModSaplingBlock extends BushBlock implements IGrowable {
 
 	@Override
 	public void grow(ServerWorld serverWorld, Random rand, BlockPos pos, BlockState state) {
-		System.out.println("grow " + state.get(STAGE) + this.tree.get());
 		if (state.get(STAGE) == 0) {
 			serverWorld.setBlockState(pos, state.cycle(STAGE), 4);
-		} else if (!ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) {
+		} else if (ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) {
+			serverWorld.removeBlock(pos, false);
+			serverWorld.setBlockState(pos, Blocks.ANDESITE.getDefaultState(), 3);
+			System.out.println(serverWorld.getBlockState(pos));
 			this.tree.get().place(serverWorld, serverWorld.getChunkProvider().getChunkGenerator(), pos, state, rand);
 		}
 	}

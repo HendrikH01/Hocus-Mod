@@ -50,7 +50,7 @@ public class DryingRackRecipe implements IDryingRackRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipeTypes.DRYING_RACK_SERIALIZER;
+		return ModRecipeTypes.DRYING_RACK_SERIALIZER.get();
 	}
 	
 	@Override

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "witchcraftmod:block/table"
+    },
+    "facing=south": {
+      "model": "witchcraftmod:block/table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "witchcraftmod:block/table",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "witchcraftmod:block/table",
+      "y": 90
+    }
+  }
+}

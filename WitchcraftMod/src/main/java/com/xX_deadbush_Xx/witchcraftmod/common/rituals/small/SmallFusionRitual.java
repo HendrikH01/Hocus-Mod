@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.rituals.small;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractSmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
@@ -10,10 +11,9 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.SimpleItemHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.WitchcraftJEIPlugin;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.SmallFusionRecipe;
@@ -27,7 +27,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingRitual, IStaticRitual {
@@ -63,9 +62,8 @@ public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingR
 		ItemStack stack = this.tile.getItem();
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = WitchcraftJEIPlugin.findRecipesByType(ModRecipeTypes.SMALL_FUSION_TYPE);
+		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.SMALL_FUSION_TYPE);
 		for(IRecipe<?> r : recipes) {
-			System.out.println(r.getType() + " " + r);
 			SmallFusionRecipe recipe = (SmallFusionRecipe) r;
 			if(recipeComplete(recipe)) {
 				return recipe;

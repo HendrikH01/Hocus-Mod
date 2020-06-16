@@ -45,7 +45,6 @@ public class RitualStoneTile extends BasicItemHolderTile implements ITickableTil
 	@Override
 	public void tick() {
 		if(this.currentritual != null) {
-			//System.out.println("nonnull"); 
 			if(this.currentritual.conditionsMet()) {
 				this.updateGlow(this.currentritual.getGlowType());
 				if(!this.world.isRemote) {
@@ -88,11 +87,11 @@ public class RitualStoneTile extends BasicItemHolderTile implements ITickableTil
 	}
 	
 	public ItemStack getItem() {
-		return getStackInSlot(0);
+		return this.inventory.getStackInSlot(0);
 	}
 	
 	public void setItem(ItemStack stack) {
-		setInventorySlotContents(0, stack);
+		this.inventory.setStackInSlot(0, stack);
 	}
 	
 	public boolean hasItem() {
@@ -100,7 +99,7 @@ public class RitualStoneTile extends BasicItemHolderTile implements ITickableTil
 	}
 	
 	public void useForCrafting() {
-		this.decrStackSize(0, 1);
+		this.inventory.decrStackSize(0, 1);
 	}
 	
 	@Override

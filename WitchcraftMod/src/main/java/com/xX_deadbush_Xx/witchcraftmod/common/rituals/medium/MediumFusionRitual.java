@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractMediumRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
@@ -10,10 +11,9 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.SimpleItemHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.WitchcraftJEIPlugin;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MediumFusionRecipe;
@@ -62,7 +62,7 @@ public class MediumFusionRitual extends AbstractMediumRitual implements ICraftin
 		ItemStack stack = this.tile.getItem();
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = WitchcraftJEIPlugin.findRecipesByType(ModRecipeTypes.MEDIUM_FUSION_TYPE);
+		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.MEDIUM_FUSION_TYPE);
 		for(IRecipe<?> r : recipes) {
 			MediumFusionRecipe recipe = (MediumFusionRecipe) r;
 			if(recipeComplete(recipe)) {

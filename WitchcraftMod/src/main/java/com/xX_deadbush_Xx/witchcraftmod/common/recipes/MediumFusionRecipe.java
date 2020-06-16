@@ -78,7 +78,7 @@ public class MediumFusionRecipe implements IMediumFusionRecipe {
 
 	@Override
 	public IRecipeSerializer<?> getSerializer() {
-		return ModRecipeTypes.MEDIUM_FUSION_SERIALIZER;
+		return ModRecipeTypes.MEDIUM_FUSION_SERIALIZER.get();
 	}
 	
 	@Override
