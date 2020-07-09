@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.ContainerTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.gui.ToolTableContainer;
+import com.xX_deadbush_Xx.witchcraftmod.common.container.ToolTableContainer;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 
 import net.minecraft.entity.player.PlayerEntity;

@@ -40,21 +40,20 @@ public class MortarTile extends BasicItemHolderTile {
 	}
 	
 	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {
-		ItemStack items = player.getHeldItemMainhand().copy();
-		items.setCount(1);
-		Item heldItem = player.getHeldItemMainhand().getItem();
-		if(!this.getItem().getItem().equals(heldItem)) {
+		ItemStack heldItem = player.getHeldItemMainhand().copy();
+		heldItem.setCount(1);
+
+		if(!ItemStack.areItemsEqual(heldItem, this.getItem())) {
 			if(this.hasItem()) {
-				if(heldItem.equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
+				if(heldItem.getItem().equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
 				else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
 					ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
 				}
 			}
-			
-			if(possiblerecipeinputs.contains(heldItem)) {
-				setItem(items);
+			if(possiblerecipeinputs.contains(heldItem.getItem())) {
 				player.getHeldItemMainhand().shrink(1);
-				markDirty();
+				setItem(heldItem);
+				this.markDirty();
 			}
 		}
 	}
@@ -72,21 +71,17 @@ public class MortarTile extends BasicItemHolderTile {
 	}
 	
 	public void attemptCrafting() {
-		if(world.isRemote()) return;
-		System.out.println(getItem());
-		
+		if(world.isRemote()) return;		
 		if(Math.random() < 0.7) {
 			return;
 		}
 		MortarRecipe recipe = getRecipe(getItem());
-		System.out.println(recipe.getRecipeOutput() + " " + recipe.getInput().getMatchingStacks()[0].getItem());
 		if(recipe != null) craft(recipe);
 	}
 	
 	private void craft(MortarRecipe recipe) {
 		this.setItem(ItemStack.EMPTY);
 		this.markDirty();
-		System.out.println(world.isRemote + " " + recipe.getRecipeOutput());
 		ItemStackHelper.spawnItem(this.world, recipe.getRecipeOutput(), this.pos.getX() + 0.5f, this.pos.getY() + 0.8f, this.pos.getZ() + 0.5f);
 	}
 
@@ -96,7 +91,6 @@ public class MortarTile extends BasicItemHolderTile {
 		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.MORTAR_TYPE);
 		for(IRecipe<?> r : recipes) {
 			MortarRecipe recipe = (MortarRecipe) r;
-			System.out.println(recipe.getRecipeOutput());
 			if(recipe.matches(new RecipeWrapper(this.inventory), this.world)) {
 				return recipe;
 			}

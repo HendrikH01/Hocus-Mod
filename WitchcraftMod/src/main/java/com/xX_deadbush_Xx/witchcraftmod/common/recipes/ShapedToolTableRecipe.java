@@ -4,8 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.mojang.datafixers.util.Pair;
-import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IToolTableRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.AbstractToolTableRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.ToolTableCraftingInventory;
 
@@ -19,22 +18,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class ShapedToolTableRecipe implements IToolTableRecipe {
-
-	private ItemStack output;
-	private NonNullList<Ingredient> ingredients;
-	private ResourceLocation recipeId;
-	private Map<Ingredient, Integer> tools;
-	private int width;
+public class ShapedToolTableRecipe extends AbstractToolTableRecipe {
 	private int height;
+	private int width;
 
 	public ShapedToolTableRecipe(ShapedRecipe shaped, Map<Ingredient, Integer> tools) {
-		this.output = shaped.getRecipeOutput();
-		this.ingredients = shaped.getIngredients();
-		this.recipeId = shaped.getId();
-		this.tools = tools;
+		super(shaped, tools);
+		this.height = shaped.getHeight();
 		this.width = shaped.getWidth();
-		this.height = shaped.getWidth();
 	}
 	
 	private ToolTableCraftingInventory getCraftingInv(RecipeWrapper inv) {

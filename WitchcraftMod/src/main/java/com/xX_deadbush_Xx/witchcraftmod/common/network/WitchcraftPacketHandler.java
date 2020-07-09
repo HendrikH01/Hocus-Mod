@@ -41,10 +41,14 @@ public class WitchcraftPacketHandler {
 		sendToNearby(worldIn, new BlockPos(e), toSend);
 	}
 	
+	public static void sendToAll(World worldIn, Object toSend) {
+		INSTANCE.send(PacketDistributor.ALL.noArg(), toSend);
+	}
+	
 	public static void sendToWithinRadius(World worldIn, BlockPos pos, double radius, Object toSend) {
 		if (worldIn instanceof ServerWorld) {
 			ServerWorld serverworld = (ServerWorld) worldIn;
-
+			
 			serverworld.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(pos), false)
 					.filter(p -> p.getDistanceSq(pos.getX(), pos.getY(), pos.getZ()) < radius * radius)
 					.forEach(p -> INSTANCE.send(PacketDistributor.PLAYER.with(() -> p), toSend));

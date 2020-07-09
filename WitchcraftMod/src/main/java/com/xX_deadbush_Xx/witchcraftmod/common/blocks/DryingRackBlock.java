@@ -25,7 +25,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class DryingRackBlock<IBlockState> extends Block {
+public class DryingRackBlock extends Block {
 
 	private static final VoxelShape SHAPE_NORTH = Block.makeCuboidShape(2.0D, 0.0D, 0.0D, 14.0D, 16.0D, 16.0D);
 	private static final VoxelShape SHAPE_WEST = Block.makeCuboidShape(0.0D, 2.0D, 0.0D, 16.0D, 16.0D, 14.0D);

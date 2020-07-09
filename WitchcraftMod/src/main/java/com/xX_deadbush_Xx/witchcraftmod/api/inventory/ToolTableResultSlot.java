@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.inventory;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.gui.ToolTableContainer;
+import com.xX_deadbush_Xx.witchcraftmod.common.container.ToolTableContainer;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IRecipeHolder;

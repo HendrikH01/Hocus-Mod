@@ -28,7 +28,7 @@ public class ItemModelsDataGen extends ItemModelProvider {
 		
 		for(File f : dir.listFiles(new FilenameFilter() {
 			@Override
-			public boolean accept(File parent, String name) {
+			public boolean accept(File parent, String name) { 
 				if (name.endsWith(".json")) System.out.println("deleting: " + name);
 				return name.endsWith(".json");
 			}})) {
@@ -40,9 +40,11 @@ public class ItemModelsDataGen extends ItemModelProvider {
 			String name = item.getRegistryName().getPath();
 
 			if (item instanceof BlockItem && existingFileHelper.exists(item.getRegistryName(), ResourcePackType.CLIENT_RESOURCES, ".json", "models/block")) {
-				withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name);
+				if(ModBlocks.ADONIS.get().asItem().getRegistryName().getPath() == name || 
+						ModBlocks.HELLSHROOM.get().asItem().getRegistryName().getPath() == name || 
+						ModBlocks.BELLADONNA.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + name));
+				else withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name);
 			} else if (!existingFileHelper.exists(new ResourceLocation(WitchcraftMod.MOD_ID, name), ResourcePackType.CLIENT_RESOURCES, ".json", "models/item")) {
-				System.out.println(name);
 				if(ModBlocks.DREADWOOD_LOG.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "0");
 				else if(ModBlocks.HELLSHROOM_BLOCK.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");
 				else if(ModBlocks.HELLSHROOM_STEM.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");

@@ -43,21 +43,21 @@ public class DreadwoodTreeConfig extends AbstractSmallTreeFeature<TreeFeatureCon
 	private void placeTrunk(int baseheight, IWorldGenerationReader world, Random rand, BlockPos pos, Set<BlockPos> leavesset, Set<BlockPos> trunkset, MutableBoundingBox boundingbox, TreeFeatureConfig config) {
 		BlockPos top = pos.up(baseheight - 1);
 		
-		for (int i = 0; i < baseheight; i++) func_227216_a_(world, rand, pos.up(i), trunkset, boundingbox, config);
+		for (int i = 0; i < baseheight; i++) setLog(world, rand, pos.up(i), trunkset, boundingbox, config);
 		for (Direction direction : cardinals) {
 			//bottom
 			if(Math.random() > 0.35) {
-				 func_227216_a_(world, rand, pos.offset(direction), trunkset, boundingbox, config);
+				 setLog(world, rand, pos.offset(direction), trunkset, boundingbox, config);
 				if(Math.random() > 0.5) {
-					 func_227216_a_(world, rand, pos.offset(direction).up(), trunkset, boundingbox, config);
+					 setLog(world, rand, pos.offset(direction).up(), trunkset, boundingbox, config);
 				}
 			}
 			
 			//top
 			if(Math.random() > 0.55) {
-				 func_227216_a_(world, rand, top.offset(direction), trunkset, boundingbox, config);
+				 setLog(world, rand, top.offset(direction), trunkset, boundingbox, config);
 				if(Math.random() > 0.35) {
-					 func_227216_a_(world, rand, top.offset(direction).down(), trunkset, boundingbox, config);
+					 setLog(world, rand, top.offset(direction).down(), trunkset, boundingbox, config);
 				}
 			}
 		}
@@ -73,8 +73,8 @@ public class DreadwoodTreeConfig extends AbstractSmallTreeFeature<TreeFeatureCon
 			boolean f2 = rand.nextBoolean();
 			f1 = f2 ? rand.nextBoolean() : true; //either f1 or f2 is always true, but both can be true as well
 			
-			func_227216_a_(world, rand, top.offset(direction).offset(direction.rotateY()), trunkset, boundingbox, config);
-			func_227216_a_(world, rand, top.offset(direction, f1 ? 2 : 1).offset(direction.rotateY(), f2 ? 2 : 1).up(), trunkset, boundingbox, config);
+			setLog(world, rand, top.offset(direction).offset(direction.rotateY()), trunkset, boundingbox, config);
+			setLog(world, rand, top.offset(direction, f1 ? 2 : 1).offset(direction.rotateY(), f2 ? 2 : 1).up(), trunkset, boundingbox, config);
 		});
 	}
 	

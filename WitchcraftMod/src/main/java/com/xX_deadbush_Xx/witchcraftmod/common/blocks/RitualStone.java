@@ -5,7 +5,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -40,8 +40,8 @@ public class RitualStone extends Block implements IRitualBlock {
 		if (!worldIn.isRemote) {
 	    	if(worldIn.isBlockPowered(pos)) {
 	    		TileEntity tileEntity = worldIn.getTileEntity(pos);
-	    		if (tileEntity instanceof RitualStoneTile) {
-	    			RitualStoneTile altar = (RitualStoneTile) tileEntity;
+	    		if (tileEntity instanceof AbstractRitualCore) {
+	    			AbstractRitualCore altar = (AbstractRitualCore) tileEntity;
 
 	    		}
 	    	}
@@ -68,8 +68,8 @@ public class RitualStone extends Block implements IRitualBlock {
 		if(worldIn.isRemote) return ActionResultType.SUCCESS;
 		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
-	        if (tileEntity instanceof RitualStoneTile) {
-	        	RitualStoneTile ritualStoneTile = ((RitualStoneTile) tileEntity);
+	        if (tileEntity instanceof AbstractRitualCore) {
+	        	AbstractRitualCore ritualStoneTile = ((AbstractRitualCore) tileEntity);
 	        	if(player.getHeldItemMainhand().getItem().equals(ModItems.RITUAL_ACTIVATOR.get())) {
 	        		if(ritualStoneTile.currentritual == null) ritualStoneTile.activateRitual(worldIn, player, RitualActivationHandler.getRitual(ritualStoneTile, player));
 	        		else ritualStoneTile.currentritual.stopRitual(true);

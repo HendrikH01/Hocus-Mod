@@ -4,6 +4,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.ToolTableTile;
 
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -23,7 +24,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 public abstract class BasicItemHolderTile extends TileEntity {
 	
 	protected SimpleItemHandler inventory;
-	private final LazyOptional<IItemHandler> automationItemHandler = LazyOptional.of(() -> inventory);
 
 	public BasicItemHolderTile(TileEntityType<?> tileEntityTypeIn, int inventorySlots, ItemStack... initialStacks) {
 		super(tileEntityTypeIn);
@@ -42,19 +42,19 @@ public abstract class BasicItemHolderTile extends TileEntity {
 	@Override
 	 public SUpdateTileEntityPacket getUpdatePacket() {
 		CompoundNBT comp = new CompoundNBT();
-		write(comp);
+		this.write(comp);
 		return new SUpdateTileEntityPacket(this.pos, 69, comp); //nice
 	}
 	
 	@Override
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		read(pkt.getNbtCompound());
+		this.read(pkt.getNbtCompound());
 	}
 	
 	@Override
 	public CompoundNBT getUpdateTag() {
 	    CompoundNBT tag = new CompoundNBT();
-	    write(tag);
+	    this.write(tag);
 	    return tag;
 	}
 		
@@ -66,7 +66,7 @@ public abstract class BasicItemHolderTile extends TileEntity {
 	@Override
 	public void read(CompoundNBT nbt) {
 		super.read(nbt);
-		NonNullList<ItemStack> inv = NonNullList.create();
+		NonNullList<ItemStack> inv = NonNullList.withSize(this.inventory.getSlots(), ItemStack.EMPTY);
 		ItemStackHelper.loadAllItems(nbt, inv);
 		this.inventory.setNonNullList(inv);
 	}
@@ -87,6 +87,6 @@ public abstract class BasicItemHolderTile extends TileEntity {
 	
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, Direction side) {
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, automationItemHandler);
+		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> inventory));
 	}
 }

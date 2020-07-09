@@ -23,8 +23,10 @@
   "item.minecraft.potion.effect.belladonna_poison_potion": "Belladonna Poison Potion",
   "item.minecraft.splash_potion.effect.belladonna_poison_potion": "Splash Belladonna Poison Potion",
   "item.witchcraftmod.adonis_seed_pod": "Adonis Seed Pod",
+  "item.witchcraftmod.advanced_energy_crystal": "Advanced Energy Crystal",
   "item.witchcraftmod.belladonna_berry": "Belladonna Berry",
   "item.witchcraftmod.dreadwood_stick": "Dreadwood Stick",
+  "item.witchcraftmod.lightning_rod": "Lightning Rod",
   "item.witchcraftmod.magic_chalk": "Magic Chalk",
   "item.witchcraftmod.particle_debugger": "Particle Debugger",
   "item.witchcraftmod.pestle": "Pestle",
@@ -32,6 +34,7 @@
   "item.witchcraftmod.sledge_hammer": "Sledge Hammer",
   "item.witchcraftmod.vibrant_crystal": "Vibrant Crystal",
   "item.witchcraftmod.vibrant_dust": "Vibrant Dust",
+  "item.witchcraftmod.weak_energy_crystal": "Weak Energy Crystal",
   "item.witchcraftmod.wet_chalk": "Wet Chalk",
   "item.witchcraftmod.wood_saw": "Wood Saw"
 }

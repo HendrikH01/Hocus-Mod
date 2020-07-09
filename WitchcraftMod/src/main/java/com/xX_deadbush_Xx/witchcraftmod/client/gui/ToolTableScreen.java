@@ -1,7 +1,8 @@
-package com.xX_deadbush_Xx.witchcraftmod.common.gui;
+package com.xX_deadbush_Xx.witchcraftmod.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.common.container.ToolTableContainer;
 
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;

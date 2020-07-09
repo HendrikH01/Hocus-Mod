@@ -4,36 +4,42 @@ import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.IWorldReader;
 
 public class MediumRitualConfig implements IRitualConfig {
 	Logger LOGGER;
-	private final NonNullList<Block> junctionBlocks;
+	private final NonNullList<Block> anchorblocks;
 	
-	public MediumRitualConfig(Block... junctionBlocks) { 
-		if(junctionBlocks.length != 8) {
-			LOGGER.warning("Small ritual config did NOT receive eight junction blocks!");
-		}
+	public MediumRitualConfig(Block[] anchorblocks, RitualTotem[] totems) { 
+		if(anchorblocks.length != 8) LOGGER.warning("Medium ritual config did NOT receive eight anchor blocks!");
+		if(totems.length != 8) LOGGER.warning("Medium ritual config did NOT receive four totems!");
+
 		
 		NonNullList<Block> list = NonNullList.create();
-		for(Block block : junctionBlocks){
+		for(Block block : anchorblocks){
 			list.add(block);
 		}
-		this.junctionBlocks = list;
+		this.anchorblocks = list;
 	}
 	
 	@Override
-	public boolean matches(NonNullList<Block> blocks) { 
-		if(blocks.size() != 8) return false; 
+	public boolean matchesAnchorblocks(NonNullList<Block> anchorblocksIn) { 
+		if(anchorblocksIn.size() != 8) return false; 
 		
 		blockloop:
 		for(int i = 0; i < 8; i+=2) {
-			if(blocks.get(0).getRegistryName() == this.junctionBlocks.get(i).getRegistryName()) {
+			if(anchorblocksIn.get(0).getRegistryName() == this.anchorblocks.get(i).getRegistryName()) {
 				for(int j = 1; j < 8; j++) {
-					if (blocks.get(j).getRegistryName() != this.junctionBlocks.get((i + j)%8).getRegistryName()) continue blockloop;
+					if (anchorblocksIn.get(j).getRegistryName() != this.anchorblocks.get((i + j)%8).getRegistryName()) continue blockloop;
 				}
 				return true;
 			}
 		}	
+		return false;
+	}
+
+	@Override
+	public boolean matchesTotems(IWorldReader world) {
 		return false;
 	}
 }

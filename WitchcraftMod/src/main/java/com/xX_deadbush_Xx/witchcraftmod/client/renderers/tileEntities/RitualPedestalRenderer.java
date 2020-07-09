@@ -3,7 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;

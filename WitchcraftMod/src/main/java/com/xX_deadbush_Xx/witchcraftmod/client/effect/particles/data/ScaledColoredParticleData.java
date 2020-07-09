@@ -24,12 +24,10 @@ public class ScaledColoredParticleData extends ParticleType<ScaledColoredParticl
 	          int color = reader.readInt();
 	          reader.expect(' ');
 	          float scale = (float)reader.readDouble();
-	           System.out.println("deserialized");
 	          return new ScaledColoredParticleData(particleTypeIn, show, color, scale);
 	       }
 
 	       public ScaledColoredParticleData read(ParticleType<ScaledColoredParticleData> particleTypeIn, PacketBuffer buffer) {
-	           System.out.println("read");
 	    	   return new ScaledColoredParticleData(particleTypeIn, buffer.readBoolean(), buffer.readInt(), buffer.readFloat());
 	       }
 	};
@@ -40,8 +38,6 @@ public class ScaledColoredParticleData extends ParticleType<ScaledColoredParticl
 	   this.show = alwaysShow;
 	   this.color = color;
 	   this.scale = scale;
-	   
-	   System.out.println(color);
    	}
 
    	public ParticleType<ScaledColoredParticleData> getType() {
@@ -56,7 +52,6 @@ public class ScaledColoredParticleData extends ParticleType<ScaledColoredParticl
 
    	public String getParameters() {
    		String formatted = String.format(Locale.ROOT, "%b %d %.4f", Registry.PARTICLE_TYPE.getKey(this.getType()), this.show, this.color, this. scale);
-   		System.out.println(formatted);
         return formatted;
    	}
 	

@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.common.gui.ToolTableContainer;
+import com.xX_deadbush_Xx.witchcraftmod.common.container.ToolTableContainer;
 
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.common.extensions.IForgeContainerType;

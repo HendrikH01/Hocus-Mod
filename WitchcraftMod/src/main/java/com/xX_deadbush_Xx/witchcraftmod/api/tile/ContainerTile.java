@@ -22,10 +22,10 @@ public abstract class ContainerTile extends BasicItemHolderTile implements IName
 		if (compound.contains("CustomName", 8)) {
 			this.customName = ITextComponent.Serializer.fromJson(compound.getString("CustomName"));
 		}
-
 	}
 
 	public CompoundNBT write(CompoundNBT compound) {
+		System.out.println(this.inventory);
 		super.write(compound);
 		if (this.customName != null) {
 			compound.putString("CustomName", ITextComponent.Serializer.toJson(this.customName));

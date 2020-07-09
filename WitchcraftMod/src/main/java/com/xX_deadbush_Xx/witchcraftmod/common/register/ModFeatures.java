@@ -12,5 +12,5 @@ public class ModFeatures {
 	//public static final DeferredRegister<Feature<?>> FEATURES = new DeferredRegister<>(ForgeRegistries.FEATURES, WitchcraftMod.MOD_ID);
 	
 	public static final Feature<BigMushroomFeatureConfig> HUGE_HELLSHROOM = new BigHellshroomFeature(BigMushroomFeatureConfig::deserialize);
-	public static final Feature<TreeFeatureConfig> DREADWOOD_TREE = new DreadwoodTreeConfig((data) -> TreeFeatureConfig.func_227338_a_(data));
+	public static final Feature<TreeFeatureConfig> DREADWOOD_TREE = new DreadwoodTreeConfig((data) -> TreeFeatureConfig.deserializeFoliage(data));
 }

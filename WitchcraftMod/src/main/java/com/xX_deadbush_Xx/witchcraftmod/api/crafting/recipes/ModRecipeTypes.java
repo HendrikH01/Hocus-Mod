@@ -6,12 +6,14 @@ import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.OneInOneOutSeri
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.SmallFusionSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.ToolTableShapedSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.ToolTableShapelessSerializer;
+import com.xX_deadbush_Xx.witchcraftmod.common.recipes.BloodPhialRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MortarRecipe;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.RegistryObject;
@@ -33,6 +35,8 @@ public class ModRecipeTypes {
 			.register("tool_table_shaped", () -> new ToolTableShapedSerializer());
 	public static final RegistryObject<ToolTableShapelessSerializer> TOOL_TABLE_SHAPELESS_SERIALIZER = SERIALIZERS
 			.register("tool_table_shapeless", () -> new ToolTableShapelessSerializer());
+	public static final RegistryObject<SpecialRecipeSerializer<BloodPhialRecipe>> BLOOD_VIAL_SERIALIZER = SERIALIZERS
+			.register("crafting_blood_vial", () -> new SpecialRecipeSerializer<>(BloodPhialRecipe::new));
 	
 	public static final IRecipeType<IMortarRecipe> MORTAR_TYPE = registerType(IMortarRecipe.TYPE_ID);
 	public static final IRecipeType<IDryingRackRecipe> DRYING_RACK_TYPE = registerType(IDryingRackRecipe.TYPE_ID);

@@ -19,7 +19,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.Witchcraft
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.SmallFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,11 +33,11 @@ public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingR
 	private static final Block pedestal = ModBlocks.RITUAL_PEDESTAL.get();
 	public static final SmallRitualConfig config = new SmallRitualConfig(pedestal, pedestal, pedestal, pedestal);
 	
-	public SmallFusionRitual(RitualStoneTile tile, PlayerEntity player) {
+	public SmallFusionRitual(AbstractRitualCore tile, PlayerEntity player) {
 		super(tile, player);
 	}
 	
-	public static SmallFusionRitual create(RitualStoneTile tile, PlayerEntity player) {
+	public static SmallFusionRitual create(AbstractRitualCore tile, PlayerEntity player) {
 		return new SmallFusionRitual(tile, player);
 	}
 	

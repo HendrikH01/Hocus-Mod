@@ -83,7 +83,7 @@ public class SmallFlameParticle extends SpriteTexturedParticle {
       public Particle makeParticle(BasicParticleType typeIn, World worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
          SmallFlameParticle flameparticle = new SmallFlameParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
          flameparticle.selectSpriteRandomly(this.spriteSet);
-         flameparticle.multipleParticleScaleBy(5.0F);
+         flameparticle.multiplyParticleScaleBy(5.0F);
          return flameparticle;
       }
    }

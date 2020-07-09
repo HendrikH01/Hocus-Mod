@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -13,10 +13,10 @@ import net.minecraft.entity.player.PlayerEntity;
 public abstract class RitualEffectHandler {
 	public List<IRitualEffect> effects = new ArrayList<>();
 	public final PlayerEntity player;
-	public final RitualStoneTile ritualStone;
+	public final AbstractRitualCore ritualStone;
 	private int ticks;
 	
-	protected RitualEffectHandler(RitualStoneTile tile, PlayerEntity player) {
+	protected RitualEffectHandler(AbstractRitualCore tile, PlayerEntity player) {
 		this.ritualStone = tile;
 		this.player = player;
 		

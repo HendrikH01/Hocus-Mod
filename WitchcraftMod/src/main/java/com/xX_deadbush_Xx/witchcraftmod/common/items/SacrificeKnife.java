@@ -2,6 +2,8 @@ package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
+
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.WitchcraftItemGroup;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
@@ -49,10 +51,9 @@ public class SacrificeKnife extends Item {
 		return 5.0F;
 	}
 	
-	private boolean isBloody(ItemStack stack) {
+	public static boolean isBloody(ItemStack stack) {
 		if(stack.hasTag()) {
-			String name = stack.getTag().getString("mobname");
-			return  name != null && name != "";
+			return StringUtils.isEmpty(stack.getTag().getString("mobname"));
 		}
 		return false;
 	}
@@ -63,22 +64,21 @@ public class SacrificeKnife extends Item {
 	    });
 		
 		String targetname = Registry.ENTITY_TYPE.getKey(target.getType()).getPath();
-		CompoundNBT nbt = new CompoundNBT();
-		nbt.putString("mobname", targetname);
-		System.out.println(targetname);
-		stack.setTag(nbt);
+		stack.getOrCreateTag().putString("mobname", targetname);
 	    return true;
 	}
 	
-	public String readMob(ItemStack stack) {
-		if(stack.hasTag()) {
-			CompoundNBT tag = stack.getTag();
-			if(!tag.isEmpty()) return tag.getString("mobname");
-		} return null;
+	public static void cleanKnife(ItemStack stack) {
+		stack.removeChildTag("mobname");
 	}
-
+	
+	public String readMob(ItemStack stack) {
+		if(stack.getOrCreateTag().contains("mobname")) return stack.getTag().getString("mobname");
+		return "";
+	}
+	
     public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
     	String mob = readMob(stack);
-        if(mob != null && mob != "") tooltip.add(new StringTextComponent("\u00A77 Covered in " + mob + " blood"));
+        if(StringUtils.isNotEmpty(mob)) tooltip.add(new StringTextComponent("\u00A77Covered in " + mob + " blood"));
     }
 }

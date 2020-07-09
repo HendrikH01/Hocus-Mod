@@ -26,7 +26,7 @@ public class LoadComplete {
     
     @SubscribeEvent
     public static void onWorldLoad(WorldEvent.Load event) {
-    	System.out.println("worldload");
     	mortarrecipeinputs = CraftingHelper.getAllRecipeInputs(ModRecipeTypes.MORTAR_TYPE, event.getWorld().getWorld());
+    	System.out.println(mortarrecipeinputs);
     }
 }

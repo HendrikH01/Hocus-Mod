@@ -5,6 +5,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.blocks.CandleBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.DreadwoodLog;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.DryingRackBlock;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.FireBowlBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModMushroomBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModSaplingBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.MortarBlock;
@@ -57,5 +58,6 @@ public class ModBlocks {
 		public static final RegistryObject<Block> RITUAL_PEDESTAL = BLOCKS.register("ritual_pedestal", () -> new RitualPedestal(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).notSolid().sound(SoundType.STONE)));
 		public static final RegistryObject<Block> STONE_MORTAR = BLOCKS.register("stone_mortar", () -> new MortarBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_WOOD).notSolid().sound(SoundType.STONE)));
 		public static final RegistryObject<Block> TOOL_TABLE = BLOCKS.register("tool_table", () -> new ToolTable(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> FIRE_BOWL = BLOCKS.register("fire_bowl", () -> new FireBowlBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).notSolid().sound(SoundType.STONE)));
 
 }

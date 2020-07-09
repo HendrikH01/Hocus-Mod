@@ -3,7 +3,6 @@ package com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes;
 import javax.annotation.Nonnull;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.WitchcraftLib;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;

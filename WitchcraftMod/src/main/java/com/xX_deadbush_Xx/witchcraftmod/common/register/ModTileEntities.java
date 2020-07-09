@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;

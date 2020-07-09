@@ -6,36 +6,42 @@ import java.util.logging.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.world.IWorldReader;
 
 public class SmallRitualConfig implements IRitualConfig {
 	Logger LOGGER;
-	private final NonNullList<Block> junctionBlocks;
+	private final NonNullList<Block> anchorblocks;
 	
-	public SmallRitualConfig(Block... junctionBlocks) { //S-W-N-E
-		if(junctionBlocks.length != 4) {
-			LOGGER.warning("Small ritual config did NOT receive four junction blocks!");
+	public SmallRitualConfig(Block... anchorblocks) { //S-W-N-E
+		if(anchorblocks.length != 4) {
+			LOGGER.warning("Small ritual config did NOT receive four anchor blocks!");
 		}
 		
 		NonNullList<Block> list = NonNullList.create();
-		for(Block block : junctionBlocks){
+		for(Block block : anchorblocks){
 			list.add(block);
 		}
-		this.junctionBlocks = list;
+		this.anchorblocks = list;
 	}
 	
 	@Override
-	public boolean matches(NonNullList<Block> blocks) { //S-W-N-E
-		if(blocks.size() != 4) return false; 
+	public boolean matchesAnchorblocks(NonNullList<Block> anchorblocksIn) { //S-W-N-E
+		if(anchorblocksIn.size() != 4) return false; 
 		
 		for(int i = 0; i < 4; i++) {
-			if(blocks.get(0).getRegistryName() == this.junctionBlocks.get(i).getRegistryName()) {
+			if(anchorblocksIn.get(0).getRegistryName() == this.anchorblocks.get(i).getRegistryName()) {
 				if(
-					blocks.get(1).getRegistryName() == this.junctionBlocks.get((i + 1)%4).getRegistryName()	&&
-					blocks.get(2).getRegistryName() == this.junctionBlocks.get((i + 2)%4).getRegistryName()	&&
-					blocks.get(3).getRegistryName() == this.junctionBlocks.get((i + 3)%4).getRegistryName()
+					anchorblocksIn.get(1).getRegistryName() == this.anchorblocks.get((i + 1)%4).getRegistryName()	&&
+					anchorblocksIn.get(2).getRegistryName() == this.anchorblocks.get((i + 2)%4).getRegistryName()	&&
+					anchorblocksIn.get(3).getRegistryName() == this.anchorblocks.get((i + 3)%4).getRegistryName()
 				) return true;
 			}
 		}	
 		return false;
+	}
+
+	@Override
+	public boolean matchesTotems(IWorldReader world) {
+		return true;
 	}
 }

@@ -1,4 +1,4 @@
-package com.xX_deadbush_Xx.witchcraftmod.common.gui;
+package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.hooks.BasicEventHooks;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
@@ -208,19 +209,13 @@ public class ToolTableContainer extends Container {
 		//REMOVE AND HANDLE REMAINING ITEMS
 		NonNullList<ItemStack> itemsremaining;
 		if(this.lastRecipe.getType() == ModRecipeTypes.TOOL_TABLE) { //damage tools
-			itemsremaining = ((IRecipe<IInventory>)this.lastRecipe).getRemainingItems(new RecipeWrapper(InventoryHelper.getPartialInv(this.inv, 0, 8)));
-			((IToolTableRecipe)this.lastRecipe).getTools().forEach((tool, damage) -> {
-				for(int i = 9; i < 12; i++){
-					System.out.println(this.inv.getStackInSlot(i));
-					if(tool.test(this.inv.getStackInSlot(i))) {
-						this.inv.getStackInSlot(i).attemptDamageItem(damage, new Random(), serverplayer);
-						if(this.inv.getStackInSlot(i).getDamage() >= this.inv.getStackInSlot(i).getMaxDamage()) this.inv.setStackInSlot(i, ItemStack.EMPTY);
-						slotstoupdate.add(i);
-					}
-				}
-			});
+			itemsremaining = ((IRecipe<IInventory>)this.lastRecipe).getRemainingItems(new RecipeWrapper(this.inv));
+
 		}
-		else if(this.lastRecipe.getType() == IRecipeType.CRAFTING) itemsremaining = ((IRecipe<IInventory>)this.lastRecipe).getRemainingItems(getCraftingInv(this.inv));
+		else if(this.lastRecipe.getType() == IRecipeType.CRAFTING) {
+			itemsremaining = ((IRecipe<IInventory>)this.lastRecipe).getRemainingItems(getCraftingInv(this.inv));
+			BasicEventHooks.firePlayerCraftingEvent(serverplayer, this.lastRecipe.getRecipeOutput(), getCraftingInv(this.inv));
+		}
 		else return;
 		
 		for (int i = 0; i < itemsremaining.size(); ++i) {

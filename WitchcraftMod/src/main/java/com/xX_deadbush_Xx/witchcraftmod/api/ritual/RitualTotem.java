@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
+//aka pillar
 public class RitualTotem {
 	private BlockPos pos;
 	private BlockState[] states;
@@ -17,7 +18,7 @@ public class RitualTotem {
 		return pos;
 	}
 	
-	public boolean complete(IWorldReader worldIn) {
+	public boolean isComplete(IWorldReader worldIn) {
 		for(int i = 0; i < this.states.length; i++) {
 			if(this.states[i] != worldIn.getBlockState(this.pos.up(i))) return false;
 		}

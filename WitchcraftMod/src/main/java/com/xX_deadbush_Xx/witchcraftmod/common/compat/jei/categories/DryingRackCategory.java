@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IDryingRackRecipe;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.WitchcraftLib;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -28,7 +27,7 @@ public class DryingRackCategory implements IRecipeCategory<IDryingRackRecipe> {
 		icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.DRYING_RACK.get()));
     }
 
-	public static final ResourceLocation UID = WitchcraftLib.DRYING_RACK_ID;
+	public static final ResourceLocation UID = IDryingRackRecipe.TYPE_ID;
 
 	@Override
 	public ResourceLocation getUid() {

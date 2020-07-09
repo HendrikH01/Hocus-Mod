@@ -1,7 +1,8 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
@@ -11,7 +12,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper.RitualPosi
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualStone;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,18 +21,18 @@ import net.minecraft.world.World;
 
 public abstract class AbstractSmallRitual implements IRitual {
 	protected final PlayerEntity performingPlayer;
-	protected final RitualStoneTile tile;
+	protected final AbstractRitualCore tile;
 	protected final  World worldIn;
-	protected List<BlockPos> chalkpositions = new ArrayList<>();
-	protected List<BlockPos> nonRitualBlocks = new ArrayList<>();
-	protected List<BlockPos> junctionBlocks = new ArrayList<>();
+	protected Set<BlockPos> chalkpositions = new HashSet<>();
+	protected Set<BlockPos> nonRitualBlocks = new HashSet<>();
+	protected Set<BlockPos> junctionBlocks = new HashSet<>();
 	protected RitualEffectHandler effecthandler;
 	
 	//Need to be saved to TE nbt
 	protected int age = 0;
 	protected boolean doespowerdownanimation = false;
 	
-	public AbstractSmallRitual(RitualStoneTile tile, PlayerEntity player) {
+	public AbstractSmallRitual(AbstractRitualCore tile, PlayerEntity player) {
 		this.worldIn = tile.getWorld();
 		this.tile = tile;
 		this.performingPlayer = player;
@@ -78,7 +79,7 @@ public abstract class AbstractSmallRitual implements IRitual {
 	
 	public boolean junctionBlocksInPlace(SmallRitualConfig config) {
 		List<Block> blocks = junctionBlocks.stream().map(this.worldIn::getBlockState).map(s -> s.getBlock()).collect(Collectors.toList());
-		return config.matches(ListHelper.toNonNullList(blocks));
+		return config.matchesAnchorblocks(ListHelper.toNonNullList(blocks));
 	}
 	
 	protected void resetChalk() {

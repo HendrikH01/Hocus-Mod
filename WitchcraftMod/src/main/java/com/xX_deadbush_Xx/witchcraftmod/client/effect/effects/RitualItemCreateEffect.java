@@ -2,7 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.effect.effects;
 
 import java.util.Random;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.WitchcraftMathHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler;
 
 import net.minecraft.particles.ParticleTypes;
@@ -40,7 +40,7 @@ public class RitualItemCreateEffect implements IParticleEffect {
 	public void addParticles() {
 		double scale = 0.2;
 		for(int i = 0; i < rand.nextInt(5)+10; i++) {			
-			Vec3d vec = WitchcraftMathHelper.pointOnSphere(1, rand);
+			Vec3d vec = ModMathHelper.pointOnSphere(1, rand);
 			this.world.addParticle(ParticleTypes.POOF, x, y, z, vec.getX()*scale, vec.getY()*scale, vec.getZ()*scale);
 		}
 	}

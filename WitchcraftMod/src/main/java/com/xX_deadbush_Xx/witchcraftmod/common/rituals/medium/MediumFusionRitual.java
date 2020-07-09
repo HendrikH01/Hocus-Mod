@@ -9,6 +9,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTotem;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
@@ -18,8 +19,8 @@ import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MediumFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,13 +32,13 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class MediumFusionRitual extends AbstractMediumRitual implements ICraftingRitual, IStaticRitual {
 	private static final Block pedestal = ModBlocks.RITUAL_PEDESTAL.get();
-	public static final MediumRitualConfig config = new MediumRitualConfig(pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal);
+	public static final MediumRitualConfig config = new MediumRitualConfig(new Block[] {pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal}, new RitualTotem[] {});
 	
-	public MediumFusionRitual(RitualStoneTile tile, PlayerEntity player) {
+	public MediumFusionRitual(AbstractRitualCore tile, PlayerEntity player) {
 		super(tile, player);
 	}
 	
-	public static MediumFusionRitual create(RitualStoneTile tile, PlayerEntity player) {
+	public static MediumFusionRitual create(AbstractRitualCore tile, PlayerEntity player) {
 		return new MediumFusionRitual(tile, player);
 	}
 	

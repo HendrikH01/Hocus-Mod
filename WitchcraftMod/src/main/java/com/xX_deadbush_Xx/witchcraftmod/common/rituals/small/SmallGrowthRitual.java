@@ -13,7 +13,7 @@ import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.Effe
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -31,7 +31,7 @@ public class SmallGrowthRitual extends AbstractSmallRitual implements IContinuou
 	private int manaconsumecooldown = 20;
 	private static Random rand =  new Random();
 	
-	public SmallGrowthRitual(RitualStoneTile tile, PlayerEntity player) {
+	public SmallGrowthRitual(AbstractRitualCore tile, PlayerEntity player) {
 		super(tile, player);
 		
 		//init blockstocheck
@@ -45,7 +45,7 @@ public class SmallGrowthRitual extends AbstractSmallRitual implements IContinuou
 		}
 	}
 	
-	public static SmallGrowthRitual create(RitualStoneTile tile, PlayerEntity player) {
+	public static SmallGrowthRitual create(AbstractRitualCore tile, PlayerEntity player) {
 		return new SmallGrowthRitual(tile, player);
 	}
 

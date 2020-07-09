@@ -1,3 +1,6 @@
 {
-  "parent": "witchcraftmod:block/belladonna"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchcraftmod:blocks/belladonna"
+  }
 }

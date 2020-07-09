@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ShimmerParticle;
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ModParticles;
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
@@ -21,7 +22,7 @@ public class ParticleDebugger extends Item {
 			System.out.println("Attempted to spawn particle with debugger");
 			Direction blockFace = context.getFace();
 			BlockPos pos = context.getPos().offset(blockFace);
-			world.addParticle(ShimmerParticle.getData(true, 0xFDFFE7, 12), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
+			world.addParticle(new ScaledColoredParticleData(ModParticles.MANAWAVE, true, 0x80B4CE, 1), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,  pos.getX() + 15, pos.getY() + 0, pos.getZ() + 0);
 			return ActionResultType.SUCCESS;
 		} else return ActionResultType.PASS;
 	}

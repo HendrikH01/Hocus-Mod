@@ -5,63 +5,43 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IToolTableRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.AbstractToolTableRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
-import com.xX_deadbush_Xx.witchcraftmod.api.inventory.ToolTableCraftingInventory;
 
-import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.RecipeItemHelper;
-import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.item.crafting.ShapelessRecipe;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.RecipeMatcher;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class ShapelessToolTableRecipe implements IToolTableRecipe {
-
-	private ItemStack output;
-	private NonNullList<Ingredient> ingredients;
-	private ResourceLocation recipeId;
-	private Map<Ingredient, Integer> tools;
-	private boolean isSimple;
+public class ShapelessToolTableRecipe extends AbstractToolTableRecipe {
 
 	public ShapelessToolTableRecipe(ShapelessRecipe shapeless, Map<Ingredient, Integer> tools) {
-		this.output = shapeless.getRecipeOutput();
-		this.ingredients = shapeless.getIngredients();
-		this.recipeId = shapeless.getId();
-		this.tools = tools;
-	    this.isSimple = this.ingredients.stream().allMatch(Ingredient::isSimple);
+		super(shapeless, tools);
 	}
 
 	@Override
 	public boolean matches(RecipeWrapper inv, World worldIn) {
 		List<ItemStack> toolsIn = Arrays.asList(inv.getStackInSlot(9), inv.getStackInSlot(10), inv.getStackInSlot(11));
-
 		if (!checkTools(toolsIn))
 			return false;
-
-		RecipeItemHelper recipeitemhelper = new RecipeItemHelper();
+		
 		List<ItemStack> inputs = new ArrayList<>();
-		int i = 0;
+		for(int i = 0; i < 9; i++) if(!inv.getStackInSlot(i).isEmpty())inputs.add(inv.getStackInSlot(i));
 
-		for (int j = 0; j < 9; ++j) {
-			ItemStack itemstack = inv.getStackInSlot(j);
-			if (!itemstack.isEmpty()) {
-				++i;
-				if (isSimple)
-					recipeitemhelper.func_221264_a(itemstack, 1);
-				else
-					inputs.add(itemstack);
+		if(inputs.size() == this.ingredients.size()) {
+			for(Ingredient ingred : this.ingredients) {
+				for(int i =  0; i < inputs.size(); i++) {
+					if(ingred.test(inputs.get(i))) {
+						inputs.remove(i);
+					} 
+				} 
 			}
-		}
-
-		return i == this.ingredients.size() && (isSimple ? recipeitemhelper.canCraft(this, (IntList) null)
-				: RecipeMatcher.findMatches(inputs, this.ingredients) != null);
+		} else return false;
+		
+		return inputs.size() == 0;
 	}
 
 	private boolean checkTools(List<ItemStack> toolsIn) {

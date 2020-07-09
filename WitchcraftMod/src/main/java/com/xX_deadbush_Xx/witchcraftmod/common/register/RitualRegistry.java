@@ -16,7 +16,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.MediumFusionRitual
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallAnimalGrowthRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallFusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallGrowthRitual;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -50,12 +50,12 @@ public class RitualRegistry {
 		return INSTANCE.rituals;
 	}
 	
-	public static IRitual create(String name, RitualStoneTile tile, PlayerEntity player) {
+	public static IRitual create(String name, AbstractRitualCore tile, PlayerEntity player) {
 		Class<? extends IRitual> clazz = getByName(name);
 		try {
 			Constructor c = clazz.getConstructors()[0];
 			System.out.println(name + " " + c.getParameters()[0].getName() + " " + c.getParameterTypes()[0].getName()+ " " + c.getParameterTypes()[1].getName());
-			return (IRitual) clazz.getConstructor(RitualStoneTile.class, PlayerEntity.class).newInstance(tile, (PlayerEntity)player);
+			return (IRitual) clazz.getConstructor(AbstractRitualCore.class, PlayerEntity.class).newInstance(tile, (PlayerEntity)player);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

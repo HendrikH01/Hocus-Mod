@@ -54,4 +54,9 @@ public class SimpleItemHandler extends ItemStackHandler {
 			this.stacks.set(i, inv.get(i));
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return this.stacks.toString();
+	}
 }

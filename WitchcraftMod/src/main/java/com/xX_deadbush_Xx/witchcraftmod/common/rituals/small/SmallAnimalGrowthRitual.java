@@ -13,7 +13,7 @@ import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.Effe
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -32,11 +32,11 @@ public class SmallAnimalGrowthRitual extends AbstractSmallRitual implements ICon
 	private int manaconsumecooldown = 20;
 	private static Random rand =  new Random();
 	
-	public SmallAnimalGrowthRitual(RitualStoneTile tile, PlayerEntity player) {
+	public SmallAnimalGrowthRitual(AbstractRitualCore tile, PlayerEntity player) {
 		super(tile, player);
 	}
 	
-	public static SmallAnimalGrowthRitual create(RitualStoneTile tile, PlayerEntity player) {
+	public static SmallAnimalGrowthRitual create(AbstractRitualCore tile, PlayerEntity player) {
 		return new SmallAnimalGrowthRitual(tile, player);
 	}
 	
