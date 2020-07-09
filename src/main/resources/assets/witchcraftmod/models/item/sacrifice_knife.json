@@ -1,0 +1,10 @@
+ {
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchcraftmod:items/sacrifice_knife"
+  },
+  "overrides": [
+  	{"predicate": {"witchcraftmod:bloody": 0.0}, "model": "witchcraftmod:item/sacrifice_knife1"}, 
+  	{"predicate": {"witchcraftmod:bloody": 1.0}, "model": "witchcraftmod:item/sacrifice_knife2"}
+  ]
+}

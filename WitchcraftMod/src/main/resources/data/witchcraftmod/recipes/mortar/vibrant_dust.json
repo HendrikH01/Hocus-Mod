@@ -1,9 +1,0 @@
-{
-  	"type": "witchcraftmod:mortar",
-  	"output": {
-		"item": "witchcraftmod:vibrant_dust"
-  	},
-  	"input": {
-    	"item": "witchcraftmod:vibrant_crystal"
-  	}
-}
