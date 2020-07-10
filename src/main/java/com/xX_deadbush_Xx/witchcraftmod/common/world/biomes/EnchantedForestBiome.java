@@ -28,6 +28,8 @@ public class EnchantedForestBiome extends Biome {
         DefaultBiomeFeatures.addLakes(this);
 
         DefaultBiomeFeatures.addOres(this);
+        DefaultBiomeFeatures.addExtraGoldOre(this);
+        DefaultBiomeFeatures.addBerryBushes(this);
         DefaultBiomeFeatures.addExtraEmeraldOre(this);
     }
 }

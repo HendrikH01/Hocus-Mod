@@ -20,9 +20,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 public class WitchcraftMod {
 	public static final String MOD_ID = "witchcraftmod";
 
-	/*
-	        HEY HEY HEY WAS GEHT
-	 */
 	
     public WitchcraftMod() {
     	IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
