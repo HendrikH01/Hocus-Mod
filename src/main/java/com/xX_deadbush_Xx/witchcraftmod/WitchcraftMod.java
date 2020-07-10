@@ -21,7 +21,7 @@ public class WitchcraftMod {
 	public static final String MOD_ID = "witchcraftmod";
 
 	/*
-	        HELLO WORLD FROM SPARTAN
+	        HEY HEY HEY WAS GEHT
 	 */
 	
     public WitchcraftMod() {
