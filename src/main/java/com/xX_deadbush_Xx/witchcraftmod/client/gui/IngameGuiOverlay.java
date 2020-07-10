@@ -202,6 +202,7 @@ public class IngameGuiOverlay extends AbstractGui {
 	}
 	
 	private void restoreRenderSettings() {
+		RenderSystem.depthMask(true);
 		Minecraft mc = Minecraft.getInstance();
 		TextureManager texmanager = mc.getTextureManager();
 		texmanager.bindTexture(IngameGui.GUI_ICONS_LOCATION);
