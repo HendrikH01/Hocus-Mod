@@ -3,10 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.common.event.SetupEvents;
 import com.xX_deadbush_Xx.witchcraftmod.common.potion.ModPotions;
-import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
-import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
-import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
-import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.*;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -39,7 +36,7 @@ public class WitchcraftMod {
         ModRecipeTypes.SERIALIZERS.register(modEventBus);
         ModTileEntities.TILE_ENTITIES.register(modEventBus);
         
-        //ModBiomes.BIOMES.register(modEventBus);
+        ModBiomes.BIOMES.register(modEventBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }

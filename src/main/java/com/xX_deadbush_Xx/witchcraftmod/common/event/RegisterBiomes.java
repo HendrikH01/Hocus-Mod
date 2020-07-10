@@ -12,6 +12,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 public class RegisterBiomes {
     @SubscribeEvent
     public static void onRegisterBiomes(final RegistryEvent.Register<Biome> event) {
-    	//ModBiomes.register();
+    	ModBiomes.register();
     }
 }
