@@ -20,8 +20,6 @@ public class FlowerFeature extends Feature<FlowerFeatureConfig> {
         super(config);
     }
 
-    int i = 0;
-
     @Override
     public boolean place(IWorld world, ChunkGenerator<? extends GenerationSettings> generator, Random rand, BlockPos pos, FlowerFeatureConfig config) {
         boolean any = false;
@@ -39,10 +37,6 @@ public class FlowerFeature extends Feature<FlowerFeatureConfig> {
                 BlockPos pos2 = new BlockPos(x1, y1, z1);
                 if (world.isAirBlock(pos2) && (!world.getDimension().isNether() || y1 < 127) && flower.isValidPosition(world, pos2)) {
                     world.setBlockState(pos2, flower, 2);
-                    if (i == 0) {
-                        System.out.println("ENCHANTED_FOREST_LOCATION: " + pos2.toString());
-                        i = 1;
-                    }
                     any = true;
                 }
             }

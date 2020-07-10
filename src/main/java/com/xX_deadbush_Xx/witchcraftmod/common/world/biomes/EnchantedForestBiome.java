@@ -29,6 +29,5 @@ public class EnchantedForestBiome extends Biome {
 
         DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.addExtraEmeraldOre(this);
-
     }
 }

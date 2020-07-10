@@ -24,6 +24,8 @@ public class EnchantedForestSurface extends SurfaceBuilder<SurfaceBuilderConfig>
         buildSurface(random, chunkIn, biomeIn, x, z, startHeight, noise, defaultBlock, defaultFluid, config.getTop(), config.getUnder(), config.getUnderWaterMaterial(), seaLevel);
     }
 
+    int p = 0;
+
     protected void buildSurface(Random random, IChunk chunk, Biome biome, int x, int z, int startHeight, double noise,
                                 BlockState defaultBlock, BlockState defaultFluid, BlockState top, BlockState under, BlockState underWater, int seaLevel) {
         BlockState topBlock = top;
@@ -37,6 +39,10 @@ public class EnchantedForestSurface extends SurfaceBuilder<SurfaceBuilderConfig>
         for(int sh = startHeight; sh >= 0; --sh) {
             mut.setPos(xCord, sh, zCord);
             BlockState blockByMut = chunk.getBlockState(mut);
+            if(p == 0) {
+                System.out.println("enchanted_forest_position: " + xCord + " - " + sh + " - " + zCord);
+                p = 1;
+            }
             if (blockByMut.isAir()) {
                 i = -1;
             } else if (blockByMut.getBlock() == defaultBlock.getBlock()) {
