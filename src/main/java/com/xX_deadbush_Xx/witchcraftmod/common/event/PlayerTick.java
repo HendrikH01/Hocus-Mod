@@ -1,5 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.event;
 
+import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.IPlayerInventoryTickingItem;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.CrystalEnergyStorage;
@@ -14,7 +15,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = WitchcraftMod.MOD_ID, bus=Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerTick {
 	@SubscribeEvent
 	public static void onPlayerTick(PlayerTickEvent event) {
