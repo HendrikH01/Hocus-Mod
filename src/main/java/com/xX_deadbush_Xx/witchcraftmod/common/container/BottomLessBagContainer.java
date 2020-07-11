@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.InfinitiveSlot;
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -10,19 +12,17 @@ import net.minecraft.network.PacketBuffer;
 
 public class BottomLessBagContainer extends Container {
 
-    private ItemStack bag;
-    private PlayerInventory playerInventory;
+    private SimpleItemHandler simpleItemHandler;
 
     public BottomLessBagContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer packetBuffer) {
-        this(windowId, playerInventory, packetBuffer.readItemStack());
+        this(windowId, playerInventory);
     }
 
-    public BottomLessBagContainer(int windowId, PlayerInventory playerInventory, ItemStack bag) {
+    public BottomLessBagContainer(int windowId, PlayerInventory playerInventory) {
         super(ModContainers.BOTTOM_LESS_BAG.get(), windowId);
-        this.playerInventory = playerInventory;
-        this.bag = bag;
+        this.simpleItemHandler = new SimpleItemHandler(1, ItemStack.EMPTY);
 
-        this.addSlot(new Slot(playerInventory, 37, 77, 31));
+        this.addSlot(new InfinitiveSlot(this.simpleItemHandler,0, 77, 31));
 
         for (int k = 0; k < 3; ++k) {
             for (int i1 = 0; i1 < 9; ++i1) {
@@ -39,24 +39,23 @@ public class BottomLessBagContainer extends Container {
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
+        if(slot != null && slot.getHasStack()) {
             ItemStack itemStack1 = slot.getStack();
             itemStack = itemStack1.copy();
-            if (index < 1) {
-                if (!this.mergeItemStack(itemStack, 1, this.inventorySlots.size(), true)) {
+            if(index < 1) {
+                if(!this.mergeItemStack(itemStack, 1, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemStack1, 0, 1, false)) {
+            }else if(!this.mergeItemStack(itemStack1, 0, 1, false)) {
                 return ItemStack.EMPTY;
             }
 
-            if (itemStack1.isEmpty()) {
+            if(itemStack1.isEmpty()) {
                 slot.putStack(ItemStack.EMPTY);
             } else {
                 slot.onSlotChanged();
             }
         }
-
         return itemStack;
     }
 
