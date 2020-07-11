@@ -1,12 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.ToolTableTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.*;
 
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
@@ -26,4 +21,5 @@ public class ModTileEntities {
 			() -> TileEntityType.Builder.create(MortarTile::new, ModBlocks.STONE_MORTAR.get()).build(null));
 	public static final RegistryObject<TileEntityType<ToolTableTile>> TOOL_TABLE = TILE_ENTITIES.register("tool_table",
 			() -> TileEntityType.Builder.create(ToolTableTile::new, ModBlocks.TOOL_TABLE.get()).build(null));
+
 }
