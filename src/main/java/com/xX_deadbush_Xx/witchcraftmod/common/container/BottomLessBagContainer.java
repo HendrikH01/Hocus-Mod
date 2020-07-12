@@ -5,6 +5,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -14,15 +15,15 @@ public class BottomLessBagContainer extends Container {
 
     private SimpleItemHandler simpleItemHandler;
 
-    public BottomLessBagContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer packetBuffer) {
+    public BottomLessBagContainer(final int windowId, final PlayerInventory playerInventory, PacketBuffer packetBuffer) {
         this(windowId, playerInventory);
     }
 
     public BottomLessBagContainer(int windowId, PlayerInventory playerInventory) {
         super(ModContainers.BOTTOM_LESS_BAG.get(), windowId);
-        this.simpleItemHandler = new SimpleItemHandler(1, ItemStack.EMPTY);
+        this.simpleItemHandler = new SimpleItemHandler(1);
 
-        this.addSlot(new InfinitiveSlot(this.simpleItemHandler,0, 77, 31));
+        this.addSlot(new InfinitiveSlot(simpleItemHandler,0, 81, 34));
 
         for (int k = 0; k < 3; ++k) {
             for (int i1 = 0; i1 < 9; ++i1) {
@@ -55,8 +56,14 @@ public class BottomLessBagContainer extends Container {
             } else {
                 slot.onSlotChanged();
             }
+            return ItemStack.EMPTY;
         }
         return itemStack;
+    }
+
+    @Override
+    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
+        return super.slotClick(slotId, dragType, clickTypeIn == ClickType.PICKUP_ALL ? ClickType.PICKUP : clickTypeIn, player);
     }
 
     @Override
