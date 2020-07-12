@@ -5,10 +5,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class InfiniteSlot extends SlotItemHandler {
+public class BottomlessBagSlot extends SlotItemHandler {
 
-    public InfiniteSlot(IItemHandler itemHandler, int index, int xPosition, int yPosition) {
+    public BottomlessBagSlot(BottomlessBagInventory itemHandler, int index, int xPosition, int yPosition) {
         super(itemHandler, index, xPosition, yPosition);
+    }
+    
+    @Override
+    public ItemStack getStack() {
+        return this.getItemHandler().getStackInSlot(0);
     }
 
 
@@ -19,6 +24,6 @@ public class InfiniteSlot extends SlotItemHandler {
 
     @Override
     public int getSlotStackLimit() {
-        return 1000000;
+        return Integer.MAX_VALUE;
     }
 }

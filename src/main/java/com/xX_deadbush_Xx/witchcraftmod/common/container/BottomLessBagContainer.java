@@ -1,35 +1,30 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.inventory.InfiniteSlot;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.BottomLessBagItem;
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.BottomlessBagInventory;
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.BottomlessBagSlot;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.items.IItemHandler;
 
 public class BottomLessBagContainer extends Container {
 
-    private Inventory bagInventory;
-    private int selectedSlot;
-    private int itemCountAmount;
-    private ItemStack stored;
+    private BottomlessBagInventory bagInventory;
 
     public BottomLessBagContainer(final int windowId, final PlayerInventory playerInventory, PacketBuffer packetBuffer) {
-        this(windowId, playerInventory, new BottomLessBagItem.BottomLessBagInventory(playerInventory.getCurrentItem(), 1), packetBuffer.readVarInt());
+        this(windowId, playerInventory, new BottomlessBagInventory(playerInventory.getCurrentItem()), packetBuffer.readVarInt());
     }
 
-    public BottomLessBagContainer(int windowId, PlayerInventory playerInventory, Inventory inventory, int selectedSlot) {
+    public BottomLessBagContainer(int windowId, PlayerInventory playerInventory, BottomlessBagInventory inventory, int selectedSlot) {
         super(ModContainers.BOTTOM_LESS_BAG.get(), windowId);
         this.bagInventory = inventory;
-        this.selectedSlot = selectedSlot;
-        this.stored = ItemStack.EMPTY;
 
-        this.addSlot(new InfiniteSlot((IItemHandler) bagInventory, 0, 81, 35));
+        this.addSlot(new BottomlessBagSlot(bagInventory, 0, 81, 35));
 
         for (int k = 0; k < 3; ++k) {
             for (int i1 = 0; i1 < 9; ++i1) {
@@ -42,14 +37,16 @@ public class BottomLessBagContainer extends Container {
         }
     }
 
-
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
-        if (bagInventory instanceof BottomLessBagItem.BottomLessBagInventory) {
-            ((BottomLessBagItem.BottomLessBagInventory) bagInventory).writeItemStack();
-        }
+    public ItemStack getStoredItem() {
+    	return bagInventory.getStack();
     }
+    
+    public int getAmount() {
+    	return bagInventory.getActuallyStack();
+    }
+    
+    @Override
+    public void detectAndSendChanges() {} // for now I will leave this empty because the super method doesnt work here and I dont know if we even need this method
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
@@ -59,7 +56,7 @@ public class BottomLessBagContainer extends Container {
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            stored = itemstack1.copy();
+            bagInventory.setStackInSlot(0, itemstack1.copy());
             if (index < 1) {
                 System.out.println("BLBC_DEBUG_2");
 
@@ -83,49 +80,20 @@ public class BottomLessBagContainer extends Container {
 
     @Override
     public void putStackInSlot(int slotID, ItemStack stack) {
-        super.putStackInSlot(slotID, stack);
+    	bagInventory.insertItem(0, stack, false);
     }
 
-    /*@Override
-    public ItemStack slotClick(int slotId, int dragType, ClickType clickType, PlayerEntity player) {
-        Slot tmpSlot;
-        if (slotId >= 0 && slotId < inventorySlots.size()) {
-            tmpSlot = inventorySlots.get(slotId);
-        } else {
-            tmpSlot = null;
-        }
-        if (tmpSlot != null) {
-            if (tmpSlot.inventory == player.inventory && tmpSlot.getSlotIndex() == selectedSlot) {
-                return tmpSlot.getStack();
-            }
-        }
-        if (clickType == ClickType.SWAP) {
-            final ItemStack stack = player.inventory.getStackInSlot(dragType);
-            final ItemStack currentItem = PlayerInventory.isHotbar(selectedSlot) ? player.inventory.mainInventory.get(selectedSlot) : selectedSlot == -1 ? player.inventory.offHandInventory.get(0) : ItemStack.EMPTY;
-
-            if (!currentItem.isEmpty() && stack == currentItem) {
-                return ItemStack.EMPTY;
-            }
-        }
-        ItemStack is = super.slotClick(slotId, dragType, clickType, player);
-        return is;
-    }*/
+    @Override
+    public ItemStack slotClick(int slotId, int dragType, ClickType clickType, PlayerEntity player) { //This is what needs to be worked on next. Determine what items should be given to the player and what should remain in the slot for every clickType. Im not sure what the method is supposed to return.
+        Slot slot = this.inventorySlots.get(slotId);
+        ItemStack currentStack = slot.getStack();
+        
+        return ItemStack.EMPTY;
+    }
 
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
         return true;
-    }
-
-    public int getItemCountAmount() {
-        return itemCountAmount;
-    }
-
-    public ItemStack getStored() {
-        return stored;
-    }
-
-    public Inventory getBagInventory() {
-        return bagInventory;
     }
 }
