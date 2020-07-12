@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.rituals.small;
 
-import java.util.List;
+import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
@@ -18,8 +18,8 @@ import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.SmallFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -62,7 +62,7 @@ public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingR
 		ItemStack stack = this.tile.getItem();
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.SMALL_FUSION_TYPE);
+		Set<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.SMALL_FUSION_TYPE);
 		for(IRecipe<?> r : recipes) {
 			SmallFusionRecipe recipe = (SmallFusionRecipe) r;
 			if(recipeComplete(recipe)) {
