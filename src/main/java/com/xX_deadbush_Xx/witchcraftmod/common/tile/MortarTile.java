@@ -35,25 +35,36 @@ public class MortarTile extends BasicItemHolderTile {
 	}
 	
 	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {
-		ItemStack heldItem = player.getHeldItemMainhand().copy();
-		heldItem.setCount(1);
-
-		if(!ItemStack.areItemsEqual(heldItem, this.getItem())) {
-			if(this.hasItem()) {
-				if(heldItem.getItem().equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
-				else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
-					ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
-				}
-			}
-			
-			if(possibleRecipeInputs.isEmpty()) {
-				possibleRecipeInputs = CraftingHelper.getAllRecipeInputs(ModRecipeTypes.MORTAR_TYPE, world).stream().map(i -> i.getItem()).collect(Collectors.toSet());
-			}
-			
-			if(possibleRecipeInputs.contains(heldItem.getItem())) {
-				player.getHeldItemMainhand().shrink(1);
-				setItem(heldItem);
-				this.markDirty();
+		ItemStack playerItems = player.getHeldItemMainhand().copy();
+		ItemStack returnedItem = ItemStack.EMPTY;
+		boolean empty = false;
+		
+		if(possibleRecipeInputs.isEmpty()) {
+			possibleRecipeInputs = CraftingHelper.getAllRecipeInputs(ModRecipeTypes.MORTAR_TYPE, world).stream().map(i -> i.getItem()).collect(Collectors.toSet());
+		}
+		
+		if (this.hasItem() || getItem().equals(playerItems)) {
+			returnedItem = this.getItem().copy();
+			empty = true;
+		}
+		
+		if ((!getItem().equals(playerItems) && !empty || !this.hasItem()) && possibleRecipeInputs.contains(playerItems.getItem())) {
+			player.getHeldItemMainhand().shrink(1);
+			playerItems.setCount(1);
+			setItem(playerItems); 
+			this.markDirty();
+		}
+		
+		if(empty) {
+			setItem(ItemStack.EMPTY); 
+			this.markDirty();
+		}
+		
+		if(!returnedItem.isEmpty()) {
+			if (playerItems.isEmpty())
+				player.setHeldItem(Hand.MAIN_HAND, returnedItem);
+			else if (!player.inventory.addItemStackToInventory(returnedItem)) {
+				ItemStackHelper.spawnItem(worldIn, returnedItem, this.pos);
 			}
 		}
 	}

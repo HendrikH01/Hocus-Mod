@@ -22,7 +22,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.network.PacketDistributor;
 
 public class RitualPedestalTile extends BasicItemHolderTile {
-	private Random rand = new Random();
 	
 	public RitualPedestalTile(final TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn, 1);
@@ -34,18 +33,32 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 	
 	public void swapItems(World worldIn, BlockPos blockpos, PlayerEntity player) {
 		ItemStack playerItems = player.getHeldItemMainhand().copy();
-		playerItems.setCount(1);
-		Item heldItem = playerItems.getItem();
-
-		if(!getItem().getItem().equals(heldItem)) {
+		ItemStack returnedItem = ItemStack.EMPTY;
+		boolean empty = false;
+		
+		if (this.hasItem() || getItem().equals(playerItems)) {
+			returnedItem = this.getItem().copy();
+			empty = true;
+		}
+		
+		if ((!getItem().equals(playerItems) && !empty || !this.hasItem()) && !playerItems.isEmpty()) {
 			player.getHeldItemMainhand().shrink(1);
-			if(this.hasItem()) {
-				if(heldItem.equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
-				else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
-					ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
-				}
+			playerItems.setCount(1);
+			setItem(playerItems); 
+			this.markDirty();
+		}
+		
+		if(empty) {
+			setItem(ItemStack.EMPTY); 
+			this.markDirty();
+		}
+		
+		if(!returnedItem.isEmpty()) {
+			if (playerItems.isEmpty())
+				player.setHeldItem(Hand.MAIN_HAND, returnedItem);
+			else if (!player.inventory.addItemStackToInventory(returnedItem)) {
+				ItemStackHelper.spawnItem(worldIn, returnedItem, this.pos);
 			}
-			setItem(playerItems);
 		}
 	}
 	

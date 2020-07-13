@@ -34,21 +34,33 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	}
 	
 	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {
-		ItemStack items = player.getHeldItemMainhand().copy();
-		items.setCount(1);
-		this.ticksUntilDry = 1000;
+		ItemStack playerItems = player.getHeldItemMainhand().copy();
+		ItemStack returnedItem = ItemStack.EMPTY;
+		boolean empty = false;
 		
-		if(!getItem().equals(items)) {
-			Item heldItem = player.getHeldItemMainhand().getItem();
-			if(!this.getItem().getItem().equals(heldItem)) {
-				player.getHeldItemMainhand().shrink(1);
-				if(this.hasItem()) {
-					if(heldItem.equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
-					else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
-						ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
-					}
-				}
-				setItem(items);
+		if (this.hasItem() || getItem().equals(playerItems)) {
+			returnedItem = this.getItem().copy();
+			empty = true;
+		}
+		
+		if ((!getItem().equals(playerItems) && !empty || !this.hasItem()) && !playerItems.isEmpty()) {
+			player.getHeldItemMainhand().shrink(1);
+			playerItems.setCount(1);
+			setItem(playerItems);
+			this.ticksUntilDry = 1000;
+			this.markDirty();
+		}
+		
+		if(empty) {
+			setItem(ItemStack.EMPTY); 
+			this.markDirty();
+		}
+		
+		if(!returnedItem.isEmpty()) {
+			if (playerItems.isEmpty())
+				player.setHeldItem(Hand.MAIN_HAND, returnedItem);
+			else if (!player.inventory.addItemStackToInventory(returnedItem)) {
+				ItemStackHelper.spawnItem(worldIn, returnedItem, this.pos);
 			}
 		}
 	}
