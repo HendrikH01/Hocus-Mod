@@ -18,8 +18,6 @@ public class ToolTableShapelessSerializer extends ForgeRegistryEntry<IRecipeSeri
 	
 	@Override
 	public ShapelessToolTableRecipe read(ResourceLocation recipeId, JsonObject json) {
-		System.out.println("asdf");
-		
 		ShapelessRecipe shapeless = IRecipeSerializer.CRAFTING_SHAPELESS.read(recipeId, json);
 		Map<Ingredient, Integer> tools = new HashMap<>();
 		JSONUtils.getJsonArray(json, "tools").forEach(elem -> {

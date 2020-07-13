@@ -2,12 +2,14 @@ package com.xX_deadbush_Xx.witchcraftmod.data;
 
 import java.io.File;
 import java.io.FilenameFilter;
-
-import org.apache.commons.io.FilenameUtils;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.resources.ResourcePackType;
@@ -17,9 +19,15 @@ import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 
 public class ItemModelsDataGen extends ItemModelProvider {
+	private Set<Block> blockitemsWithGeneratedModel = new HashSet<>();
 	
 	public ItemModelsDataGen(DataGenerator generator, String modId, ExistingFileHelper existingFileHelper) {
 		super(generator, modId, existingFileHelper);
+		blockitemsWithGeneratedModel.add(ModBlocks.HELLSHROOM.get());
+		blockitemsWithGeneratedModel.add(ModBlocks.BELLADONNA.get());
+		blockitemsWithGeneratedModel.add(ModBlocks.ADONIS.get());
+		blockitemsWithGeneratedModel.add(ModBlocks.DREADWOOD_SAPLING.get());
+
 	}
 	
 	@Override
@@ -34,21 +42,20 @@ public class ItemModelsDataGen extends ItemModelProvider {
 			}})) {
 			f.delete();
 		}
-				
+		
+		Set<String> names = blockitemsWithGeneratedModel.stream().map(b -> b.asItem().getRegistryName().getPath()).collect(Collectors.toSet());
+		
 		Registry.ITEM.stream().filter(item -> WitchcraftMod.MOD_ID.equals(item.getRegistryName().getNamespace()))
 		.forEach(item -> {
 			String name = item.getRegistryName().getPath();
 
 			if (item instanceof BlockItem && existingFileHelper.exists(item.getRegistryName(), ResourcePackType.CLIENT_RESOURCES, ".json", "models/block")) {
-				if(ModBlocks.ADONIS.get().asItem().getRegistryName().getPath() == name || 
-						ModBlocks.HELLSHROOM.get().asItem().getRegistryName().getPath() == name || 
-						ModBlocks.BELLADONNA.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + name));
-				else withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name);
-			} else if (!existingFileHelper.exists(new ResourceLocation(WitchcraftMod.MOD_ID, name), ResourcePackType.CLIENT_RESOURCES, ".json", "models/item")) {
-				if(ModBlocks.DREADWOOD_LOG.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "0");
+				if(names.contains(name)) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + name));
 				else if(ModBlocks.HELLSHROOM_BLOCK.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");
 				else if(ModBlocks.HELLSHROOM_STEM.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");
-				else withExistingParent(name, "item/generated").texture("layer0", getTextureRL(name));
+				else withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name);
+			} else if (!existingFileHelper.exists(new ResourceLocation(WitchcraftMod.MOD_ID, name), ResourcePackType.CLIENT_RESOURCES, ".json", "models/item")) {
+				withExistingParent(name, "item/generated").texture("layer0", getTextureRL(name));
 			}
 		});
 	}

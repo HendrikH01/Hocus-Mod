@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium;
 
-import java.util.List;
+import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
@@ -63,7 +63,7 @@ public class MediumFusionRitual extends AbstractMediumRitual implements ICraftin
 		ItemStack stack = this.tile.getItem();
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.MEDIUM_FUSION_TYPE);
+		Set<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.MEDIUM_FUSION_TYPE);
 		for(IRecipe<?> r : recipes) {
 			MediumFusionRecipe recipe = (MediumFusionRecipe) r;
 			if(recipeComplete(recipe)) {

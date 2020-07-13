@@ -188,6 +188,7 @@ public class IngameGuiOverlay extends AbstractGui {
 	private void renderTextBox(int x, int y, int number) {
 		Minecraft mc = Minecraft.getInstance();
 		TextureManager texmanager = mc.getTextureManager();
+		RenderSystem.disableBlend();
 		int digits = ModMathHelper.getIntDigits(number);
 		blit(x, y, 32, 13, 9, 12);
 		for(int i = 1; i < digits; i++) blit(x + i * 6, y, 41, 13, 6, 12);
@@ -195,6 +196,7 @@ public class IngameGuiOverlay extends AbstractGui {
 		
 		mc.fontRenderer.drawString(number + "", x + 5, y + 3, 0x542409);
 		texmanager.bindTexture(GUI_ICONS);
+		RenderSystem.enableBlend();
 	}
 	
 	private void blit(int x, int y, int texW, int texH) {
@@ -202,6 +204,7 @@ public class IngameGuiOverlay extends AbstractGui {
 	}
 	
 	private void restoreRenderSettings() {
+		RenderSystem.depthMask(true);
 		Minecraft mc = Minecraft.getInstance();
 		TextureManager texmanager = mc.getTextureManager();
 		texmanager.bindTexture(IngameGui.GUI_ICONS_LOCATION);

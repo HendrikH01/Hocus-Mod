@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -8,7 +8,6 @@ import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
-import com.xX_deadbush_Xx.witchcraftmod.common.event.LoadComplete;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MortarRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 
@@ -25,14 +24,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class MortarTile extends BasicItemHolderTile {
-	public int v1 = 0;
-	public int v2 = 0;
-	public int v3 = 0;
-	private Set<Item> possiblerecipeinputs;
-
+	private static Set<Item> possibleRecipeInputs = new HashSet<>();
+	
 	public MortarTile(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn, 1);
-		this.possiblerecipeinputs = LoadComplete.mortarrecipeinputs.stream().map(i -> i.getItem()).collect(Collectors.toSet());
 	}
 	
 	public MortarTile() {
@@ -40,20 +35,36 @@ public class MortarTile extends BasicItemHolderTile {
 	}
 	
 	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {
-		ItemStack heldItem = player.getHeldItemMainhand().copy();
-		heldItem.setCount(1);
-
-		if(!ItemStack.areItemsEqual(heldItem, this.getItem())) {
-			if(this.hasItem()) {
-				if(heldItem.getItem().equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
-				else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
-					ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
-				}
-			}
-			if(possiblerecipeinputs.contains(heldItem.getItem())) {
-				player.getHeldItemMainhand().shrink(1);
-				setItem(heldItem);
-				this.markDirty();
+		ItemStack playerItems = player.getHeldItemMainhand().copy();
+		ItemStack returnedItem = ItemStack.EMPTY;
+		boolean empty = false;
+		
+		if(possibleRecipeInputs.isEmpty()) {
+			possibleRecipeInputs = CraftingHelper.getAllRecipeInputs(ModRecipeTypes.MORTAR_TYPE, world).stream().map(i -> i.getItem()).collect(Collectors.toSet());
+		}
+		
+		if (this.hasItem() || getItem().equals(playerItems)) {
+			returnedItem = this.getItem().copy();
+			empty = true;
+		}
+		
+		if ((!getItem().equals(playerItems) && !empty || !this.hasItem()) && possibleRecipeInputs.contains(playerItems.getItem())) {
+			player.getHeldItemMainhand().shrink(1);
+			playerItems.setCount(1);
+			setItem(playerItems); 
+			this.markDirty();
+		}
+		
+		if(empty) {
+			setItem(ItemStack.EMPTY); 
+			this.markDirty();
+		}
+		
+		if(!returnedItem.isEmpty()) {
+			if (playerItems.isEmpty())
+				player.setHeldItem(Hand.MAIN_HAND, returnedItem);
+			else if (!player.inventory.addItemStackToInventory(returnedItem)) {
+				ItemStackHelper.spawnItem(worldIn, returnedItem, this.pos);
 			}
 		}
 	}
@@ -88,7 +99,7 @@ public class MortarTile extends BasicItemHolderTile {
 	private MortarRecipe getRecipe(ItemStack stack) {
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.MORTAR_TYPE);
+		Set<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.MORTAR_TYPE);
 		for(IRecipe<?> r : recipes) {
 			MortarRecipe recipe = (MortarRecipe) r;
 			if(recipe.matches(new RecipeWrapper(this.inventory), this.world)) {
@@ -112,14 +123,5 @@ public class MortarTile extends BasicItemHolderTile {
 		if(item != null && !item.isEmpty()) {
 			this.setItem(ItemStack.read(item));
 		}
-	}
-
-	public int get1() {
-		return v1;
-	}
-	public int get2() {
-		return v2;
-	}	public int get3() {
-		return v3;
 	}
 }
