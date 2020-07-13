@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
-import java.util.List;
+import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
@@ -84,7 +84,7 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	private DryingRackRecipe getRecipe(ItemStack stack) {
 		if(stack == null) return null;
 		
-		List<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.DRYING_RACK_TYPE);
+		Set<IRecipe<?>> recipes = CraftingHelper.findRecipesByType(ModRecipeTypes.DRYING_RACK_TYPE);
 		for(IRecipe<?> r : recipes) {
 			DryingRackRecipe recipe = (DryingRackRecipe) r;
 			if(recipe.matches(new RecipeWrapper(this.inventory), this.world)) {
