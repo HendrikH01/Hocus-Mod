@@ -3,7 +3,6 @@ package com.xX_deadbush_Xx.witchcraftmod.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.container.BottomLessBagContainer;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.BottomLessBagItem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -28,8 +27,8 @@ public class BottomLessBagScreen extends ContainerScreen<BottomLessBagContainer>
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         this.font.drawString("Count: " + this.container.getAmount(), 10, 10, 4210752);
-        this.itemRenderer.renderItemAndEffectIntoGUI(this.container.getStoredItem(), 81, 35);
-        this.itemRenderer.renderItemOverlayIntoGUI(this.font, this.container.getStoredItem(), 81, 35, "" + this.container.getAmount());
+        //this.itemRenderer.renderItemAndEffectIntoGUI(this.container.getStoredItem(), 81, 35);
+        this.itemRenderer.renderItemOverlayIntoGUI(this.font, this.container.getStoredItem(), 90, 35, "");
     }
 
     @Override

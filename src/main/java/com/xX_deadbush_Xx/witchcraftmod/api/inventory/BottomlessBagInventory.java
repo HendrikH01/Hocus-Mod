@@ -1,11 +1,9 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.inventory;
 
-import javax.annotation.Nonnull;
-
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
-
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandlerModifiable;
+
+import javax.annotation.Nonnull;
 
 public class BottomlessBagInventory implements IItemHandlerModifiable {
 
@@ -19,7 +17,7 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 	}
 
 	public ItemStack getStack() {
-		return this.bagitem;
+		return this.currentStack;
 	}
 
 	/*
@@ -45,7 +43,11 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 	public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
 		this.currentStack = stack;
 		amount = stack.getCount();
-		System.out.println("SET_STACK_IN_SLOT");
+		stack.setCount(1);
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
 	}
 
 	@Override
@@ -59,6 +61,7 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 		if(this.canInsert(stack)) {
 			if(!simulate) this.amount += stack.getCount();
 			System.out.println("INSERT_ITEM");
+			this.currentStack.setCount(1);
 			return ItemStack.EMPTY;
 		} else return stack;
 	}
@@ -70,9 +73,12 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 	@Nonnull
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
+		if(this.amount == 0) return ItemStack.EMPTY;
 		if (this.amount > amount) {
 			if(!simulate) this.amount -= amount;
-			return ItemStack.EMPTY;
+			ItemStack out = currentStack.copy();
+			out.setCount(64);
+			return out;
 		} else {
 			ItemStack out = currentStack.copy();
 			out.setCount(amount - this.amount);
