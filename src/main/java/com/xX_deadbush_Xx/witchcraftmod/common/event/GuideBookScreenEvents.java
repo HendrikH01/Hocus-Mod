@@ -5,6 +5,8 @@ import java.util.List;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.CoverButton;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookScreen;
+import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.NextButton;
+import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.PreviousButton;
 
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraftforge.api.distmarker.Dist;
@@ -30,6 +32,11 @@ public class GuideBookScreenEvents {
 				if (x >= widthIn && x < widthIn + width && y >= heightIn && y < heightIn + height) {
 					if (button instanceof CoverButton) {
 						((CoverButton) button).onPress();
+					} else if(button instanceof NextButton) {
+						((NextButton) button).onPress();
+					}
+					else if(button instanceof PreviousButton) {
+						((PreviousButton) button).onPress();
 					}
 				}
 			}
