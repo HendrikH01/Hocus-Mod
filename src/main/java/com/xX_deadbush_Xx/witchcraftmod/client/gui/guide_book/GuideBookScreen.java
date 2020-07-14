@@ -134,5 +134,4 @@ public class GuideBookScreen extends Screen {
 	public List<Widget> getButtons() {
 		return this.buttons;
 	}
-	
 }

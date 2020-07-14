@@ -66,20 +66,33 @@ public abstract class AbstractRitualCore extends BasicItemHolderTile implements 
 
 	public void swapItems(World worldIn, PlayerEntity player) {
 		ItemStack playerItems = player.getHeldItemMainhand().copy();
-		playerItems.setCount(1);
-		Item heldItem = playerItems.getItem();
-
-		if(!getItem().getItem().equals(heldItem)) {
-			player.getHeldItemMainhand().shrink(1);
-			if(this.hasItem()) {
-				if(heldItem.equals(Items.AIR)) player.setHeldItem(Hand.MAIN_HAND, this.getItem());
-				else if(!player.inventory.addItemStackToInventory(this.getItem())) { 
-					ItemStackHelper.spawnItem(worldIn, this.getItem(), this.pos);
-				}
-			}
-			setItem(playerItems);
+		ItemStack returnedItem = ItemStack.EMPTY;
+		boolean empty = false;
+		
+		if (this.hasItem() || getItem().equals(playerItems)) {
+			returnedItem = this.getItem().copy();
+			empty = true;
 		}
-		this.markDirty();
+		
+		if ((!getItem().equals(playerItems) && !empty || !this.hasItem()) && !playerItems.isEmpty()) {
+			player.getHeldItemMainhand().shrink(1);
+			playerItems.setCount(1);
+			setItem(playerItems); 
+			this.markDirty();
+		}
+		
+		if(empty) {
+			setItem(ItemStack.EMPTY); 
+			this.markDirty();
+		}
+		
+		if(!returnedItem.isEmpty()) {
+			if (playerItems.isEmpty())
+				player.setHeldItem(Hand.MAIN_HAND, returnedItem);
+			else if (!player.inventory.addItemStackToInventory(returnedItem)) {
+				ItemStackHelper.spawnItem(worldIn, returnedItem, this.pos);
+			}
+		}
 	}
 	
 	public ItemStack getItem() {
