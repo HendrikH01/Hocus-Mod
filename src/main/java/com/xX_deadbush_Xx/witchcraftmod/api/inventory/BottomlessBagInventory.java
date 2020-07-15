@@ -67,22 +67,24 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 	}
 
 	private boolean canInsert(ItemStack stack) {
-		return this.currentStack.isEmpty() || this.amount == 0 || stack.equals(this.currentStack);
+		return this.currentStack.isEmpty() || this.amount == 0 || stack.isItemEqual(this.currentStack);
 	}
 
 	@Nonnull
 	@Override
 	public ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if(this.amount == 0) return ItemStack.EMPTY;
-		if (this.amount > amount) {
+		if (this.amount >= amount) {
 			if(!simulate) this.amount -= amount;
 			ItemStack out = currentStack.copy();
 			out.setCount(64);
+			if(this.amount == 0)
+				this.currentStack = ItemStack.EMPTY;
 			return out;
 		} else {
 			ItemStack out = currentStack.copy();
-			out.setCount(amount - this.amount);
+			out.setCount(this.amount);
 			if(!simulate) this.amount = 0;
+			this.currentStack = ItemStack.EMPTY;
 			return out;
 		}
 	}

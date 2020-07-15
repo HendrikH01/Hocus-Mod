@@ -2,14 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.WitchcraftItemGroup;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.BloodPhial;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.FireWand;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.LightningRod;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.MagicChalk;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.SacrificeKnife;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.ThunderStaff;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.*;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -40,5 +33,6 @@ public class ModItems {
 	public static final RegistryObject<Item> FIRE_WAND = ITEMS.register("fire_wand", () -> new FireWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> WEAK_ENERGY_CRYSTAL = ITEMS.register("weak_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 500));
 	public static final RegistryObject<Item> ADVANCED_ENERGY_CRYSTAL = ITEMS.register("advanced_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 50000));
+	public static final RegistryObject<Item> BOTTOMLESS_BAG = ITEMS.register("bottomless_bag", () -> new BottomLessBagItem(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 
 }

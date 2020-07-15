@@ -52,17 +52,19 @@ public class BottomLessBagContainer extends Container {
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         final Slot slot = inventorySlots.get(index);
+        System.out.println("INDEX: " + index);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            bagInventory.setStackInSlot(0, itemstack1.copy());
             if (index < 1) {
-
-                if (!this.mergeItemStack(itemstack1, 1, this.inventorySlots.size(), true)) {
+                System.out.println("DEBUG_1");
+                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
+                System.out.println("DEBUG_2");
             } else if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+                System.out.println("DEBUG_3");
                 return ItemStack.EMPTY;
             }
 
@@ -80,53 +82,30 @@ public class BottomLessBagContainer extends Container {
         bagInventory.insertItem(0, stack, false);
     }
 
-    //Return the item who is draged
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, PlayerEntity player) {
-        //This is what needs to be worked on next. Determine what items should be given to the player and what should remain in the slot for every clickType. Im not sure what the method is supposed to return.
-
-        if(slotId == 0) {
+        if (slotId == 0) {
             BottomlessBagSlot slot = (BottomlessBagSlot) this.inventorySlots.get(slotId);
-            if(slot.getHasStack()) {
-                ItemStack dragged = super.slotClick(slotId, dragType, clickType, player);
-                if(dragged.isEmpty()) {
-                    return bagInventory.extractItem(slotId, 64, false);
+            ItemStack dragged = player.inventory.getItemStack();
+            if (slot.getHasStack()) {
+                System.out.println("DRAGGED: " + dragged.toString());
+                if (dragged.isEmpty()) {
+                    //EXTRACT A ITEM
+                    ItemStack ex = bagInventory.extractItem(0, 64, false);
+                    System.out.println("EXTRACT: " + ex.toString());
+                    player.inventory.setItemStack(ex);
+                    return ex.copy();
                 } else {
-                    return bagInventory.insertItem(slotId, dragged, false);
+                    //INSERT A ITEM
+                    slot.getItemHandler().insertItem(0, dragged, false);
+                    System.out.println("INSERT: " + dragged.toString());
+                    player.inventory.setItemStack(ItemStack.EMPTY);
+                    return ItemStack.EMPTY;
                 }
-                /*int amount = bagInventory.getActuallyStack();
-                if(amount > 64) {
-                    ItemStack res = this.bagInventory.extractItem(slotId, 64, false);
-                    return this.bagInventory.extractItem(slotId, 64, false);
-                }*/
-
+            } else {
+                return super.slotClick(slotId, dragType, clickType, player);
             }
-            System.out.println("DEBUG_3");
-            //slot.onSlotChange(ItemStack.EMPTY, super.slotClick(slotId, dragType, clickType, player));
-            //return ItemStack.EMPTY;
         }
-        /*if (slotId == 0) {
-            Slot slot = this.inventorySlots.get(slotId);
-            ItemStack currentStack = slot.getStack(); //Stack IN slot
-            ItemStack clicked = super.slotClick(slotId, dragType, clickType, player); //Clicked Stack
-            if(clickType == ClickType.PICKUP) {
-                if(clicked.isEmpty()) {
-                    System.out.println("DEBUG_1");
-                } else {
-                    System.out.println("DEBUG_2");
-                }
-                //System.out.println("DEBUG_3: " + super.slotClick(slotId, dragType, clickType, player));
-                //System.out.println("DEBUG_4: " + clicked.toString());
-                return ItemStack.EMPTY;
-            }
-        } else {
-            if(clickType == ClickType.PICKUP) {
-                //Pickup auserhalb des Slots
-                ItemStack clicked = super.slotClick(slotId, dragType, clickType, player);
-                System.out.println("CLICKED: " + clicked.toString());
-                return clicked;
-            }
-        }*/
         return super.slotClick(slotId, dragType, clickType, player);
     }
 
