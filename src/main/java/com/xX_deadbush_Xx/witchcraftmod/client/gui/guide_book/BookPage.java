@@ -4,38 +4,36 @@ import net.minecraft.util.ResourceLocation;
 
 public class BookPage {
 
-	private String content;
 	private int page;
-	private ResourceLocation image;
+	private boolean isFull = false;
 	
-	public BookPage(String content, int page, ResourceLocation image) {
-		this.content = content;
+	public BookPage(int page) {
 		this.page = page;
-		this.image = image;
-	}
-	
-	public String getContent() {
-		return this.content;
 	}
 	
 	public int getPage() {
 		return this.page;
 	}
 	
-	public ResourceLocation getImage() {
-		return this.image;
+	public boolean isFull() {
+		return this.isFull;
 	}
 	
-	public void setContent(String content) {
-		this.content = content;
+	public void addImage(ResourceLocation image) {
 	}
 	
-	public void setPage(int page) {
-		this.page = page;
+	public void addParagraph(String paragraph) {
 	}
-	
-	public void setImage(ResourceLocation image) {
-		this.image = image;
+
+	public boolean checkIfFullWithParagraph(String content) {
+		return false;
+	}
+
+	public String splitParagraphToFitAndGetLeftovers(String content) {
+		return null;
+	}
+
+	public void addTitle(String title) {
 	}
 	
 }

@@ -27,7 +27,7 @@ public class GuideBookScreen extends Screen {
 	public static final int ARROW_WIDTH = 18;
 	public static final int ARROW_HEIGHT = 10;
 	public int currentPage = 0;
-	public int pages = 2;
+	public int pages = 1;
 	public CoverButton coverButton;
 	public NextButton next;
 	public PreviousButton previous;
