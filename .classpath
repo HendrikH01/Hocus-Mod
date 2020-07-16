@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry output="bin/main" kind="src" path="src/main/java">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
@@ -36,6 +35,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Witchcraft-Mod2\build\natives"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
 	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.0.3_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.0.3_mapped_snapshot_20200617-1.15.1-api.jar">
 		<attributes>

@@ -9,6 +9,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.items.LightningRod;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagicChalk;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.SacrificeKnife;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.WaterWalkingTalisman;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ThunderStaff;
 
 import net.minecraft.item.Item;
@@ -40,5 +41,6 @@ public class ModItems {
 	public static final RegistryObject<Item> FIRE_WAND = ITEMS.register("fire_wand", () -> new FireWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> WEAK_ENERGY_CRYSTAL = ITEMS.register("weak_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 500));
 	public static final RegistryObject<Item> ADVANCED_ENERGY_CRYSTAL = ITEMS.register("advanced_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 50000));
+	public static final RegistryObject<Item> WATER_WALKING_TALISMAN = ITEMS.register("water_walking_talisman", () -> new WaterWalkingTalisman(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 
 }
