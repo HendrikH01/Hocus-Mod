@@ -22,7 +22,7 @@ public class GuideBook extends Item{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		if(worldIn.isRemote) {
-			Minecraft.getInstance().displayGuiScreen(GuideBookScreen.SCREEN); 
+			Minecraft.getInstance().displayGuiScreen(GuideBookScreen.INSTANCE); 
 		}
 		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
