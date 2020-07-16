@@ -38,12 +38,15 @@ public abstract class TalismanItem extends Item {
 
 
 	public int tick(int totalEnergy, ItemStack stack, PlayerEntity player, LogicalSide side) {
-		if(this.getTickInterval() <= 0) return 0;
-		int tick = TalismanItem.readTickCounter(stack);
+		int interval = this.getTickInterval();
+		if(interval <= 0) return 0;
+		
+		int tick = TalismanItem.readTickCounter(stack) - 1;
 		if(tick > 0) {
-			TalismanItem.writeTickCounter(stack, --tick);
+			TalismanItem.writeTickCounter(stack, tick);
 		} else {
-			if(this.effectTick(stack, player, side)) return this.getManaCostPerTick();
+			TalismanItem.writeTickCounter(stack, interval);
+			if(this.effectTick(stack, player, side) && interval != 1) return this.getManaCostPerTick();
 		}
 		
 		return 0;

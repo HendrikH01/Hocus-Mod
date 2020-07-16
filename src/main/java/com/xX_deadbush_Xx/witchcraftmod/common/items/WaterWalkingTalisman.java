@@ -31,6 +31,7 @@ public class WaterWalkingTalisman extends TalismanItem {
 
 	@Override
 	protected boolean effectTick(ItemStack stack, PlayerEntity player, LogicalSide side) {
+
 		if(player.isInWater() && !player.isSneaking()) {
 			player.onGround = true;
 			double distancetosurface = player.getSubmergedHeight();
@@ -49,12 +50,7 @@ public class WaterWalkingTalisman extends TalismanItem {
 			if(side == LogicalSide.SERVER) return true;
 			//view bobbing and particles
 			
-			float f = 0;
-			if (player.onGround && !(player.getHealth() <= 0.0F) && !player.isSwimming()) {
-				f = Math.min(0.1F, MathHelper.sqrt(Entity.horizontalMag(player.getMotion())));
-			}
-			 
-			if(player.distanceWalkedModified - player.prevDistanceWalkedModified > 0.1) {
+			if(player.distanceWalkedModified - player.prevDistanceWalkedModified > 0.02) {
 				Vec3d splashmotion = player.getMotion().inverse().add(0, 0.1, 0);
 				Random rand = new Random();
 				
@@ -66,9 +62,14 @@ public class WaterWalkingTalisman extends TalismanItem {
 				}
 			}
 			
-			player.cameraYaw += player.cameraYaw*0.4; //reset
+			float f = 0;
+			if (player.onGround && !(player.getHealth() <= 0.0F) && !player.isSwimming()) {
+				f = Math.min(0.1F, MathHelper.sqrt(Entity.horizontalMag(player.getMotion())));
+			}
+
+			player.cameraYaw = player.prevCameraYaw; //reset
 			player.cameraYaw += (f - player.cameraYaw) * 0.4F;
-			
+
 			return true;
 		} else return false;
 	}
