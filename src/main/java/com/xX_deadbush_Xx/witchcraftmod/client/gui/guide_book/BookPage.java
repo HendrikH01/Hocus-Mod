@@ -13,10 +13,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
+@OnlyIn(Dist.CLIENT)
 public class BookPage {
 	
-	private List<ITextComponent> paragraphs = Lists.newArrayList();
+	private List<TextLine> lines = Lists.newArrayList();
 	private List<BookImage> images = Lists.newArrayList();
 	private ITextComponent title;
 	
@@ -55,8 +58,6 @@ public class BookPage {
 	public class Builder {
 		//TODO Crafting recipes
 		private List<ITextComponent> paragraphs = Lists.newArrayList();
-		private List<BookImage> images = Lists.newArrayList();
-		private ITextComponent title;
 		
 		/**
 		 * Texture must be on a 256x256 sheet
@@ -85,15 +86,12 @@ public class BookPage {
 		}
 
 		public Builder setTitle(ITextComponent title) {
-			this.title = title;
+			BookPage.this.title = title;
 			return this;
 		}
 
-		public BookPage build(int pagenum) {
-			BookPage page = new BookPage(pagenum);
+		public void build() {
 			//Format and add to page
-			
-			return page;
 		}
 	}
 	

@@ -41,8 +41,8 @@ public class GuideBookScreen extends Screen {
 		this(getDefaultName());
 	}
 	
-	public static void loadBookContent() {
-		content = new GuideBookContent();
+	public void setContent(GuideBookContent content) {
+		GuideBookScreen.content = content;
 	}
 	
 	@Override
