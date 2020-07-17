@@ -50,22 +50,17 @@ public class BottomLessBagContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        final Slot slot = inventorySlots.get(index);
-        System.out.println("INDEX: " + index);
+        /*ItemStack itemstack = ItemStack.EMPTY;
+        Slot slot = inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
             if (index < 1) {
-                System.out.println("DEBUG_1");
                 if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
+                } else if(!this.mergeItemStack(itemstack1, 1, 0, true)) {
+                    return ItemStack.EMPTY;
                 }
-                System.out.println("DEBUG_2");
-            } else if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-                System.out.println("DEBUG_3");
-                return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
@@ -73,9 +68,46 @@ public class BottomLessBagContainer extends Container {
             } else {
                 slot.onSlotChanged();
             }
+        }*/
+        Slot slot = this.inventorySlots.get(index);
+        if(index == 0) {
+            //Inside the bag
+            //Extract a item
+            ItemStack toExtract = bagInventory.extractItem(0, 64, false);
+            System.out.println("DEBUG_1");
+            if(!this.mergeItemStack(toExtract, 1, playerIn.inventory.mainInventory.size(), true)) {
+                System.out.println("DEBUG_2");
+                return ItemStack.EMPTY;
+            }
+            System.out.println("DEBUG_3");
+        } else {
+            //Outside from the bag
+            //Insert a item
+            ItemStack itemstack = slot.getStack();
+            System.out.println("DEBUG_4: ");
+            if (!itemstack.isEmpty()) {
+                if( bagInventory.getStack().isEmpty()) {
+                    bagInventory.insertItem(0, itemstack, false);
+                    itemstack.setCount(1);
+                    slot.putStack(ItemStack.EMPTY);
+                    this.inventorySlots.get(0).putStack(itemstack);
+                    itemstack.setCount(0);
+                    System.out.println("DEBUG_6");
+                    return ItemStack.EMPTY;
+                } else if(itemstack.isItemEqual(bagInventory.getStack())) {
+                    bagInventory.insertItem(0, itemstack, false);
+                    itemstack.setCount(0);
+                    slot.putStack(ItemStack.EMPTY);
+                    System.out.println("DEBUG_7");
+                    return ItemStack.EMPTY;
+                }
+            }
+            System.out.println("DEBUG_8");
         }
-        return itemstack;
+
+        return ItemStack.EMPTY;
     }
+
 
     @Override
     public void putStackInSlot(int slotID, ItemStack stack) {
@@ -88,17 +120,14 @@ public class BottomLessBagContainer extends Container {
             BottomlessBagSlot slot = (BottomlessBagSlot) this.inventorySlots.get(slotId);
             ItemStack dragged = player.inventory.getItemStack();
             if (slot.getHasStack()) {
-                System.out.println("DRAGGED: " + dragged.toString());
                 if (dragged.isEmpty()) {
                     //EXTRACT A ITEM
                     ItemStack ex = bagInventory.extractItem(0, 64, false);
-                    System.out.println("EXTRACT: " + ex.toString());
                     player.inventory.setItemStack(ex);
                     return ex.copy();
                 } else {
                     //INSERT A ITEM
                     slot.getItemHandler().insertItem(0, dragged, false);
-                    System.out.println("INSERT: " + dragged.toString());
                     player.inventory.setItemStack(ItemStack.EMPTY);
                     return ItemStack.EMPTY;
                 }

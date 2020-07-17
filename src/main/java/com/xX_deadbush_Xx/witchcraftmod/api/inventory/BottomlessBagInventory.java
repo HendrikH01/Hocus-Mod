@@ -59,9 +59,11 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 	@Override
 	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
 		if(this.canInsert(stack)) {
+			if(this.amount == 0)
+				this.currentStack = stack;
 			if(!simulate) this.amount += stack.getCount();
-			System.out.println("INSERT_ITEM");
 			this.currentStack.setCount(1);
+			System.out.println("INSERT_ITEM");
 			return ItemStack.EMPTY;
 		} else return stack;
 	}

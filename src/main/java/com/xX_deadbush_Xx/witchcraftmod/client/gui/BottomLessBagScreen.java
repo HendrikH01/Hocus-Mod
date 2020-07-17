@@ -26,7 +26,8 @@ public class BottomLessBagScreen extends ContainerScreen<BottomLessBagContainer>
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.font.drawString("Count: " + this.container.getAmount(), 10, 10, 4210752);
+        String count = "Count: " + this.container.getAmount();
+        this.font.drawString(count, this.xSize / 2 - this.font.getStringWidth(count) / 2, 60, 4210752);
         //this.itemRenderer.renderItemAndEffectIntoGUI(this.container.getStoredItem(), 81, 35);
         this.itemRenderer.renderItemOverlayIntoGUI(this.font, this.container.getStoredItem(), 90, 35, "");
     }
