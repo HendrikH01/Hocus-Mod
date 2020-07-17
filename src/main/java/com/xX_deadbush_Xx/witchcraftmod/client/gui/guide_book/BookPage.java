@@ -11,6 +11,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,9 +20,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class BookPage {
 	
-	private List<TextLine> lines = Lists.newArrayList();
+	private List<TextParagraph> textParagraphs = Lists.newArrayList();
 	private List<BookImage> images = Lists.newArrayList();
 	private ITextComponent title;
+	private boolean isFirstPage = false;
 	
 	private int pagenumber;
 	private boolean isFull = false;
@@ -40,7 +42,12 @@ public class BookPage {
 	}
 	
 	public void drawPage() {
-		
+		for(TextParagraph txt : textParagraphs) {
+			txt.draw();
+		}
+		for(BookImage image : images) {
+			image.blit();
+		}
 	}
 	
 	
@@ -63,6 +70,7 @@ public class BookPage {
 		 * Texture must be on a 256x256 sheet
 		 */
 		public Builder addImage(ResourceLocation image, int x, int y, int textureX, int textureY, int textureWidth, int textureHeight) {
+			images.add(new BookImage(image, x, y, textureX, textureY, textureWidth, textureHeight));
 			return this;
 		}
 
@@ -89,10 +97,75 @@ public class BookPage {
 			BookPage.this.title = title;
 			return this;
 		}
-
-		public void build() {
-			//Format and add to page
+		
+		public Builder isFirstPage() {
+			BookPage.this.isFirstPage = true;
+			return this;
 		}
+
+		public void build(Side side) {
+			//Format and add to page
+			
+			// Offsets based on Minecraft window dimensions
+			int OffsetX = (GuideBookScreen.INSTANCE.width)/ 2 - GuideBookScreen.PAGE_WIDTH;
+			int OffsetY = (GuideBookScreen.INSTANCE.height - GuideBookScreen.PAGE_HEIGHT) / 2 + 16;
+			
+			// Offsets based on the page
+			int leftPageOffset = 16;
+			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
+			
+			// TODO limit of the line
+			int wrapWidth = 120;
+			
+			// Starting positions of the lines
+			int startingX = 0;
+			int startingY = 0;
+			
+			// Turn paragraphs into lines
+			for(ITextComponent textComponent : paragraphs) {	
+				wrapWidth = 120;
+				startingX = 0;
+				String text = paragraphs.get(0).getFormattedText();
+				
+				if(!images.isEmpty()) {
+					for(BookImage image : images) {
+						if(image.getY() + image.getHeight() >= startingY) {
+							if(image.getX() + image.getWidth() + 2 > wrapWidth * 3 / 4) {
+								if(image.getX() <= wrapWidth - (image.getX() + image.getWidth() + 2)) {
+									startingX = image.getX() + image.getWidth() + 2;
+									wrapWidth -= startingX; 
+								} else {
+									wrapWidth -= image.getX() + image.getWidth() + 2;
+								}
+							}
+						}
+					}
+				}
+				
+				// Checks in how many lines will be drawn and set the offset accordingly
+				List<String> list = this.listFormattedStringToWidth(text, wrapWidth);
+				int newOffsetY = 0;
+				for(String s : list) {
+					newOffsetY += 9;
+				}
+			
+				if(side == Side.LEFT)
+					textParagraphs.add(new TextParagraph(new StringTextComponent("Text"), startingX + OffsetX + leftPageOffset, startingY + OffsetY));
+				else textParagraphs.add(new TextParagraph(new StringTextComponent("Text"), startingX + OffsetX + rightPageOffset, startingY + OffsetY));
+				
+				startingY = newOffsetY + 9;
+			}
+		}
+		
+		private List<String> listFormattedStringToWidth(String str, int wrapWidth) {
+			while(str != null && str.endsWith("\n")) {
+				str = str.substring(0, str.length() - 1);
+		    }
+			List<String> list = fontrenderer.listFormattedStringToWidth(str, wrapWidth);
+			return list;
+		}
+		
+		
 	}
 	
 	private static class BookImage {
@@ -125,21 +198,35 @@ public class BookPage {
 		public int getHeight() {
 			return this.textureHeight;
 		}
+		
+		public int getX() {
+			return this.x;
+		}
+		
+		public int getY() {
+			return this.y;
+		}
 	}
 	
-	private static class TextLine {
+	private static class TextParagraph {
 		private ITextComponent text;
 		private int startingCoordinateX;
-		private int lineNumber;
+		private int startingCoordinateY;
 		
-		public TextLine(ITextComponent text, int lineNumber, int x) {
+		public TextParagraph(ITextComponent text, int x, int y) {
 			this.startingCoordinateX = x;
-			this.lineNumber = lineNumber;
+			this.startingCoordinateY = y;
 			this.text = text;
 		}
 		
 		public void draw() {
-			//fontrenderer.drawString(text.getFormattedText(), startingCoordinateX + OFFSETX, lineNumber*WIDTH + OFFSETY, text.getStyle().getColor());
+			fontrenderer.drawSplitString(text.getFormattedText(), startingCoordinateX, startingCoordinateY, 120,text.getStyle().getColor().getColorIndex());
 		}
 	}
+	
+	enum Side{
+		LEFT,
+		RIGHT
+	}
+	
 }

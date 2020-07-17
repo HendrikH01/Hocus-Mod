@@ -27,7 +27,7 @@ public class GuideBookScreen extends Screen {
 	public static final int ARROW_HEIGHT = 10;
 	private int currentPage = 0;
 	private static GuideBookContent content;
-	private CoverButton coverButton;
+	private CoverButton coverButton; 
 	private NextButton next;
 	private PreviousButton previous;
 	
@@ -57,20 +57,21 @@ public class GuideBookScreen extends Screen {
 	@Override
 	public void init() {
 		super.init();
-		
+		System.out.println(this.width);
+		System.out.println(Minecraft.getInstance().getMainWindow().getWidth());
 		coverButton = new CoverButton((this.width - PAGE_WIDTH) / 2, (this.height - PAGE_HEIGHT) / 2, PAGE_WIDTH, PAGE_HEIGHT, I18n.format(""), (button) -> {
 				currentPage = 1;
 				updateButtons();
 		});
 		
-		next = new NextButton((this.width) / 2 + PAGE_WIDTH - ARROW_WIDTH - 25, (this.height) / 2 + 67, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
+		next = new NextButton((this.width) / 2 + PAGE_WIDTH - ARROW_WIDTH - 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
 					if (getNumberOfPages() > currentPage) {
 						currentPage += 1;
 						updateButtons();
 					}
 				});
 
-		previous = new PreviousButton((this.width) / 2 - PAGE_WIDTH + 25, (this.height) / 2 + 67, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
+		previous = new PreviousButton((this.width) / 2 - PAGE_WIDTH + 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
 					if (currentPage > 0) {
 						currentPage -= 1;
 						updateButtons();
@@ -124,7 +125,7 @@ public class GuideBookScreen extends Screen {
 			}
 			AbstractGui.blit((this.width) / 2, (this.height - PAGE_HEIGHT) / 2, 0, PAGE_WIDTH, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
 		}
-		
+		Minecraft.getInstance().fontRenderer.drawSplitString("ABCDEFGHIJKLMNOPQRSTUWfsadkfasdbkfsadkuhsdfaiukfsdhaiusdfahuihfasdliuhgsafdiuhsfdaldshafulkihaksjdhfdsajnbvkjxcxzcv", (this.width)/2 - PAGE_WIDTH + 16, (this.height - PAGE_HEIGHT)/2 + 16, 120, 0);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 	
