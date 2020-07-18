@@ -18,7 +18,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class GuideBookScreen extends Screen {
 
-	
 	public static final ResourceLocation TEXTURES_SHEET = new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/witch_guide_book.png");
 	public static final int SHEET_WIDTH = 512;
 	public static final int SHEET_HEIGHT = 512;
@@ -26,13 +25,13 @@ public class GuideBookScreen extends Screen {
 	public static final int PAGE_HEIGHT = 182;
 	public static final int ARROW_WIDTH = 18;
 	public static final int ARROW_HEIGHT = 10;
-	public int currentPage = 0;
-	public int pages = 2;
-	public CoverButton coverButton;
-	public NextButton next;
-	public PreviousButton previous;
+	private int currentPage = 0;
+	private static GuideBookContent content;
+	private CoverButton coverButton; 
+	private NextButton next;
+	private PreviousButton previous;
 	
-	public static final GuideBookScreen SCREEN = new GuideBookScreen();
+	public static final GuideBookScreen INSTANCE = new GuideBookScreen();
 	
 	protected GuideBookScreen(ITextComponent titleIn) {
 		super(titleIn);
@@ -42,46 +41,64 @@ public class GuideBookScreen extends Screen {
 		this(getDefaultName());
 	}
 	
+	public void setContent(GuideBookContent content) {
+		GuideBookScreen.content = content;
+	}
+	
 	@Override
 	public boolean isPauseScreen() {
 		return false;
 	}
 	
+	public int getNumberOfPages() {
+		return content.getNumberOfPages();
+	}
+	
 	@Override
 	public void init() {
 		super.init();
-		
-		coverButton = new CoverButton((this.width - PAGE_WIDTH) / 2, (this.height - PAGE_HEIGHT) / 2, PAGE_WIDTH, PAGE_HEIGHT, I18n.format("")){
-			@Override
-			public void onPress() {
+		System.out.println(this.width);
+		System.out.println(Minecraft.getInstance().getMainWindow().getWidth());
+		coverButton = new CoverButton((this.width - PAGE_WIDTH) / 2, (this.height - PAGE_HEIGHT) / 2, PAGE_WIDTH, PAGE_HEIGHT, I18n.format(""), (button) -> {
 				currentPage = 1;
-			}
-		};
+				updateButtons();
+		});
 		
-		next = new NextButton((this.width) / 2 + PAGE_WIDTH - ARROW_WIDTH - 25, (this.height) / 2 + 67, ARROW_WIDTH, ARROW_HEIGHT, I18n.format("")) {
-			@Override
-			public void onPress() {
-				if(pages <= currentPage + 1)
-				currentPage += 1;
-			}
-		};
-		
-		previous = new PreviousButton((this.width) / 2 - PAGE_WIDTH + 25, (this.height) / 2 + 67, ARROW_WIDTH, ARROW_HEIGHT, I18n.format("")) {
-			@Override
-			public void onPress() {
-				if(currentPage - 1 > 0)
-				currentPage -= 1;
-			}
-		};
-		
-		buttons.clear();
-		buttons.add(coverButton);
-		
-		this.addButtons();
+		next = new NextButton((this.width) / 2 + PAGE_WIDTH - ARROW_WIDTH - 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
+					if (getNumberOfPages() > currentPage) {
+						currentPage += 1;
+						updateButtons();
+					}
+				});
+
+		previous = new PreviousButton((this.width) / 2 - PAGE_WIDTH + 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
+					if (currentPage > 0) {
+						currentPage -= 1;
+						updateButtons();
+					}
+				});
+
+		updateButtons();
 	}
 	
 	public void addButtons() {
 		// TO-DO add buttons
+	}
+	
+	private void updateButtons() {
+		this.buttons.clear();
+		
+		if (currentPage == 0) {
+			this.addButton(coverButton);
+		} else {
+			if (currentPage > 0 && currentPage < getNumberOfPages()) {
+				this.addButton(next);
+			}
+			
+			if (currentPage > 1 && currentPage <= getNumberOfPages()) {
+				this.addButton(previous);
+			}
+		}
 	}
 	
 	@Override
@@ -93,20 +110,7 @@ public class GuideBookScreen extends Screen {
 	@Override
 	public void tick() {
 		super.tick();
-		
-		if(currentPage > 0 && buttons.contains(coverButton)) {
-			buttons.remove(coverButton);
-			}
-		if(currentPage > 0 && currentPage < pages && !buttons.contains(next)) {
-			buttons.add(next);
-		} else if((currentPage == 0 || currentPage == pages) && buttons.contains(next)){
-			buttons.remove(next);
-		}
-		if(currentPage > 1 && currentPage <= pages && !buttons.contains(previous)) {
-			buttons.add(previous);
-		} else if((currentPage == 0 || currentPage == 1) && buttons.contains(previous)){
-			buttons.remove(previous);
-		}
+		//moved button calculations to updateButtons()
 	}
 	
 	@Override
@@ -121,14 +125,14 @@ public class GuideBookScreen extends Screen {
 			}
 			AbstractGui.blit((this.width) / 2, (this.height - PAGE_HEIGHT) / 2, 0, PAGE_WIDTH, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
 		}
-		
+		Minecraft.getInstance().fontRenderer.drawSplitString("ABCDEFGHIJKLMNOPQRSTUWfsadkfasdbkfsadkuhsdfaiukfsdhaiusdfahuihfasdliuhgsafdiuhsfdaldshafulkihaksjdhfdsajnbvkjxcxzcv", (this.width)/2 - PAGE_WIDTH + 16, (this.height - PAGE_HEIGHT)/2 + 16, 120, 0);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 	
 	// FOR INITIALIZATION ONLY
 	
 	private static ITextComponent getDefaultName() {
-		return new TranslationTextComponent("GuideBook");
+		return new TranslationTextComponent(WitchcraftMod.MOD_ID + ".guidebook.title");
 	}
 	
 	public List<Widget> getButtons() {

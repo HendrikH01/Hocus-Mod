@@ -2,22 +2,24 @@ package com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.widget.Widget;
+import net.minecraft.client.gui.widget.button.Button;
 
-public class CoverButton extends Widget {
-	
-	
-	public CoverButton(int xIn, int yIn, int widthIn, int heightIn, String msg) {
-		super(xIn, yIn, widthIn, heightIn, msg);
+public class CoverButton extends Button {
+
+	public CoverButton(int widthIn, int heightIn, int width, int height, String text, IPressable onPress) {
+		super(widthIn, heightIn, width, height, text, onPress);
+	}
+
+	@Override
+	public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
+		Minecraft minecraft = Minecraft.getInstance();
+		minecraft.getTextureManager().bindTexture(GuideBookScreen.TEXTURES_SHEET);
+		AbstractGui.blit(this.x, this.y, 0, 310, 0, this.width, this.height, GuideBookScreen.SHEET_HEIGHT, GuideBookScreen.SHEET_WIDTH);
 	}
 	
 	@Override
-	   public void renderButton(int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
-	      Minecraft minecraft = Minecraft.getInstance();
-	      minecraft.getTextureManager().bindTexture(GuideBookScreen.TEXTURES_SHEET);
-	      AbstractGui.blit(this.x, this.y, 0, 310, 0, this.width, this.height, GuideBookScreen.SHEET_HEIGHT, GuideBookScreen.SHEET_WIDTH);
-	      }
-	
-	public void onPress() {
+	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
+		System.out.println("yeet");
+		return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
 	}
 }

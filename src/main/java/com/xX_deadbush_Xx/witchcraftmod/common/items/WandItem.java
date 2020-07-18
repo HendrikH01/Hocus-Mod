@@ -26,7 +26,7 @@ public abstract class WandItem extends Item implements IWandItem {
 
 		if (storage == null)
 			return ActionResult.resultPass(wand);
-		if (storage.getEnergy() < energyneeded)
+		if (storage.getEnergy() <= energyneeded)
 			return ActionResult.resultPass(wand);
 
 		ActionResult<ItemStack> result = onWandUse(worldIn, playerIn, handIn, wand);

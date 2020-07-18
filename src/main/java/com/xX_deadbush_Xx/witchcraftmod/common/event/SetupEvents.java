@@ -5,6 +5,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RenderHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.ModColorHandler;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.BottomLessBagScreen;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.ToolTableScreen;
+import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookContent;
 import com.xX_deadbush_Xx.witchcraftmod.client.models.model_loaders.GlowingModelLoader;
 import com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities.DryingRackRenderer;
 import com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities.MortarRenderer;
@@ -48,6 +49,7 @@ public class SetupEvents {
     	RitualStoneRenderer.register();
     	RitualPedestalRenderer.register();
     	
+    	GuideBookContent.loadBookContent();
     	ScreenManager.registerFactory(ModContainers.TOOL_TABLE.get(), ToolTableScreen::new);
     	ScreenManager.registerFactory(ModContainers.BOTTOM_LESS_BAG.get(), BottomLessBagScreen::new);
 	}
