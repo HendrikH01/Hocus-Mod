@@ -2,6 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.ExtraItemSlot;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ContainerHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
@@ -12,12 +13,10 @@ import net.minecraft.inventory.container.ClickType;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class CrystalRechargerContainer extends Container {
@@ -25,20 +24,18 @@ public class CrystalRechargerContainer extends Container {
     private IItemHandlerModifiable inventory;
     private final IWorldPosCallable canInteractWithCallable;
     private CrystalRechargerTile tile;
-    private int burnTime;
 
     public CrystalRechargerContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
-        this(windowId, playerInventory, ContainerHelper.getTileEntity(CrystalRechargerTile.class, playerInventory, data), 0);
+        this(windowId, playerInventory, ContainerHelper.getTileEntity(CrystalRechargerTile.class, playerInventory, data));
     }
 
-    public CrystalRechargerContainer(int id, PlayerInventory playerinv, CrystalRechargerTile tile, int burnTime) {
+    public CrystalRechargerContainer(int id, PlayerInventory playerinv, CrystalRechargerTile tile) {
         super(ModContainers.CRYSTAL_RECHARGER.get(), id);
         this.inventory = tile.getItemHandler();
         this.tile = tile;
-        this.burnTime = burnTime;
         this.canInteractWithCallable = IWorldPosCallable.of(tile.getWorld(), tile.getPos());
 
-        this.addSlot(new ExtraItemSlot(this.inventory, 0, 60, 26, 64, (stack) -> ForgeHooks.getBurnTime(stack) > 0 || stack.getItem() == Items.BUCKET));
+        this.addSlot(new ExtraItemSlot(this.inventory, 0, 60, 26, 64, ItemStackHelper::isFuel));
         this.addSlot(new ExtraItemSlot(this.inventory, 1, 99, 35, 1, (stack) -> stack.getItem() instanceof EnergyCrystal));
 
         for (int k = 0; k < 3; ++k) {
@@ -46,7 +43,6 @@ public class CrystalRechargerContainer extends Container {
                 this.addSlot(new Slot(playerinv, i1 + k * 9 + 9, 8 + i1 * 18, 84 + k * 18));
             }
         }
-
         for (int l = 0; l < 9; ++l) {
             this.addSlot(new Slot(playerinv, l, 8 + l * 18, 142));
         }
@@ -54,7 +50,11 @@ public class CrystalRechargerContainer extends Container {
 
     @OnlyIn(Dist.CLIENT)
     public int getBurnLeftScaled() {
-        return burnTime * 13 / 200;
+        int i = tile.getBurnTime();
+        if(i == 0)
+            i = 200;
+
+        return tile.getBurnTime() * 13 / i;
     }
 
     public CrystalRechargerTile getTile() {
@@ -76,12 +76,12 @@ public class CrystalRechargerContainer extends Container {
 
                 slot.onSlotChange(itemstack1, itemstack);
             } else if (index != 0) {
-                if (ForgeHooks.getBurnTime(itemstack1) > 0) {
+                if (ItemStackHelper.isFuel(itemstack1)) {
                     if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                         this.inventory.setStackInSlot(0, itemstack);
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 2 && index < 39 && EnergyCrystal.isStackACrystal(itemstack1)) {
+                } else if (index < 39 && EnergyCrystal.isStackACrystal(itemstack1)) {
                     if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -101,6 +101,63 @@ public class CrystalRechargerContainer extends Container {
         }
 
         return itemstack;
+    }
+
+    @Override
+    public ItemStack slotClick(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
+        if (slotId <= 1 && slotId >= 0) {
+            Slot slot = this.inventorySlots.get(slotId);
+            ItemStack dragged = player.inventory.getItemStack();
+            if (slotId == 0) { //Fuel
+                if (slot.getHasStack()) {
+                    ItemStack stack = slot.getStack().copy();
+                    if (clickTypeIn == ClickType.QUICK_MOVE) {
+                        ItemStack ex = getTile().getItemHandler().extractItem(0, stack.getCount(), false);
+                        if (this.mergeItemStack(ex, 2, this.inventorySlots.size(), true)) {
+                            return ItemStack.EMPTY;
+                        }
+                    }
+                    if (dragged.isEmpty()) {
+                        ItemStack toExtract = getTile().getItemHandler().extractItem(0, stack.getCount(), false);
+                        if (getTile().getItemHandler().getStackInSlot(0).isEmpty())
+                            getTile().getItemHandler().setStackInSlot(0, ItemStack.EMPTY);
+                        player.inventory.setItemStack(toExtract);
+                        return toExtract;
+                    } else {
+                        if (ItemStackHelper.isFuel(dragged)) {
+                            if (stack.isItemEqual(dragged)) {
+                                ItemStack res = getTile().getItemHandler().insertItem(0, dragged, false);
+                                player.inventory.setItemStack(res);
+                                return res;
+                            } else {
+                                getTile().getItemHandler().setStackInSlot(0, dragged);
+                                player.inventory.setItemStack(stack);
+                                return stack;
+                            }
+                        }
+                    }
+                }
+            } else { //Crystal
+                if (slot.getHasStack()) {
+                    ItemStack stack = slot.getStack().copy();
+                    if (dragged.isEmpty()) {
+                        getTile().getItemHandler().setStackInSlot(1, ItemStack.EMPTY);
+                        player.inventory.setItemStack(stack);
+                        return stack;
+                    } else {
+                        if (EnergyCrystal.isStackACrystal(dragged)) {
+                            if (!dragged.isItemEqual(stack)) {
+                                getTile().getItemHandler().setStackInSlot(1, dragged);
+                                player.inventory.setItemStack(stack);
+                                return stack;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return super.slotClick(slotId, dragType, clickTypeIn, player);
     }
 
     @Override

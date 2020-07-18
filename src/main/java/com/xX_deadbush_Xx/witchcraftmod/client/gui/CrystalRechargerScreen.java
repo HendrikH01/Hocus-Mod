@@ -27,7 +27,7 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         this.blit(i, j, 0, 0, this.xSize, this.ySize);
         if (this.container.getTile().isBurning()) {
             int k = this.container.getBurnLeftScaled();
-            this.blit(i + 60, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
+            this.blit(i + 60, j + 36 + 12 - k, 176, 24 - k, 14, k + 1);
         }
 
     }

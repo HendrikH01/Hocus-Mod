@@ -20,7 +20,8 @@ import javax.annotation.Nullable;
 
 public class CrystalRechargerTile extends ContainerTile implements ITickableTileEntity {
 
-    private NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
+    public static final int ENERGY_ADD_PER_TICK = 1;
+
     private int burnTime;
 
     public CrystalRechargerTile() {
@@ -35,8 +36,10 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
     @Nullable
     @Override
     public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-        return new CrystalRechargerContainer(p_createMenu_1_, p_createMenu_2_, this, this.burnTime);
+        return new CrystalRechargerContainer(p_createMenu_1_, p_createMenu_2_, this);
     }
+
+
 
     @Override
     public void tick() {
@@ -46,8 +49,8 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
         }
 
         if (!this.world.isRemote) {
-            ItemStack fuel = this.items.get(0); //Fuel
-            ItemStack crystalStack = this.items.get(1); //Crystal
+            ItemStack fuel = this.inventory.getStackInSlot(0); //Fuel
+            ItemStack crystalStack = this.inventory.getStackInSlot(1); //Crystal
             if (!fuel.isEmpty() && !crystalStack.isEmpty()) {
                 //Charging
                 if (!this.isBurning()) {
@@ -57,12 +60,12 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
                     if (!fuel.isEmpty()) {
                         fuel.shrink(1);
                         if (fuel.isEmpty()) {
-                            this.items.set(0, ItemStack.EMPTY);
+                            this.inventory.setStackInSlot(0, ItemStack.EMPTY);
                         }
                     }
                 }
                 if (this.isBurning() && this.canCharge(crystalStack)) {
-                    EnergyCrystal.addStoredEnergy(crystalStack, 1);
+                    EnergyCrystal.addStoredEnergy(crystalStack, ENERGY_ADD_PER_TICK);
                 }
             }
         }
@@ -91,7 +94,7 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
         this.inventory.setStackInSlot(1, itemStack);
     }
 
-    protected int getBurnTime(ItemStack fuel) {
+    public int getBurnTime(ItemStack fuel) {
         if (fuel.isEmpty()) {
             return 0;
         } else {
@@ -99,32 +102,37 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
         }
     }
 
-    /*
-        Calculating the total charge time:
-        If the maxEnergy = 1000 and the storedEnergy = 300, so is the difEnergy 700 and the difenergy divided through 20 (a second) make 35. So the crystal need 35 Seconds to charge
-        If you want it faster, then increase the 20
+    public int getBurnTime() {
+        return this.burnTime;
+    }
 
-     */
+    /*
+            Calculating the total charge time:
+            If the maxEnergy = 1000 and the storedEnergy = 300, so is the difEnergy 700 and the difenergy divided through 20 (a second) make 35. So the crystal need 35 Seconds to charge
+            If you want it faster, then increase the 20
+
+         */
     protected int getChargeTime(ItemStack crystal) {
         int energyStored = EnergyCrystal.getEnergyStored(crystal);
         int maxEnergy = EnergyCrystal.getMaxEnergy(crystal);
         int difEnergy = maxEnergy - energyStored;
-        return difEnergy / 20;
+        return difEnergy / (ENERGY_ADD_PER_TICK * 20);
     }
 
     @Override
     public void read(CompoundNBT compound) {
         super.read(compound);
-        this.items = NonNullList.withSize(2, ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compound, this.items);
+        NonNullList<ItemStack> items = NonNullList.withSize(2, ItemStack.EMPTY);
+        ItemStackHelper.loadAllItems(compound, items);
         this.burnTime = compound.getInt("BurnTime");
+        this.inventory.setNonNullList(items);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
         compound.putInt("BurnTime", this.burnTime);
-        ItemStackHelper.saveAllItems(compound, this.items);
+        ItemStackHelper.saveAllItems(compound, this.inventory.toNonNullList());
         return compound;
     }
 }
