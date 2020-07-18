@@ -50,62 +50,31 @@ public class BottomLessBagContainer extends Container {
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        /*ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = inventorySlots.get(index);
-
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            if (index < 1) {
-                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-                    return ItemStack.EMPTY;
-                } else if(!this.mergeItemStack(itemstack1, 1, 0, true)) {
-                    return ItemStack.EMPTY;
-                }
-            }
-
-            if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
-        }*/
         Slot slot = this.inventorySlots.get(index);
-        if(index == 0) {
-            //Inside the bag
-            //Extract a item
-            ItemStack toExtract = bagInventory.extractItem(0, 64, false);
-            System.out.println("DEBUG_1");
-            if(!this.mergeItemStack(toExtract, 1, playerIn.inventory.mainInventory.size(), true)) {
-                System.out.println("DEBUG_2");
+
+        ItemStack itemstack = slot.getStack();
+        if (!itemstack.isEmpty()) {
+            if (bagInventory.getStack().isEmpty()) {
+                bagInventory.insertItem(0, itemstack, false);
+                slot.putStack(ItemStack.EMPTY);
+                this.inventorySlots.get(0).onSlotChanged();
+                return ItemStack.EMPTY;
+            } else if (itemstack.isItemEqual(bagInventory.getStack())) {
+                bagInventory.insertItem(0, itemstack, false);
+                itemstack.setCount(0);
+                slot.putStack(ItemStack.EMPTY);
                 return ItemStack.EMPTY;
             }
-            System.out.println("DEBUG_3");
-        } else {
-            //Outside from the bag
-            //Insert a item
-            ItemStack itemstack = slot.getStack();
-            System.out.println("DEBUG_4: ");
-            if (!itemstack.isEmpty()) {
-                if( bagInventory.getStack().isEmpty()) {
-                    bagInventory.insertItem(0, itemstack, false);
-                    itemstack.setCount(1);
-                    slot.putStack(ItemStack.EMPTY);
-                    this.inventorySlots.get(0).putStack(itemstack);
-                    itemstack.setCount(0);
-                    System.out.println("DEBUG_6");
-                    return ItemStack.EMPTY;
-                } else if(itemstack.isItemEqual(bagInventory.getStack())) {
-                    bagInventory.insertItem(0, itemstack, false);
-                    itemstack.setCount(0);
-                    slot.putStack(ItemStack.EMPTY);
-                    System.out.println("DEBUG_7");
-                    return ItemStack.EMPTY;
-                }
-            }
-            System.out.println("DEBUG_8");
         }
 
         return ItemStack.EMPTY;
+    }
+
+
+    @Override
+    public void onContainerClosed(PlayerEntity playerIn) {
+        this.bagInventory.saveData();
+        super.onContainerClosed(playerIn);
     }
 
 
@@ -117,12 +86,22 @@ public class BottomLessBagContainer extends Container {
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, PlayerEntity player) {
         if (slotId == 0) {
+            if(clickType == ClickType.QUICK_MOVE) {
+                ItemStack ex = bagInventory.extractItem(0, 64, false);
+                if(this.mergeItemStack(ex, 1, this.inventorySlots.size(), true)) {
+                    return ItemStack.EMPTY;
+                } else {
+                    bagInventory.insertItem(0, ex, false);
+                    return ItemStack.EMPTY;
+                }
+            }
             BottomlessBagSlot slot = (BottomlessBagSlot) this.inventorySlots.get(slotId);
             ItemStack dragged = player.inventory.getItemStack();
             if (slot.getHasStack()) {
                 if (dragged.isEmpty()) {
                     //EXTRACT A ITEM
-                    ItemStack ex = bagInventory.extractItem(0, 64, false);
+                    int amountToExtract = dragType == 0 ? 64 : 32; //Calculating the amount to extract, if the player right click then dragType == 1 and its a right click otherwise a left click
+                    ItemStack ex = bagInventory.extractItem(0, amountToExtract, false);
                     player.inventory.setItemStack(ex);
                     return ex.copy();
                 } else {
