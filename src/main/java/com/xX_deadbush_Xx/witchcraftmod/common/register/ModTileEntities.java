@@ -20,5 +20,7 @@ public class ModTileEntities {
             () -> TileEntityType.Builder.create(MortarTile::new, ModBlocks.STONE_MORTAR.get()).build(null));
     public static final RegistryObject<TileEntityType<ToolTableTile>> TOOL_TABLE = TILE_ENTITIES.register("tool_table",
             () -> TileEntityType.Builder.create(ToolTableTile::new, ModBlocks.TOOL_TABLE.get()).build(null));
+    public static final RegistryObject<TileEntityType<CrystalRechargerTile>> CRYSTAL_RECHARGER_TILE = TILE_ENTITIES.register("crystal_recharger_tile",
+            () -> TileEntityType.Builder.create(CrystalRechargerTile::new, ModBlocks.CRYSTAL_RECHARGER.get()).build(null));
 
 }

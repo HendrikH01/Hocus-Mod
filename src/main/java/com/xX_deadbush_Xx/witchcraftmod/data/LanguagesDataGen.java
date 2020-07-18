@@ -43,6 +43,7 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.ADVANCED_ENERGY_CRYSTAL::get, "Advanced Energy Crystal");
 		addItem(ModItems.WEAK_ENERGY_CRYSTAL::get, "Weak Energy Crystal");
 		addItem(ModItems.LIGHTNING_ROD::get, "Lightning Rod");
+		addItem(ModItems.BOTTOMLESS_BAG::get, "Bottomless Bag");
 
 	}
 
@@ -66,6 +67,7 @@ public class LanguagesDataGen extends LanguageProvider {
 		addBlock(ModBlocks.STONE_MORTAR::get, "Vibrant Crystal Ore");
 		addBlock(ModBlocks.TABLE::get, "Table");
 		addBlock(ModBlocks.TOOL_TABLE::get, "Tool Table");
+		addBlock(ModBlocks.CRYSTAL_RECHARGER::get, "Crystal Recharger");
 	}
 
 	@Override

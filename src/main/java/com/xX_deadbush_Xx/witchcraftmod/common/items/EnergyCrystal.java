@@ -1,7 +1,5 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import java.util.List;
-
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -13,9 +11,17 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSide;
 
+import java.util.List;
+
 public class EnergyCrystal extends Item implements IPlayerInventoryTickingItem {
+
+	private int maxEnergy;
+	private int energyStored;
+
 	public EnergyCrystal(Properties properties, int maxEnergy) {
-		super(properties.maxDamage(maxEnergy));
+		super(properties);
+		this.maxEnergy = maxEnergy;
+		this.energyStored = maxEnergy;
 	}
 	
     public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
@@ -33,15 +39,47 @@ public class EnergyCrystal extends Item implements IPlayerInventoryTickingItem {
 	}
 
 	public static int getEnergyStored(ItemStack stack) {
-		return stack.getMaxDamage() - stack.getDamage();
+		if(!isStackACrystal(stack)) return -1;
+		return ((EnergyCrystal) stack.getItem()).energyStored;
 	}
 	
 	public static int getMaxEnergy(ItemStack stack) {
-		return stack.getMaxDamage();
+		if(!isStackACrystal(stack)) return -1;
+		return ((EnergyCrystal) stack.getItem()).maxEnergy;
 	}
 	
-	private static void setEnergyStored(ItemStack stack, int amount) {
-		stack.setDamage(stack.getMaxDamage() - amount);
+	public static void setEnergyStored(ItemStack stack, int amount) {
+		if(!isStackACrystal(stack)) return;
+		((EnergyCrystal) stack.getItem()).energyStored = amount;
+	}
+
+	public static void addStoredEnergy(ItemStack stack, int amount) {
+		if(!isStackACrystal(stack)) return;
+		EnergyCrystal crystal = (EnergyCrystal) stack.getItem();
+		if(crystal.energyStored + amount > crystal.maxEnergy) return;
+		crystal.energyStored += amount;
+	}
+
+	public static void removeStoredEnergy(ItemStack stack, int amount) {
+		if(!isStackACrystal(stack)) return;
+		EnergyCrystal crystal = (EnergyCrystal) stack.getItem();
+		crystal.energyStored -= amount;
+		if(crystal.energyStored < 0)
+			crystal.energyStored = 0;
+	}
+
+	public static boolean isCrystalEmpty(ItemStack stack) {
+		if(!isStackACrystal(stack)) return false;
+		return ((EnergyCrystal) stack.getItem()).energyStored < 0;
+	}
+
+	public static boolean isStackACrystal(ItemStack stack) {
+		return stack != null && stack.getItem() instanceof EnergyCrystal;
+	}
+
+	public static EnergyCrystal getEnergyCrystalByStack(ItemStack stack) {
+		if(!isStackACrystal(stack)) return null;
+		return (EnergyCrystal) stack.getItem();
 	}
 	
 	public static void removeEnergyFromPlayer(PlayerEntity player, int amount) {

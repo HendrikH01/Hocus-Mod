@@ -44,6 +44,7 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cubeAll(ModBlocks.DREADWOOD_PLANKS);
 		cubeAll(getBlockName(ModBlocks.HELLSHROOM_BLOCK) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_BLOCK)));
 		cubeAll(getBlockName(ModBlocks.HELLSHROOM_STEM) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_STEM)));
+		cubeAll(ModBlocks.CRYSTAL_RECHARGER);
 	}
 	
 	private void cubeAll(RegistryObject<Block> r) {
