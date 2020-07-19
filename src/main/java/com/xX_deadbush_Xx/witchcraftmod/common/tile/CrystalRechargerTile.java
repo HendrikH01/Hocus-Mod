@@ -11,7 +11,6 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -23,36 +22,9 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
 
     public static final int ENERGY_ADD_PER_TICK = 1;
 
-    private int burnTime;
-    private int total;
-    private IIntArray data = new IIntArray() {
-        @Override
-        public int get(int index) {
-            switch (index) {
-                case 0:
-                    return burnTime;
-                case 1:
-                    return total;
-                default:
-                    return -1;
-            }
-        }
+    private int burnTime = 0;
+    private int total = 0;
 
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case 0:
-                    burnTime = value;
-                case 1:
-                    total = value;
-            }
-        }
-
-        @Override
-        public int size() {
-            return 2;
-        }
-    };
 
     public CrystalRechargerTile() {
         super(ModTileEntities.CRYSTAL_RECHARGER_TILE.get(), 2, ItemStack.EMPTY, ItemStack.EMPTY);
@@ -66,13 +38,13 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
     @Nullable
     @Override
     public Container createMenu(int p_createMenu_1_, PlayerInventory p_createMenu_2_, PlayerEntity p_createMenu_3_) {
-        return new CrystalRechargerContainer(p_createMenu_1_, p_createMenu_2_, this, data);
+        return new CrystalRechargerContainer(p_createMenu_1_, p_createMenu_2_, this);
     }
 
     @Override
     public void tick() {
         if (this.isBurning()) {
-            this.burnTime -= 1;
+            --this.burnTime;
         }
 
         if (!this.world.isRemote) {
@@ -97,9 +69,22 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
         return EnergyCrystal.getEnergyStored(stack) < EnergyCrystal.getMaxEnergy(stack);
     }
 
+    public int getBurnTime() {
+        return burnTime;
+    }
+
     public boolean isBurning() {
         return this.burnTime > 0;
     }
+
+    public int getBurnLeftScaled() {
+        int i = this.total;
+        if (i == 0)
+            i = 200;
+
+        return this.burnTime * 13 / i;
+    }
+
 
     public int getBurnTimeForStack(ItemStack fuel) {
         if (fuel.isEmpty()) {
@@ -107,10 +92,6 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
         } else {
             return net.minecraftforge.common.ForgeHooks.getBurnTime(fuel);
         }
-    }
-
-    public IIntArray getData() {
-        return data;
     }
 
     @Override

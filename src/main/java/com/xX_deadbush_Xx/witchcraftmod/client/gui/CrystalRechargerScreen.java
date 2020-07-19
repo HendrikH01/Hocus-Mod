@@ -21,7 +21,7 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.font.drawString("Burntime: " + this.container.getBurnTime(), 10, 10, 4210752);
+        this.font.drawString("Burntime: " + this.container.getTile().getBurnTime(), 10, 10, 4210752);
     }
 
     @Override
@@ -31,9 +31,9 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(i, j, 0, 0, this.xSize, this.ySize);
-        if (this.container.isBurning()) {
-            int k = this.container.getBurnLeftScaled();
-            this.blit(i + 60, j + 60 - k, 176, 12 - k, 14, k + 1);
+        if (this.container.getTile().isBurning()) {
+            int k = this.container.getTile().getBurnLeftScaled();
+            this.blit(i + 61, j + 58 - k, 176, 12 - k, 14, k + 1);
         }
 
     }
