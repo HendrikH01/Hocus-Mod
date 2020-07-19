@@ -14,7 +14,9 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.IntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandlerModifiable;
@@ -24,15 +26,17 @@ public class CrystalRechargerContainer extends Container {
     private IItemHandlerModifiable inventory;
     private final IWorldPosCallable canInteractWithCallable;
     private CrystalRechargerTile tile;
+    private IIntArray data;
 
     public CrystalRechargerContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
-        this(windowId, playerInventory, ContainerHelper.getTileEntity(CrystalRechargerTile.class, playerInventory, data));
+        this(windowId, playerInventory, ContainerHelper.getTileEntity(CrystalRechargerTile.class, playerInventory, data), new IntArray(2));
     }
 
-    public CrystalRechargerContainer(int id, PlayerInventory playerinv, CrystalRechargerTile tile) {
+    public CrystalRechargerContainer(int id, PlayerInventory playerinv, CrystalRechargerTile tile, IIntArray data) {
         super(ModContainers.CRYSTAL_RECHARGER.get(), id);
         this.inventory = tile.getItemHandler();
         this.tile = tile;
+        this.data = data;
         this.canInteractWithCallable = IWorldPosCallable.of(tile.getWorld(), tile.getPos());
 
         this.addSlot(new ExtraItemSlot(this.inventory, 0, 60, 26, 64, ItemStackHelper::isFuel));
@@ -50,11 +54,27 @@ public class CrystalRechargerContainer extends Container {
 
     @OnlyIn(Dist.CLIENT)
     public int getBurnLeftScaled() {
-        int i = tile.getBurnTime();
-        if(i == 0)
+        int i = this.data.get(1);
+        if (i == 0)
             i = 200;
 
-        return tile.getBurnTime() * 13 / i;
+        return this.data.get(0) * 13 / i;
+    }
+
+
+    @OnlyIn(Dist.CLIENT)
+    public int getTotal() {
+        return this.data.get(1);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public boolean isBurning() {
+        return this.data.get(0) > 0;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getBurnTime() {
+        return this.data.get(0);
     }
 
     public CrystalRechargerTile getTile() {
@@ -140,6 +160,12 @@ public class CrystalRechargerContainer extends Container {
             } else { //Crystal
                 if (slot.getHasStack()) {
                     ItemStack stack = slot.getStack().copy();
+                    if(clickTypeIn == ClickType.QUICK_MOVE) {
+                        if(this.mergeItemStack(stack, 2, this.inventorySlots.size(), true)) {
+                            getTile().getItemHandler().setStackInSlot(1, ItemStack.EMPTY);
+                            return ItemStack.EMPTY;
+                        }
+                    }
                     if (dragged.isEmpty()) {
                         getTile().getItemHandler().setStackInSlot(1, ItemStack.EMPTY);
                         player.inventory.setItemStack(stack);

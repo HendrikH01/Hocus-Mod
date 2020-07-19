@@ -11,6 +11,7 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSide;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class EnergyCrystal extends Item implements IPlayerInventoryTickingItem {
@@ -18,17 +19,18 @@ public class EnergyCrystal extends Item implements IPlayerInventoryTickingItem {
 	public EnergyCrystal(Properties properties, int maxEnergy) {
 		super(properties.maxDamage(maxEnergy));
 	}
-	
-    public void addInformation(ItemStack stack, World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		tooltip.clear();
 		tooltip.add(getDisplayName(stack));
-        tooltip.add(new StringTextComponent("\u00A78Energy stored: " + getEnergyStored(stack)));
-    }
-
+		tooltip.add(new StringTextComponent("\u00A78Energy stored: " + getEnergyStored(stack)));
+	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		context.getPlayer().getHeldItem(context.getHand()).damageItem(1, context.getPlayer(), (p)->{});
+		ItemStack itemstack = context.getPlayer().getHeldItem(context.getHand());
+		itemstack.damageItem(1, context.getPlayer(), (player) -> {});
 		return super.onItemUse(context);
 	}
 	@Override
