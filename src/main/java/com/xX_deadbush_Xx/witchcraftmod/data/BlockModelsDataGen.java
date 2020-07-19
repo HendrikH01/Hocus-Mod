@@ -42,8 +42,10 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cubeAll(ModBlocks.VIBRANT_CRYSTAL_ORE);
 		cubeAll(ModBlocks.HARDENED_NETHERRACK);
 		cubeAll(ModBlocks.DREADWOOD_PLANKS);
+		cubeAll(ModBlocks.POLISHED_WOOD);
 		cubeAll(getBlockName(ModBlocks.HELLSHROOM_BLOCK) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_BLOCK)));
 		cubeAll(getBlockName(ModBlocks.HELLSHROOM_STEM) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_STEM)));
+
 	}
 	
 	private void cubeAll(RegistryObject<Block> r) {
@@ -61,12 +63,19 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		String name = getBlockName(ModBlocks.DREADWOOD_LOG);
 		cubeColumn(name, getTextureRL(name + "0"), getTextureRL(name + "_top"));
 		for(int i = 0; i < 4; i++) cubeColumn(name + i, getTextureRL(name + i), getTextureRL(name + "_top"));
+		
+		pillarBlock(ModBlocks.SHALE, "_side", "_top");
     }
 	
     private void cubeFace(String name, ResourceLocation texture) {
     	getBuilder(name).ao(false).texture("texture", texture).texture("particle", texture)
     	.element().from(0, 0, 0).to(16, 16, 0)
     	.face(Direction.NORTH).texture("#texture").cullface(Direction.NORTH).end().end();
+    }
+    
+    private void pillarBlock(RegistryObject<Block> r, String suffixSide, String suffixTop) {
+    	String name = getBlockName(r);
+    	cubeColumn(name, getTextureRL(name + suffixSide), getTextureRL(name + suffixTop));
     }
     
 	@Override

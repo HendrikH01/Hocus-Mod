@@ -32,7 +32,7 @@ public class ItemStackHelper {
 	}
 
 	public static void spawnItem(World worldIn, ItemStack stack, BlockPos pos) {
-        spawnItem(worldIn, stack, pos.getX(), pos.getY() + 0.5F, pos.getZ());
+        spawnItem(worldIn, stack, pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
 	}
 	
 	public static void spawnItem(World worldIn, ItemStack stack, float x, float y, float z) {

@@ -37,19 +37,21 @@ public class MortarRenderer extends TileEntityRenderer<MortarTile>{
 
 	@Override
 	public void render(MortarTile tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {
-		if(tileEntityIn.hasItem()) {
-  	        ItemStack stack = tileEntityIn.getItem();
+		ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+		
+		for(int i = 0; i < 3; i++) {
+			ItemStack stack = tileEntityIn.getItemHandler().getStackInSlot(i);
+			if(stack.isEmpty()) {
+				return;
+			}
+			matrixStackIn.push();        
 
-			matrixStackIn.push();
-			setPos(matrixStackIn, stack); 
-				        
-			ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 	        IBakedModel model = itemRenderer.getItemModelWithOverrides(stack, tileEntityIn.getWorld(), null);
-	        
+			setPos(matrixStackIn, stack); 
+			matrixStackIn.translate(0, -i*0.05, -i*0.08);
 	        itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, true, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn, model);
-			
-	        matrixStackIn.pop();
-	    }
+	        matrixStackIn.pop(); 
+		}
 	}
 	
 	public static void register() {

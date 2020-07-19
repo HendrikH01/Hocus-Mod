@@ -25,7 +25,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class RitualStone extends Block implements IRitualBlock {
+public class RitualStone extends Block {
 	   public static final IntegerProperty POWER = BlockStateProperties.POWER_0_15;
 	   public static final EnumProperty<GlowType> GLOW_TYPE = ModBlockStateProperties.GLOW_TYPE;
 	   

@@ -45,8 +45,9 @@ public abstract class TalismanItem extends Item {
 		if(tick > 0) {
 			TalismanItem.writeTickCounter(stack, tick);
 		} else {
-			TalismanItem.writeTickCounter(stack, interval);
-			if(this.effectTick(stack, player, side) && interval != 1) return this.getManaCostPerTick();
+			if(interval != 1) TalismanItem.writeTickCounter(stack, interval);
+			if(this.effectTick(stack, player, side)) return this.getManaCostPerTick();
+			
 		}
 		
 		return 0;
