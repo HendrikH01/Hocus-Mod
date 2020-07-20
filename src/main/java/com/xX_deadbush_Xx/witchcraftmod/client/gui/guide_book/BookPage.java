@@ -11,7 +11,6 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,8 +21,8 @@ public class BookPage {
 	
 	private List<TextParagraph> textParagraphs = Lists.newArrayList();
 	private List<BookImage> images = Lists.newArrayList();
-	private ITextComponent title;
 	private boolean isFirstPage = false;
+	private Side side;
 	
 	private int pagenumber;
 	private boolean isFull = false;
@@ -49,7 +48,14 @@ public class BookPage {
 			image.blit();
 		}
 	}
+
+	public boolean isFirstPage() {
+		return isFirstPage;
+	}
 	
+	public Side getSide() {
+		return side;
+	}
 	
 	//Save yourself some work: If the text doesn't fit on the page anymore just draw it anyway, the dev who writes the book has to make sure that this doesn't happen.
 	/*
@@ -92,23 +98,23 @@ public class BookPage {
 			paragraphs.add(paragraph);
 			return this;
 		}
-
-		public Builder setTitle(ITextComponent title) {
-			BookPage.this.title = title;
-			return this;
-		}
 		
 		public Builder isFirstPage() {
 			BookPage.this.isFirstPage = true;
 			return this;
 		}
+		
+		public Builder setSide(Side side) {
+			BookPage.this.side = side;
+			return this;
+		}
 
-		public void build(Side side) {
+		public void build() {
 			//Format and add to page
 			
 			// Offsets based on Minecraft window dimensions
-			int OffsetX = (GuideBookScreen.INSTANCE.width)/ 2 - GuideBookScreen.PAGE_WIDTH;
-			int OffsetY = (GuideBookScreen.INSTANCE.height - GuideBookScreen.PAGE_HEIGHT) / 2 + 16;
+			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
+			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
 			
 			// Offsets based on the page
 			int leftPageOffset = 16;
@@ -120,12 +126,14 @@ public class BookPage {
 			// Starting positions of the lines
 			int startingX = 0;
 			int startingY = 0;
-			
+			if(isFirstPage) {
+				startingY = 18;
+			}
 			// Turn paragraphs into lines
 			for(ITextComponent textComponent : paragraphs) {	
 				wrapWidth = 120;
 				startingX = 0;
-				String text = paragraphs.get(0).getFormattedText();
+				String text = textComponent.getFormattedText();
 				
 				if(!images.isEmpty()) {
 					for(BookImage image : images) {
@@ -150,10 +158,10 @@ public class BookPage {
 				}
 			
 				if(side == Side.LEFT)
-					textParagraphs.add(new TextParagraph(new StringTextComponent("Text"), startingX + OffsetX + leftPageOffset, startingY + OffsetY));
-				else textParagraphs.add(new TextParagraph(new StringTextComponent("Text"), startingX + OffsetX + rightPageOffset, startingY + OffsetY));
+					textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + leftPageOffset, startingY + OffsetY));
+				else textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + rightPageOffset, startingY + OffsetY));
 				
-				startingY = newOffsetY + 9;
+				startingY += newOffsetY + 9;
 			}
 		}
 		
@@ -220,7 +228,7 @@ public class BookPage {
 		}
 		
 		public void draw() {
-			fontrenderer.drawSplitString(text.getFormattedText(), startingCoordinateX, startingCoordinateY, 120,text.getStyle().getColor().getColorIndex());
+			fontrenderer.drawSplitString(text.getFormattedText(), startingCoordinateX, startingCoordinateY, 120, 0xFF000000);
 		}
 	}
 	

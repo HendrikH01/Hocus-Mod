@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.BookPage.Side;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -28,12 +27,18 @@ public class GuideBookContent {
 		maxPageCount += chapter.getNumberOfPages();
 	}
 	
+	public List<BookChapter> getChapters() {
+		return chapters;
+	}
+	
 	public static void loadBookContent() {
 		GuideBookContent instance = new GuideBookContent();
 		instance.addChapter(
 				new BookChapter(new StringTextComponent("testchapter"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().build(Side.LEFT))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).addImage(new ResourceLocation("witchcraftmod:gui/testtexture"), 10, 10, 0, 0, 120, 130).build(Side.RIGHT))
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.RIGHT).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.LEFT).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.RIGHT).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.LEFT).build())
 		);
 		
 		GuideBookScreen.INSTANCE.setContent(instance);
