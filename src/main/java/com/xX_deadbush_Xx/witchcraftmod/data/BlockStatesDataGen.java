@@ -33,20 +33,30 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.RITUAL_STONE.get(), models().getExistingFile(getModelPath(ModBlocks.RITUAL_STONE)));
 		simpleBlock(ModBlocks.VIBRANT_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_BLOCK)));
 		simpleBlock(ModBlocks.VIBRANT_CRYSTAL_ORE.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_CRYSTAL_ORE)));
-		simpleBlock(ModBlocks.STONE_MORTAR.get(), models().getExistingFile(getModelPath(ModBlocks.STONE_MORTAR)));
-		simpleBlock(ModBlocks.CRYSTAL_RECHARGER.get(), models().getExistingFile(getModelPath(ModBlocks.CRYSTAL_RECHARGER)));
+		simpleBlock(ModBlocks.SHALE.get(), models().getExistingFile(getModelPath(ModBlocks.SHALE)));
+		simpleBlock(ModBlocks.POLISHED_WOOD.get(), models().getExistingFile(getModelPath(ModBlocks.POLISHED_WOOD)));
 
 		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));
 		horizontalBlock(ModBlocks.TOOL_TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TOOL_TABLE)));
 		horizontalBlock(ModBlocks.DRYING_RACK.get(), models().getExistingFile(getModelPath(ModBlocks.DRYING_RACK)));
 		
 		getVariantBuilder(ModBlocks.CANDLE.get())
-			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("one_" + getBlockName(ModBlocks.CANDLE)))))
-			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 2).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("two_" + getBlockName(ModBlocks.CANDLE) + "s"))))
-			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 3).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("three_" + getBlockName(ModBlocks.CANDLE) + "s"))));
+			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(newConfiguredModel("one_" + getBlockName(ModBlocks.CANDLE)))
+			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 2).setModels(newConfiguredModel("two_" + getBlockName(ModBlocks.CANDLE) + "s"))
+			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 3).setModels(newConfiguredModel("three_" + getBlockName(ModBlocks.CANDLE) + "s"));
+		
+		getVariantBuilder(ModBlocks.STONE_MORTAR.get())
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 0).setModels(newConfiguredModel(getBlockName(ModBlocks.STONE_MORTAR)))
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 1).setModels(newConfiguredModel("level_1_" + getBlockName(ModBlocks.STONE_MORTAR)))
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 2).setModels(newConfiguredModel("level_2_" + getBlockName(ModBlocks.STONE_MORTAR)))
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 3).setModels(newConfiguredModel("level_3_" + getBlockName(ModBlocks.STONE_MORTAR)));
 		
 		buildMushroomBlock(ModBlocks.HELLSHROOM_BLOCK);
 		buildMushroomBlock(ModBlocks.HELLSHROOM_STEM);
+	}
+	
+	private ConfiguredModel newConfiguredModel(String path) {
+		return new ConfiguredModel(models().getExistingFile(getModelPath(path)));
 	}
 	
 	private void buildMushroomBlock(RegistryObject<Block> block) {

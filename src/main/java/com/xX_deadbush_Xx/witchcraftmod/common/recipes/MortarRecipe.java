@@ -1,9 +1,13 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.recipes;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IMortarRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -16,26 +20,37 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 public class MortarRecipe implements IMortarRecipe {
 	private final ResourceLocation id;
 	private final ItemStack output;
-	private Ingredient input;
+	private Ingredient[] inputs;
 
 	
-	public MortarRecipe(ResourceLocation id, Ingredient input, ItemStack output) {
+	public MortarRecipe(ResourceLocation id, ItemStack output, Ingredient[] ingredients) {
 		this.id = id;
 		this.output = output;
-		this.input = input;
+		this.inputs = ingredients;
 	}
 	
 	@Override
 	public boolean matches(RecipeWrapper inv, @Nullable World worldIn) {
-		if(this.input.test(inv.getStackInSlot(0))) {
-			return true;
+		RecipeWrapper trimmedWrapper = CraftingHelper.trimEmptySlots(inv);
+		List<Ingredient> missingIngredients = Lists.newArrayList(this.inputs); 
+		int invsize = trimmedWrapper.getSizeInventory();
+		if(invsize != this.inputs.length) return false;
+		
+		for(int i = 0; i < invsize; i++) {
+			for(int j = 0; j < missingIngredients.size(); j++) {
+				if(missingIngredients.get(j).test(trimmedWrapper.getStackInSlot(i))) {
+					missingIngredients.remove(j);
+					break;
+				}
+			}
 		}
-		return false;
+		
+		return missingIngredients.size() == 0;
 	}
 
 	@Override
 	public ItemStack getCraftingResult(RecipeWrapper inv) {
-		return this.output;
+		return matches(inv, null) ? this.getRecipeOutput() : null;
 	}
 
 	@Override
@@ -55,10 +70,6 @@ public class MortarRecipe implements IMortarRecipe {
 	
 	@Override
 	public NonNullList<Ingredient> getIngredients() {
-		return NonNullList.from(null, this.input);
-	}
-	
-	public Ingredient getInput() {
-		return this.input;
+		return NonNullList.from(null, this.inputs);
 	}
 }

@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.inventory;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.tags.ModItemTags;
+import com.xX_deadbush_Xx.witchcraftmod.common.tags.ModTags;
 
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -18,7 +18,7 @@ public class ToolSlot extends SlotItemHandler {
 
 	@Override 
 	public boolean isItemValid(ItemStack stack) {
-		return stack.getItem().isIn(ModItemTags.TOOL_TABLE_TOOL);
+		return stack.getItem().isIn(ModTags.TOOL_TABLE_TOOL);
 	}
 	
 	@Override
