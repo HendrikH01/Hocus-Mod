@@ -1,7 +1,5 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.network;
 
-import java.util.Optional;
-
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 
@@ -31,6 +29,7 @@ public class WitchcraftPacketHandler {
 		int id = 0;
 
 		INSTANCE.registerMessage(id++, WitchcraftParticlePacket.class, WitchcraftParticlePacket::encode, WitchcraftParticlePacket::decode, WitchcraftParticlePacket::handle);
+
 	}
 	
 	public static void sendToNearby(World worldIn, BlockPos pos, Object toSend) {
