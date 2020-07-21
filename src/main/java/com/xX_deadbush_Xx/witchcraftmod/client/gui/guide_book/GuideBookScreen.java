@@ -127,21 +127,27 @@ public class GuideBookScreen extends Screen {
 			for(BookChapter chapter : content.getChapters()) {
 				pages += chapter.getNumberOfPages();
 				if(currentPage <= pages) {
-					for(int i = 0 ; i + 1 < chapter.getPages().size(); i+=2) {
-						BookPage bookPage = chapter.getPages().get(i);
-						if(currentPage - 2 == bookPage.getPage()) {
-							if(bookPage.isFirstPage()) {
-								chapter.drawTitle();
+					for(int i = 0 ; i + 1 < chapter.getNumberOfPages(); i+=2) {
+						BookPage bookPage;
+						if(i < chapter.getNumberOfPages()) {
+							bookPage = chapter.getPages().get(i);
+							System.out.println(bookPage.getPage());
+							if(currentPage - 2 == bookPage.getPage()) {
+								if(bookPage.isFirstPage()) {
+									chapter.drawTitle();
+								}
+								bookPage.drawPage();						
 							}
-							bookPage.drawPage();						
 						}
-						if(currentPage >= 3) {
-							System.out.println(currentPage);
-							bookPage = chapter.getPages().get(i-1);
-							System.out.println(i);
-							if(currentPage - 1 == bookPage.getPage()) {
+						
+						if(currentPage > 2 && i != 0) {
+							bookPage = chapter.getPages().get(i - 1);
+							if(currentPage - 3 == bookPage.getPage()) {
+								if(bookPage.isFirstPage()) {
+									chapter.drawTitle();
+								}
 								bookPage.drawPage();
-							}	
+							}
 						}
 					}
 				}

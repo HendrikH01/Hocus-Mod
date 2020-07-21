@@ -39,6 +39,9 @@ public class GuideBookContent {
 					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.LEFT).build())
 					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.RIGHT).build())
 					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.LEFT).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).setSide(Side.RIGHT).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).setSide(Side.LEFT).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).setSide(Side.RIGHT).build())
 		);
 		
 		GuideBookScreen.INSTANCE.setContent(instance);
