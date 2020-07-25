@@ -1,28 +1,31 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.inventory;
 
+import javax.annotation.Nonnull;
+
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
-import javax.annotation.Nonnull;
-
 public class BottomlessBagInventory implements IItemHandlerModifiable {
 
     private final ItemStack bagitem;
-    private int amount;
+    public int[] amount = new int[] {0};
     private ItemStack currentStack;
 
     public BottomlessBagInventory(ItemStack stack) {
         this.bagitem = stack;
         this.currentStack = ItemStack.EMPTY;
-        this.amount = 0;
-        this.loadData();
+         this.loadData();
     }
 
     public ItemStack getStack() {
         return this.currentStack;
+    }
+    
+    public ItemStack getShowStack() {
+    	return this.getAmount() == 0 ? ItemStack.EMPTY : this.currentStack;
     }
 
     public void loadData() {
@@ -30,32 +33,41 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
         if(nbt != null) {
             NonNullList<ItemStack> list = NonNullList.withSize(1, ItemStack.EMPTY);
             ItemStackHelper.loadAllItems(nbt, list);
-            System.out.println("AMOUNT: " + nbt.getInt("totalAmount"));
-            this.amount = nbt.getInt("totalAmount");
             this.currentStack = list.get(0);
+            setAmount(nbt.getInt("totalAmount"));
+            System.out.println(this.getAmount() + " " + this.currentStack);
         }
     }
 
     public void saveData() {
+        System.out.println(this.getAmount() + " " + this.currentStack);
         CompoundNBT nbt = this.bagitem.getOrCreateTag();
-        nbt.remove("Items");
         ItemStackHelper.saveAllItems(nbt, NonNullList.withSize(1, this.currentStack));
-        nbt.remove("totalAmount");
-        nbt.putInt("totalAmount", this.amount);
-        this.amount = 0;
+        nbt.putInt("totalAmount", this.getAmount());
+        setAmount(0);
     }
 
-    public void setCurrentStack(ItemStack currentStack) {
-        this.currentStack = currentStack;
+    public void setCurrentStack(ItemStack stack, int amount) {
+    	setAmount(stack.getCount());
+        this.currentStack = stack;
         this.currentStack.setCount(1);
+        System.out.println(stack + " " + amount);
     }
-
+    
+    
+    /**
+     * This method ADDS the stack to the slot! 
+     * I wanted to save myself the 3 ATs needed to get around problems created by vanilla methods calling this all the time. 
+     * To set the stack and amount of the slot use setCurrentStack()
+     */
+    @Deprecated
     @Override
-    public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
-    }
+    public void setStackInSlot(int slot, @Nonnull ItemStack stack) { 	
+        System.out.println(this.getAmount() + " " + this.currentStack + " " + stack);
+        this.currentStack = stack;
+        this.currentStack.setCount(1);   
+        setAmount(this.getAmount() + stack.getCount());
 
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 
     @Override
@@ -67,33 +79,34 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
     @Override
     public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
         if (this.canInsert(stack)) {
-            if (this.amount == 0)
+            if (this.getAmount() == 0)
                 this.currentStack = stack;
-            if (!simulate) this.amount += stack.getCount();
+            if (!simulate) setAmount(this.getAmount() + stack.getCount());
             this.currentStack.setCount(1);
-            System.out.println("INSERT_ITEM");
             return ItemStack.EMPTY;
         } else return stack;
     }
 
-    private boolean canInsert(ItemStack stack) {
-        return this.currentStack.isEmpty() || this.amount == 0 || stack.isItemEqual(this.currentStack);
+    public boolean canInsert(ItemStack stack) {
+        return this.currentStack.isEmpty() || this.getAmount() == 0 || ItemStack.areItemsEqual(stack, this.currentStack);
     }
 
     @Nonnull
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        if (this.amount >= amount) {
-            if (!simulate) this.amount -= Math.min(amount, currentStack.getMaxStackSize());
+        if (this.getAmount() >= amount) {
             ItemStack out = currentStack.copy();
-            out.setCount(currentStack.getMaxStackSize());
-            if (this.amount == 0)
-                this.currentStack = ItemStack.EMPTY;
+            if (!simulate) {
+            	setAmount(this.getAmount() - Math.min(amount, currentStack.getMaxStackSize()));
+            }
+            out.setCount(Math.min(amount, currentStack.getMaxStackSize()));
+            if (this.getAmount() == 0 && !simulate)
+                this.setAmount(0);
             return out;
         } else {
             ItemStack out = currentStack.copy();
-            out.setCount(this.amount);
-            if (!simulate) this.amount = 0;
+            out.setCount(this.getAmount());
+            if (!simulate) setAmount(0);
             this.currentStack = ItemStack.EMPTY;
             return out;
         }
@@ -109,16 +122,21 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
         return true;
     }
 
-    public int getActuallyStack() {
-        return amount;
+    public int getAmount() {
+        return this.amount[0];
     }
 
     public boolean isEmpty() {
-        return this.currentStack.isEmpty() || this.amount == 0;
+        return this.currentStack.isEmpty() || this.getAmount() == 0;
     }
 
     @Override
     public ItemStack getStackInSlot(int slot) {
         return currentStack;
     }
+
+	public void setAmount(int count) {
+		this.amount[0] = count;
+		if(count == 0) this.currentStack = ItemStack.EMPTY;
+	}
 }
