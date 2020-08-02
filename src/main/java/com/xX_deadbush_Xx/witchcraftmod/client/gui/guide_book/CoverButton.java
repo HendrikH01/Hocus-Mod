@@ -16,10 +16,4 @@ public class CoverButton extends Button {
 		minecraft.getTextureManager().bindTexture(GuideBookScreen.TEXTURES_SHEET);
 		AbstractGui.blit(this.x, this.y, 0, 310, 0, this.width, this.height, GuideBookScreen.SHEET_HEIGHT, GuideBookScreen.SHEET_WIDTH);
 	}
-	
-	@Override
-	public boolean mouseClicked(double p_mouseClicked_1_, double p_mouseClicked_3_, int p_mouseClicked_5_) {
-		System.out.println("yeet");
-		return super.mouseClicked(p_mouseClicked_1_, p_mouseClicked_3_, p_mouseClicked_5_);
-	}
 }

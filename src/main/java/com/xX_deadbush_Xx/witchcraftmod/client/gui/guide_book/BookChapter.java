@@ -32,7 +32,8 @@ public class BookChapter {
 					
 		// Offsets based on the page
 		int side = 16;
-		if(pages.get(0).getSide() == Side.RIGHT)
+		for(BookPage page : pages)
+		if(page.isFirstPage() && page.getSide() == Side.RIGHT)
 		side = GuideBookScreen.PAGE_WIDTH + 8;
 		
 		renderer.drawSplitString(this.title.getFormattedText(), OffsetX + side, OffsetY, 120, 0xFF000000);
@@ -51,8 +52,8 @@ public class BookChapter {
 	}
 
 	
-	public BookChapter newPage(Consumer<BookPage.Builder> builder) {
-		BookPage page = new BookPage(pages.size());
+	public BookChapter newPage(Consumer<BookPage.Builder> builder, int currentContentSize) {
+		BookPage page = new BookPage(currentContentSize + pages.size());
 		builder.accept(page.new Builder());
 		this.addPage(page);
 		return this;
