@@ -1,14 +1,18 @@
 package com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -21,6 +25,7 @@ public class BookPage {
 	
 	private List<TextParagraph> textParagraphs = Lists.newArrayList();
 	private List<BookImage> images = Lists.newArrayList();
+	private List<Recipe> recipes = Lists.newArrayList();
 	private boolean isFirstPage = false;
 	private Side side;
 	
@@ -45,7 +50,10 @@ public class BookPage {
 			txt.draw();
 		}
 		for(BookImage image : images) {
-			image.blit();
+			image.blit(this.side);
+		}
+		for(Recipe recipe : recipes) {
+			recipe.blit(this.side);
 		}
 	}
 
@@ -99,6 +107,11 @@ public class BookPage {
 			return this;
 		}
 		
+		public Builder addRecipe(int x, int y) {
+			recipes.add(new Recipe(x, y));
+			return this;
+		}
+		
 		public Builder isFirstPage() {
 			BookPage.this.isFirstPage = true;
 			return this;
@@ -133,38 +146,48 @@ public class BookPage {
 			for(ITextComponent textComponent : paragraphs) {	
 				wrapWidth = 120;
 				startingX = 0;
-				String text = textComponent.getFormattedText();
+				int newOffsetY = 0;
+//				String text = textComponent.getFormattedText();
 				
 				if(!images.isEmpty()) {
 					for(BookImage image : images) {
 						if(image.getY() + image.getHeight() >= startingY) {
-							if(image.getX() + image.getWidth() + 2 > wrapWidth * 3 / 4) {
+							newOffsetY += image.getHeight();
+							if(image.getWidth() + 2 < wrapWidth * 3 / 4) {
 								if(image.getX() <= wrapWidth - (image.getX() + image.getWidth() + 2)) {
 									startingX = image.getX() + image.getWidth() + 2;
 									wrapWidth -= startingX; 
 								} else {
-									wrapWidth -= image.getX() + image.getWidth() + 2;
+									wrapWidth -= image.getWidth() + 2;
 								}
 							}
 						}
 					}
 				}
 				
-				// Checks in how many lines will be drawn and set the offset accordingly
-				List<String> list = this.listFormattedStringToWidth(text, wrapWidth);
-				int newOffsetY = 0;
-				for(String s : list) {
-					newOffsetY += 9;
+				if(!recipes.isEmpty()) {
+					for(Recipe recipe : recipes) {
+						if(recipe.getY() + recipe.getHeight() >= startingY) {
+							newOffsetY += recipe.getHeight();
+						}
+					}
 				}
+				
+//				// Checks in how many lines will be drawn and set the offset accordingly
+//				List<String> list = this.listFormattedStringToWidth(text, wrapWidth);
+//				for(String s : list) {
+//					newOffsetY += 9;
+//				}
 			
 				if(side == Side.LEFT)
-					textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + leftPageOffset, startingY + OffsetY));
-				else textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + rightPageOffset, startingY + OffsetY));
+					textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + leftPageOffset, startingY + OffsetY, wrapWidth));
+				else textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + rightPageOffset, startingY + OffsetY, wrapWidth));
 				
 				startingY += newOffsetY + 9;
 			}
 		}
 		
+		@SuppressWarnings("unused")
 		private List<String> listFormattedStringToWidth(String str, int wrapWidth) {
 			while(str != null && str.endsWith("\n")) {
 				str = str.substring(0, str.length() - 1);
@@ -192,11 +215,21 @@ public class BookPage {
 			this.textureWidth = textureWidth;
 			this.textureX = textureX;
 			this.textureY = textureY;
+			this.image = image;
 		}
 		
-		public void blit() {
+		public void blit(Side side) {
+			// Offsets based on Minecraft window dimensions
+			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
+			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
+						
+			// Offsets based on the page
+			int leftPageOffset = 16;
+			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
 			if(this.image != null) Minecraft.getInstance().getTextureManager().bindTexture(image); //if null it uses the last RL
-			AbstractGui.blit(x, y, textureX, textureY, textureWidth, textureHeight, 256, 256);
+			if(side == Side.LEFT)
+				AbstractGui.blit(x + OffsetX + leftPageOffset, y + OffsetY, textureX, textureY, textureWidth, textureHeight, 256, 256);
+			else AbstractGui.blit(x + OffsetX + rightPageOffset, y + OffsetY, textureX, textureY, textureWidth, textureHeight, 256, 256);
 		}
 		
 		public int getWidth() {
@@ -216,19 +249,68 @@ public class BookPage {
 		}
 	}
 	
+	private static class Recipe{
+		
+		private RecipeManager recipeManager = new RecipeManager();
+		private ResourceLocation background = new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/crafting_table_background.png");
+		private Collection<IRecipe<?>> recipes = recipeManager.getRecipes();
+		private int x;
+		private int y;
+		
+		public Recipe(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+		
+		public void blit(Side side) {
+			// Offsets based on Minecraft window dimensions
+			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
+			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
+									
+			// Offsets based on the page
+			int leftPageOffset = 16;
+			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
+			if(this.background != null) Minecraft.getInstance().getTextureManager().bindTexture(this.background); //if null it uses the last RL
+			if(side == Side.LEFT)
+			AbstractGui.blit(x + OffsetX + leftPageOffset, y + OffsetY, 0, 0, 120, 64, 120, 64);
+			else AbstractGui.blit(x + OffsetX + rightPageOffset, y + OffsetY, 0, 0, 120, 64, 120, 64);
+		}
+		
+		@SuppressWarnings("unused")
+		public int getWidth() {
+			return 120;
+		}
+		
+		public int getHeight() {
+			return 64;
+		}
+		
+		@SuppressWarnings("unused")
+		public int getX() {
+			return this.x;
+		}
+		
+		public int getY() {
+			return this.y;
+		}
+		
+	}
+	
 	private static class TextParagraph {
 		private ITextComponent text;
 		private int startingCoordinateX;
 		private int startingCoordinateY;
+		private int wrapWidth;
 		
-		public TextParagraph(ITextComponent text, int x, int y) {
+		public TextParagraph(ITextComponent text, int x, int y, int wrapWidth) {
 			this.startingCoordinateX = x;
 			this.startingCoordinateY = y;
 			this.text = text;
+			this.wrapWidth = wrapWidth;
 		}
 		
 		public void draw() {
-			fontrenderer.drawSplitString(text.getFormattedText(), startingCoordinateX, startingCoordinateY, 120, 0xFF000000);
+			fontrenderer.drawSplitString(text.getFormattedText(), startingCoordinateX, startingCoordinateY, wrapWidth, 0xFF000000);
 		}
 	}
 	
