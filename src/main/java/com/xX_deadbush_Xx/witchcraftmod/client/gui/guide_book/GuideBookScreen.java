@@ -30,6 +30,8 @@ public class GuideBookScreen extends Screen {
 	private CoverButton coverButton; 
 	private NextButton next;
 	private PreviousButton previous;
+	public BookPage leftPage, rightPage;
+	public BookChapter chapter;
 	
 	public static final GuideBookScreen INSTANCE = new GuideBookScreen();
 	
@@ -59,12 +61,14 @@ public class GuideBookScreen extends Screen {
 		super.init();
 		coverButton = new CoverButton((this.width - PAGE_WIDTH) / 2, (this.height - PAGE_HEIGHT) / 2, PAGE_WIDTH, PAGE_HEIGHT, I18n.format(""), (button) -> {
 				currentPage = 2;
+				selectPapes();
 				updateButtons();
 		});
 		
 		next = new NextButton((this.width) / 2 + PAGE_WIDTH - ARROW_WIDTH - 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
 					if (getNumberOfPages() >= currentPage) {
 						currentPage += 2;
+						selectPapes();						
 						updateButtons();
 					}
 				});
@@ -73,11 +77,63 @@ public class GuideBookScreen extends Screen {
 					if (currentPage > 2) {
 						currentPage -= 2;
 						if(currentPage == 0) currentPage = 2;
+						selectPapes();						
 						updateButtons();
 					}
 				});
 
 		updateButtons();
+	}
+	
+	public void selectPapes() {
+		boolean checkLeft = false;
+		boolean checkRight = false;
+		int pages = 0;
+		for(BookChapter chapter : content.getChapters()) {
+			pages += chapter.getNumberOfPages();
+			if(currentPage <= pages + 1) { 
+				for(int i = 0 ; i < chapter.getNumberOfPages(); i+=2) {
+					BookPage bookPage;
+					if(i < chapter.getNumberOfPages()) {
+						bookPage = chapter.getPages().get(i);
+						if(currentPage - 1 == bookPage.getPage() || currentPage - 2 == bookPage.getPage()) {
+							this.chapter = chapter;
+							if(bookPage.getSide() == BookPage.Side.LEFT) {
+								leftPage = bookPage;
+								checkLeft = true;
+							}
+							else {
+								rightPage = bookPage;
+								checkRight = true;
+							}
+						}
+						
+						if(i + 1 < chapter.getNumberOfPages())
+							bookPage = chapter.getPages().get(i + 1);
+						if(currentPage - 1 == bookPage.getPage() || currentPage - 2 == bookPage.getPage()) {
+							this.chapter = chapter;
+							if(bookPage.getSide() == BookPage.Side.LEFT) {
+								leftPage = bookPage;
+								checkLeft = true;
+							}
+							else {
+								rightPage = bookPage;
+								checkRight = true;
+							}
+						}
+						
+					}
+				}
+			}
+		}
+		
+		if(!checkLeft) {
+			leftPage = null;
+		}
+		if(!checkRight) {
+			rightPage = null;
+		}
+		
 	}
 	
 	public void addButtons() {
@@ -90,7 +146,8 @@ public class GuideBookScreen extends Screen {
 		if (currentPage == 0) {
 			this.addButton(coverButton);
 		} else {
-			if (currentPage > 0 && currentPage <= getNumberOfPages()) {
+			
+			if (currentPage > 0 && currentPage < getNumberOfPages()) {
 				this.addButton(next);
 			}
 			
@@ -123,29 +180,20 @@ public class GuideBookScreen extends Screen {
 			}
 			AbstractGui.blit((this.width) / 2, (this.height - PAGE_HEIGHT) / 2, 0, PAGE_WIDTH, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
 			
-			int pages = 0;
-			for(BookChapter chapter : content.getChapters()) {
-				pages += chapter.getNumberOfPages();
-				if(currentPage <= pages) {
-					for(int i = 0 ; i + 1 < chapter.getPages().size(); i+=2) {
-						BookPage bookPage = chapter.getPages().get(i);
-						if(currentPage - 2 == bookPage.getPage()) {
-							if(bookPage.isFirstPage()) {
-								chapter.drawTitle();
-							}
-							bookPage.drawPage();						
-						}
-						if(currentPage >= 3) {
-							System.out.println(currentPage);
-							bookPage = chapter.getPages().get(i-1);
-							System.out.println(i);
-							if(currentPage - 1 == bookPage.getPage()) {
-								bookPage.drawPage();
-							}	
-						}
-					}
+			if(leftPage != null && chapter != null) {
+				if(leftPage.isFirstPage()) {
+					chapter.drawTitle();
 				}
+				leftPage.drawPage();
 			}
+			
+			if(rightPage != null && chapter != null) {
+				if(rightPage.isFirstPage()) {
+					chapter.drawTitle();
+				}
+				rightPage.drawPage();
+			}
+			
 		}
 		
 		super.render(mouseX, mouseY, partialTicks);
