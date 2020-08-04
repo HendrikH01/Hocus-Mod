@@ -1,18 +1,22 @@
 package com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
@@ -107,8 +111,8 @@ public class BookPage {
 			return this;
 		}
 		
-		public Builder addRecipe(int x, int y) {
-			recipes.add(new Recipe(x, y));
+		public Builder addRecipe(int x, int y, Item item) {
+			recipes.add(new Recipe(x, y, item));
 			return this;
 		}
 		
@@ -251,29 +255,59 @@ public class BookPage {
 	
 	private static class Recipe{
 		
-		private RecipeManager recipeManager = new RecipeManager();
 		private ResourceLocation background = new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/crafting_table_background.png");
-		private Collection<IRecipe<?>> recipes = recipeManager.getRecipes();
+		private ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
+		private ItemStack result;
 		private int x;
 		private int y;
+		private IRecipe<?> recipe;
 		
-		public Recipe(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-		
-		public void blit(Side side) {
+		@SuppressWarnings("resource")
+		public Recipe(int x, int y, Item item) {
+			
 			// Offsets based on Minecraft window dimensions
 			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
 			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
-									
+											
+			this.x = x + OffsetX;
+			this.y = y + OffsetY;
+			result = new ItemStack(item);
+			recipe = CraftingHelper.findCraftingRecipeByResult(result, Minecraft.getInstance().world);
+
+		}
+		
+		public void blit(Side side) {
 			// Offsets based on the page
 			int leftPageOffset = 16;
 			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
+			
 			if(this.background != null) Minecraft.getInstance().getTextureManager().bindTexture(this.background); //if null it uses the last RL
-			if(side == Side.LEFT)
-			AbstractGui.blit(x + OffsetX + leftPageOffset, y + OffsetY, 0, 0, 120, 64, 120, 64);
-			else AbstractGui.blit(x + OffsetX + rightPageOffset, y + OffsetY, 0, 0, 120, 64, 120, 64);
+			if(side == Side.LEFT) {
+				AbstractGui.blit(x + leftPageOffset, y, 0, 0, 120, 64, 120, 64);
+				itemRenderer.renderItemAndEffectIntoGUI(result, x + leftPageOffset + 97, y + 24);
+			} else {	
+				AbstractGui.blit(x + rightPageOffset, y, 0, 0, 120, 64, 120, 64);
+				itemRenderer.renderItemAndEffectIntoGUI(result, x + rightPageOffset + 97, y + 24);
+			}
+			
+			NonNullList<Ingredient> inputs = recipe.getIngredients();
+			int ingredientOffsetX = 18;
+			int ingredientOffsetY = 18;
+			int multiplierX = 0;
+			int multiplierY = 0;
+			for(Ingredient i : inputs) {
+				ItemStack[] stack = i.getMatchingStacks();
+				if(side == Side.LEFT) {
+					itemRenderer.renderItemAndEffectIntoGUI(stack.length != 0 ? stack[0] : ItemStack.EMPTY, x + leftPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
+				} else {
+					itemRenderer.renderItemAndEffectIntoGUI(stack.length != 0 ? stack[0] : ItemStack.EMPTY, x + rightPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
+				}
+				multiplierX++;
+				if(multiplierX > 2) {
+					multiplierX = 0;
+					multiplierY++;
+				}
+			}
 		}
 		
 		@SuppressWarnings("unused")

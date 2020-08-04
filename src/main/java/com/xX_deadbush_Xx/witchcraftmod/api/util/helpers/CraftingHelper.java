@@ -13,7 +13,6 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class CraftingHelper {	
 	
@@ -25,6 +24,16 @@ public class CraftingHelper {
 		@SuppressWarnings("resource")
 		ClientWorld world = Minecraft.getInstance().world;
 		return world != null ? world.getRecipeManager().getRecipes().stream().filter(r -> r.getType() == type).collect(Collectors.toSet()) : Collections.emptySet();
+	}
+	
+	public static IRecipe<?> findCraftingRecipeByResult(ItemStack result, World world){	
+			Set<IRecipe<?>> recipes = findRecipesByType(IRecipeType.CRAFTING, world);
+			for(IRecipe<?> recipe : recipes) {
+				if(recipe.getRecipeOutput().getItem().equals(result.getItem())) {
+					return recipe;
+				}
+			}
+			return null;
 	}
 	
 	public static Set<ItemStack> getAllRecipeInputs(IRecipeType<?> type, World world) {		
