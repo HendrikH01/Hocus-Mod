@@ -6,15 +6,12 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -111,8 +108,8 @@ public class BookPage {
 			return this;
 		}
 		
-		public Builder addRecipe(int x, int y, Item item) {
-			recipes.add(new Recipe(x, y, item));
+		public Builder addRecipe(int x, int y, List<ItemStack> list, ItemStack item) {
+			recipes.add(new Recipe(x, y, list, item));
 			return this;
 		}
 		
@@ -258,12 +255,13 @@ public class BookPage {
 		private ResourceLocation background = new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/crafting_table_background.png");
 		private ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 		private ItemStack result;
+		private List<ItemStack> list; // contains 9 ItemStacks 
 		private int x;
 		private int y;
-		private IRecipe<?> recipe;
+		
 		
 		@SuppressWarnings("resource")
-		public Recipe(int x, int y, Item item) {
+		public Recipe(int x, int y, List<ItemStack> list, ItemStack item) {
 			
 			// Offsets based on Minecraft window dimensions
 			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
@@ -271,8 +269,8 @@ public class BookPage {
 											
 			this.x = x + OffsetX;
 			this.y = y + OffsetY;
-			result = new ItemStack(item);
-			recipe = CraftingHelper.findCraftingRecipeByResult(result, Minecraft.getInstance().world);
+			result = item;
+			this.list = list;
 
 		}
 		
@@ -289,18 +287,15 @@ public class BookPage {
 				AbstractGui.blit(x + rightPageOffset, y, 0, 0, 120, 64, 120, 64);
 				itemRenderer.renderItemAndEffectIntoGUI(result, x + rightPageOffset + 97, y + 24);
 			}
-			
-			NonNullList<Ingredient> inputs = recipe.getIngredients();
 			int ingredientOffsetX = 18;
 			int ingredientOffsetY = 18;
 			int multiplierX = 0;
 			int multiplierY = 0;
-			for(Ingredient i : inputs) {
-				ItemStack[] stack = i.getMatchingStacks();
+			for(ItemStack stack : list) {
 				if(side == Side.LEFT) {
-					itemRenderer.renderItemAndEffectIntoGUI(stack.length != 0 ? stack[0] : ItemStack.EMPTY, x + leftPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
+					itemRenderer.renderItemAndEffectIntoGUI(stack, x + leftPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
 				} else {
-					itemRenderer.renderItemAndEffectIntoGUI(stack.length != 0 ? stack[0] : ItemStack.EMPTY, x + rightPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
+					itemRenderer.renderItemAndEffectIntoGUI(stack, x + rightPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
 				}
 				multiplierX++;
 				if(multiplierX > 2) {
