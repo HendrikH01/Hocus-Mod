@@ -22,8 +22,8 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
 
     public static final int ENERGY_ADD_PER_TICK = 1;
 
-    private int burnTime = 0;
-    private int total = 0;
+    public int burnTime = 0;
+    public int total = 0;
 
 
     public CrystalRechargerTile() {

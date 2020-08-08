@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.container.CrystalRechargerContainer;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.CrystalRechargerTile;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -18,11 +19,6 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         this.ySize = 166;
     }
 
-    @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.font.drawString("Burntime: " + this.container.getTile().getBurnTime(), 10, 10, 4210752);
-    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
@@ -31,9 +27,9 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         int i = this.guiLeft;
         int j = this.guiTop;
         this.blit(i, j, 0, 0, this.xSize, this.ySize);
-        if (this.container.getTile().isBurning()) {
-            int k = this.container.getTile().getBurnLeftScaled();
-            this.blit(i + 61, j + 58 - k, 176, 12 - k, 14, k + 1);
+        if (this.container.tile.burnTime > 0) {
+            int k = this.getBurnLeftScaled();
+            this.blit(i + 61, j + 58 - k, 176, 12 - k, 14, k + 1); //Copied from vanilla furnace and changed the startX and startY
         }
 
     }
@@ -43,5 +39,14 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    private int getBurnLeftScaled() {
+        CrystalRechargerTile tile = this.container.tile;
+        int t = tile.total;
+        if (t == 0)
+            t = 200;
+        return tile.burnTime * 13 / t;
+
     }
 }
