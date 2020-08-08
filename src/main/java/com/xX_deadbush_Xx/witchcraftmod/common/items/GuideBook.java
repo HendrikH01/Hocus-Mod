@@ -1,5 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
+import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookContent;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookScreen;
 
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,7 @@ public class GuideBook extends Item{
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		if(worldIn.isRemote) {
+			GuideBookContent.loadBookContent();
 			Minecraft.getInstance().displayGuiScreen(GuideBookScreen.INSTANCE); 
 		}
 		return super.onItemRightClick(worldIn, playerIn, handIn);

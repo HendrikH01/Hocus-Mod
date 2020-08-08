@@ -3,9 +3,12 @@ package com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.BookPage.Side;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -39,7 +42,7 @@ public class GuideBookContent {
 		instance.addChapter(
 				new BookChapter(new StringTextComponent("testchapter0"))
 					.newPage((builder) -> builder.setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addRecipe(0, 16).isFirstPage().setSide(Side.RIGHT).build(), instance.getNumberOfPages())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addRecipe(0, 16, Lists.newArrayList(Items.DIAMOND.getDefaultInstance(), Items.DIAMOND.getDefaultInstance(), ItemStack.EMPTY, Items.DIAMOND.getDefaultInstance(), Items.STICK.getDefaultInstance(), ItemStack.EMPTY, ItemStack.EMPTY, Items.STICK.getDefaultInstance(), ItemStack.EMPTY), Items.DIAMOND_AXE.getDefaultInstance()).isFirstPage().setSide(Side.RIGHT).build(), instance.getNumberOfPages())
 					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addImage(new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/testing_book_image.png"), 60, 0, 64, 0, 64, 64).setSide(Side.LEFT).build(), instance.getNumberOfPages())
 					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addImage(new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/testing_book_image.png"), 0, 0, 0, 64, 64, 64).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
 					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.LEFT).build(), instance.getNumberOfPages())

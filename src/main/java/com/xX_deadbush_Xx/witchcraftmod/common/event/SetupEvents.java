@@ -50,7 +50,7 @@ public class SetupEvents {
     	RitualStoneRenderer.register();
     	RitualPedestalRenderer.register();
     	
-    	GuideBookContent.loadBookContent();
+//    	GuideBookContent.loadBookContent();
     	ScreenManager.registerFactory(ModContainers.TOOL_TABLE.get(), ToolTableScreen::new);
     	ScreenManager.registerFactory(ModContainers.BOTTOM_LESS_BAG.get(), BottomLessBagScreen::new);
     	ScreenManager.registerFactory(ModContainers.CRYSTAL_RECHARGER.get(), CrystalRechargerScreen::new);

@@ -13,9 +13,6 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class CraftingHelper {	
 	
@@ -29,26 +26,26 @@ public class CraftingHelper {
 		return world != null ? world.getRecipeManager().getRecipes().stream().filter(r -> r.getType() == type).collect(Collectors.toSet()) : Collections.emptySet();
 	}
 	
+	public static IRecipe<?> findCraftingRecipeByResult(ItemStack result, World world){	
+			Set<IRecipe<?>> recipes = findRecipesByType(IRecipeType.CRAFTING, world);
+			for(IRecipe<?> recipe : recipes) {
+				if(recipe.getRecipeOutput().getItem().equals(result.getItem())) {
+					return recipe;
+				}
+			}
+			return null;
+	}
+	
 	public static Set<ItemStack> getAllRecipeInputs(IRecipeType<?> type, World world) {		
 		Set<ItemStack> out = new HashSet<>();
 		Set<IRecipe<?>> recipes = findRecipesByType(type, world);
+		System.out.println(recipes + " " + world);
 		for(IRecipe<?> recipe : recipes) {
 			NonNullList<Ingredient> inputs = recipe.getIngredients();
 			inputs.forEach(i -> {
+				System.out.println(i); 
 				for(ItemStack stack : i.getMatchingStacks()) out.add(stack);}); 
 		}
 		return out;
-	}
-	
-	public static RecipeWrapper trimEmptySlots(RecipeWrapper inv) {
-		IItemHandlerModifiable out = new ItemStackHandler();
-		for(int i = 0; i < inv.getSizeInventory(); i++) {
-			ItemStack stack = inv.getStackInSlot(i);
-			if(!stack.isEmpty()) {
-				out.insertItem(i, stack, false);
-			}
-		}
-		
-		return new RecipeWrapper(out);
 	}
 }
