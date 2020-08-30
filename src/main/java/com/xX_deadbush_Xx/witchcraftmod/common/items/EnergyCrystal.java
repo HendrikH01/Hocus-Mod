@@ -54,8 +54,8 @@ public class EnergyCrystal extends Item implements IPlayerInventoryTickingItem {
 		stack.setDamage(stack.getDamage() - amount);
 	}
 
-	public static boolean isStackACrystal(ItemStack stack) {
-		return stack != null && stack.getItem() instanceof EnergyCrystal;
+	public static boolean isStackEnergyCrystal(ItemStack stack) {
+		return !stack.isEmpty() && stack.getItem() instanceof EnergyCrystal;
 	}
 
 	public static void removeEnergyFromPlayer(PlayerEntity player, int amount) {

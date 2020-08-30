@@ -16,12 +16,15 @@ import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.RitualRegistry;
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.CrystalEnergyStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
 
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.IntNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -40,6 +43,10 @@ public class SetupEvents {
     	RenderTypeLookup.setRenderLayer(ModBlocks.HELLSHROOM.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.BELLADONNA.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.ADONIS.get(), RenderType.getCutout());
+    	RenderTypeLookup.setRenderLayer(ModBlocks.SWIRLY_PLANT.get(), RenderType.getCutout());
+    	RenderTypeLookup.setRenderLayer(ModBlocks.CAVE_FLOWER.get(), RenderType.getCutout());
+    	RenderTypeLookup.setRenderLayer(ModBlocks.POISON_IVY.get(), RenderType.getCutout());
+
     	RenderTypeLookup.setRenderLayer(ModBlocks.CHALK_BLOCK.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.DREADWOOD_SAPLING.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.RITUAL_STONE.get(), RenderHelper::isSolidOrTranslucent);
@@ -59,13 +66,33 @@ public class SetupEvents {
 	public static void commonSetup(FMLCommonSetupEvent event) {
 		WitchcraftPacketHandler.registerPackets();
 		RitualRegistry.INSTANCE.registerRituals();
-		
-		CapabilityManager.INSTANCE.register(CrystalEnergyStorage.class, new Capability.IStorage<CrystalEnergyStorage>( ) {
-			@Override
-			public INBT writeNBT(Capability<CrystalEnergyStorage> capability, CrystalEnergyStorage instance, Direction side) {return null;}
-			@Override
-			public void readNBT(Capability<CrystalEnergyStorage> capability, CrystalEnergyStorage instance, Direction side, INBT nbt) {}
+		CapabilityManager.INSTANCE.register(PlayerManaStorage.class, new Capability.IStorage<PlayerManaStorage>( ) {
 			
-		}, CrystalEnergyStorage::new);
+			@Override
+			public INBT writeNBT(Capability<PlayerManaStorage> capability, PlayerManaStorage instance, Direction side) {
+				return new IntArrayNBT(new int[] {instance.getEnergy(), instance.getMaxEnergy()});
+			}
+			
+			@Override
+			public void readNBT(Capability<PlayerManaStorage> capability, PlayerManaStorage instance, Direction side, INBT nbt) {
+				instance.setEnergy(((IntArrayNBT)nbt).get(0).getInt());
+				instance.setMaxEnergy(((IntArrayNBT)nbt).get(1).getInt());
+			}
+			
+		}, PlayerManaStorage::new);
+		
+		CapabilityManager.INSTANCE.register(TileEntityManaStorage.class, new Capability.IStorage<TileEntityManaStorage>( ) {
+			
+			@Override
+			public INBT writeNBT(Capability<TileEntityManaStorage> capability, TileEntityManaStorage instance, Direction side) {
+				return IntNBT.valueOf(instance.getEnergy());
+			}
+			
+			@Override
+			public void readNBT(Capability<TileEntityManaStorage> capability, TileEntityManaStorage instance, Direction side, INBT nbt) {
+				instance.setEnergy(((IntNBT)nbt).getInt());
+			}
+			
+		}, () -> new TileEntityManaStorage(1000, 20 , 20));
 	}
 }

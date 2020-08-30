@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.CrystalEnergyStorage;
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerCrystalEnergyProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,14 +26,14 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 		PlayerEntity player = (PlayerEntity)entity;
 			
 		int energyneeded = getEnergyPerUse(wand);
-		CrystalEnergyStorage storage = PlayerCrystalEnergyProvider.getPlayerCapability(player).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
 
 		if (storage == null)
 			return;
 		if (storage.getEnergy() < energyneeded)
 			return;
 		
-		EnergyCrystal.removeEnergyFromPlayer(player, getEnergyUsedWhileCharging(wand));
+		storage.removeEnergy(getEnergyUsedWhileCharging(wand));
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 		PlayerEntity player = (PlayerEntity)entity;
 		
 		int energyneeded = getEnergyPerUse(wand);
-		CrystalEnergyStorage storage = PlayerCrystalEnergyProvider.getPlayerCapability(player).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
 
 		if (storage == null)
 			return;
@@ -62,7 +62,7 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 			return;
 
 		if(onFinishWandUse(worldIn, player, wand, timeLeft)) {
-			EnergyCrystal.removeEnergyFromPlayer(player, energyneeded);
+			storage.removeEnergy(energyneeded);
 			player.getCooldownTracker().setCooldown(this, getCooldown());
 		}
 	}
@@ -74,7 +74,7 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 
 	protected boolean canUse(PlayerEntity playerIn, ItemStack wand) {
 		int energyneeded = getEnergyPerUse(wand);
-		CrystalEnergyStorage storage = PlayerCrystalEnergyProvider.getPlayerCapability(playerIn).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
 
 		if (storage == null)
 			return false;

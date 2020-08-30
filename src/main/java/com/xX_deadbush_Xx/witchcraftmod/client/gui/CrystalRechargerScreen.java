@@ -28,12 +28,16 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-        int i = this.guiLeft;
-        int j = this.guiTop;
-        this.blit(i, j, 0, 0, this.xSize, this.ySize);
-        if (this.container.isBurning()) {
-            int k = this.container.getBurnLeftScaled();
-            this.blit(i + 60, j + 60 - k, 176, 12 - k, 14, k + 1);
+        int x = this.guiLeft;
+        int y = this.guiTop;
+        this.blit(x, y, 0, 0, this.xSize, this.ySize);
+        
+        int burntime = this.container.getBurnTime();
+        int burntimemax = this.container.getMaxBurnTime();
+        
+        if (this.container.getBurnTime() > 0) {
+            int firelevel = (int)(13 * burntime / burntimemax);
+            this.blit(x + 60, y + 60 - firelevel, 176, 12 - firelevel, 14, firelevel + 1);
         }
 
     }

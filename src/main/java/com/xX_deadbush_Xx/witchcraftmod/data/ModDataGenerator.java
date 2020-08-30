@@ -22,8 +22,8 @@ public class ModDataGenerator {
 
         if (event.includeClient()) {
         	System.out.println("Starting client data gen");
-            generator.addProvider(new BlockStatesDataGen(generator, WitchcraftMod.MOD_ID, event.getExistingFileHelper()));
             generator.addProvider(new BlockModelsDataGen(generator, WitchcraftMod.MOD_ID, event.getExistingFileHelper()));
+            generator.addProvider(new BlockStatesDataGen(generator, WitchcraftMod.MOD_ID, event.getExistingFileHelper()));
             generator.addProvider(new ItemModelsDataGen(generator, WitchcraftMod.MOD_ID, event.getExistingFileHelper()));
             generator.addProvider(new LanguagesDataGen(generator, WitchcraftMod.MOD_ID));
         }

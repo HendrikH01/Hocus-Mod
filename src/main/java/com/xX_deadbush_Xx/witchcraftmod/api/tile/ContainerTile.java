@@ -24,7 +24,6 @@ public abstract class ContainerTile extends BasicItemHolderTile implements IName
     }
 
     public CompoundNBT write(CompoundNBT compound) {
-        System.out.println(this.inventory);
         super.write(compound);
         if (this.customName != null) {
             compound.putString("CustomName", ITextComponent.Serializer.toJson(this.customName));

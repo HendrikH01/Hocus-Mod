@@ -57,11 +57,6 @@ public abstract class BasicItemHolderTile extends TileEntity {
 	    this.write(tag);
 	    return tag;
 	}
-		
-	@Override
-	public void handleUpdateTag(CompoundNBT tag) {
-	    this.read(tag);
-	}
 	
 	@Override
 	public void read(CompoundNBT nbt) {

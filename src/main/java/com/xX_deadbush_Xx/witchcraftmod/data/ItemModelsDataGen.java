@@ -55,7 +55,8 @@ public class ItemModelsDataGen extends ItemModelProvider {
 				else if(ModBlocks.HELLSHROOM_STEM.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");
 				else withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name);
 			} else if (!existingFileHelper.exists(new ResourceLocation(WitchcraftMod.MOD_ID, name), ResourcePackType.CLIENT_RESOURCES, ".json", "models/item")) {
-				withExistingParent(name, "item/generated").texture("layer0", getTextureRL(name));
+				 if(ModBlocks.SWIRLY_PLANT.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + name + "_top"));
+				 else withExistingParent(name, "item/generated").texture("layer0", getTextureRL(name));
 			}
 		});
 	}
