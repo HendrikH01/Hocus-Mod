@@ -16,7 +16,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class RitualPedestal extends Block implements IRitualBlock {
+public class RitualPedestal extends Block {
 
 	public RitualPedestal(Properties properties) {
 		super(properties);

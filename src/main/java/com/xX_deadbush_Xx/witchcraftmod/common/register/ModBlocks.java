@@ -13,14 +13,11 @@ import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualPedestal;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualStone;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.Table;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ToolTable;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.CrystalRechargerBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.potion.BelladonnaPoisionEffect;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.gen.features.DreadwoodTree;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowerBlock;
-import net.minecraft.block.HugeMushroomBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.potion.EffectType;
@@ -50,6 +47,8 @@ public class ModBlocks {
 		public static final RegistryObject<Block> DREADWOOD_LOG = BLOCKS.register("dreadwood_log", () -> new DreadwoodLog(MaterialColor.GRASS, Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
 		public static final RegistryObject<Block> DREADWOOD_LEAVES = BLOCKS.register("dreadwood_leaves", () -> new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.3F, 0.5F).notSolid().sound(SoundType.PLANT)));
 		public static final RegistryObject<Block> TABLE = BLOCKS.register("table", () -> new Table(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> SHALE = BLOCKS.register("shale", () -> new Block(Block.Properties.create(Material.ROCK).notSolid().harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> POLISHED_WOOD = BLOCKS.register("polished_wood", () -> new Block(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.WOOD)));
 
 		//FUNCTIONAL BLOCKS
 		public static final RegistryObject<Block> DRYING_RACK = BLOCKS.register("drying_rack", () -> new DryingRackBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.5F, 5.0F).sound(SoundType.WOOD)));
@@ -59,5 +58,7 @@ public class ModBlocks {
 		public static final RegistryObject<Block> STONE_MORTAR = BLOCKS.register("stone_mortar", () -> new MortarBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_WOOD).notSolid().sound(SoundType.STONE)));
 		public static final RegistryObject<Block> TOOL_TABLE = BLOCKS.register("tool_table", () -> new ToolTable(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
 		public static final RegistryObject<Block> FIRE_BOWL = BLOCKS.register("fire_bowl", () -> new FireBowlBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).notSolid().sound(SoundType.STONE)));
+		public static final RegistryObject<Block> CRYSTAL_RECHARGER = BLOCKS.register("crystal_recharger", () -> new CrystalRechargerBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).lightValue(13)));
+
 
 }

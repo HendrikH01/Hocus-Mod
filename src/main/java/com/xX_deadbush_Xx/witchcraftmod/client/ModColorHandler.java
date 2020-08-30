@@ -15,7 +15,7 @@ public class ModColorHandler {
 	public static void registerBlocks() {
 		BlockColors colors = Minecraft.getInstance().getBlockColors();
 		colors.register((state, light, pos, color) -> ChalkBlock.getColor(state), ModBlocks.CHALK_BLOCK.get());
-		//colors.register((state, light, pos, color) -> ChalkBlock.getColor(state), ModBlocks.RITUAL_STONE.get());
+		colors.register((state, light, pos, color) -> 0xC1AA66, ModBlocks.STONE_MORTAR.get());
 		colors.register((state, light, pos, color) ->  0x3C8455, ModBlocks.DREADWOOD_LEAVES.get());
 	}
 	

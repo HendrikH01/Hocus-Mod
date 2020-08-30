@@ -2,13 +2,13 @@ package com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.MediumFusionSerializer;
+import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.MortarSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.OneInOneOutSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.SmallFusionSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.ToolTableShapedSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.ToolTableShapelessSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.BloodPhialRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
-import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MortarRecipe;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -23,18 +23,18 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ModRecipeTypes {
 	public static final DeferredRegister<IRecipeSerializer<?>> SERIALIZERS = new DeferredRegister<>(ForgeRegistries.RECIPE_SERIALIZERS, WitchcraftMod.MOD_ID);
 	
-	public static final RegistryObject<IRecipeSerializer<IMortarRecipe>> MORTAR_SERIALIZER= SERIALIZERS
-			.register(IMortarRecipe.TYPE_ID.getPath(), () -> new OneInOneOutSerializer<>(MortarRecipe::new));
+	public static final RegistryObject<MortarSerializer> MORTAR_SERIALIZER= SERIALIZERS
+			.register(IMortarRecipe.TYPE_ID.getPath(), MortarSerializer::new);
 	public static final RegistryObject<IRecipeSerializer<IDryingRackRecipe>> DRYING_RACK_SERIALIZER = SERIALIZERS
 			.register(IDryingRackRecipe.TYPE_ID.getPath(), () -> new OneInOneOutSerializer<>(DryingRackRecipe::new));
 	public static final RegistryObject<SmallFusionSerializer> SMALL_FUSION_SERIALIZER = SERIALIZERS
-			.register(ISmallFusionRecipe.TYPE_ID.getPath(), () -> new SmallFusionSerializer());
+			.register(ISmallFusionRecipe.TYPE_ID.getPath(), SmallFusionSerializer::new);
 	public static final RegistryObject<MediumFusionSerializer> MEDIUM_FUSION_SERIALIZER = SERIALIZERS
 			.register(IMediumFusionRecipe.TYPE_ID.getPath(), MediumFusionSerializer::new);
 	public static final RegistryObject<ToolTableShapedSerializer> TOOL_TABLE_SHAPED_SERIALIZER = SERIALIZERS
-			.register("tool_table_shaped", () -> new ToolTableShapedSerializer());
+			.register("tool_table_shaped", ToolTableShapedSerializer::new);
 	public static final RegistryObject<ToolTableShapelessSerializer> TOOL_TABLE_SHAPELESS_SERIALIZER = SERIALIZERS
-			.register("tool_table_shapeless", () -> new ToolTableShapelessSerializer());
+			.register("tool_table_shapeless", ToolTableShapelessSerializer::new);
 	public static final RegistryObject<SpecialRecipeSerializer<BloodPhialRecipe>> BLOOD_VIAL_SERIALIZER = SERIALIZERS
 			.register("crafting_blood_vial", () -> new SpecialRecipeSerializer<>(BloodPhialRecipe::new));
 	

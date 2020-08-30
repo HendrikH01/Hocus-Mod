@@ -23,12 +23,17 @@ public class SimpleItemHandler extends ItemStackHandler {
 	}
 
 	public boolean isEmpty() {
-		for(ItemStack stack : this.stacks) {
+		for(ItemStack stack : this.stacks) { 
 			if(stack.isEmpty() || stack.getItem() == Items.AIR) return true;
 		}
 		return false;
 	}
 
+	@Override
+	public void setStackInSlot(int slot, ItemStack stack) {
+		super.setStackInSlot(slot, stack);
+	}
+	
 	public ItemStack decrStackSize(int index, int count) {
 		ItemStack stack = getStackInSlot(index);
 		stack.shrink(count);

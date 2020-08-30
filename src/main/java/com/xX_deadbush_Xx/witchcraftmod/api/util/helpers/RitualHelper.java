@@ -2,7 +2,6 @@ package com.xX_deadbush_Xx.witchcraftmod.api.util.helpers;
 
 import java.util.Comparator;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractMediumRitual;
@@ -11,9 +10,9 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTier;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.IRitualEffect;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
-import com.xX_deadbush_Xx.witchcraftmod.common.blocks.IRitualBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
+import com.xX_deadbush_Xx.witchcraftmod.common.tags.ModTags;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -50,7 +49,7 @@ public class RitualHelper {
 
 	public static boolean stopsRitual(World worldIn, BlockPos pos) {
 		BlockState state = worldIn.getBlockState(pos);
-		return state.getBlock() instanceof IRitualBlock || state.isSolid();
+		return state.getBlock().isIn(ModTags.RITUAL_BLOCK) || state.isSolid();
 	}
 	
 	public static Class<? extends IRitual> getAbstractClassFromTier(RitualTier tier) {

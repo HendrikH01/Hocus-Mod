@@ -3,7 +3,8 @@
   	"output": {
 		"item": "witchcraftmod:vibrant_dust"
   	},
-  	"input": {
-    	"item": "witchcraftmod:vibrant_crystal"
-  	}
+  	"ingredients": [{
+    	"item":"witchcraftmod:vibrant_crystal"
+  		}
+  	]
 }
