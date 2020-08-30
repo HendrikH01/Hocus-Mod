@@ -39,8 +39,7 @@ public class MortarTile extends BasicItemHolderTile {
 		this(ModTileEntities.MORTAR_TILE.get());
 	}
 	
-	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {
-				
+	public void swapItems(World worldIn, BlockPos pos, PlayerEntity player) {				
 		ItemStack playerItems = player.getHeldItemMainhand().copy();
 		playerItems.setCount(1);
 		ItemStack returnedItem = ItemStack.EMPTY;
