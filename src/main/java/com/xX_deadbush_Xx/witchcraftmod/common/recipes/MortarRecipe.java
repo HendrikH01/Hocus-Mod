@@ -31,21 +31,24 @@ public class MortarRecipe implements IMortarRecipe {
 	
 	@Override
 	public boolean matches(RecipeWrapper inv, @Nullable World worldIn) {
-		RecipeWrapper trimmedWrapper = CraftingHelper.trimEmptySlots(inv);
-		List<Ingredient> missingIngredients = Lists.newArrayList(this.inputs); 
-		int invsize = trimmedWrapper.getSizeInventory();
-		if(invsize != this.inputs.length) return false;
+		List<Ingredient> missingIngredients = Lists.newArrayList(this.inputs);
+		
+		int invsize = inv.getSizeInventory();
+		int itemcount = 0;
 		
 		for(int i = 0; i < invsize; i++) {
+			ItemStack item = inv.getStackInSlot(i);
+			if(item.isEmpty()) break;
+			itemcount++;
 			for(int j = 0; j < missingIngredients.size(); j++) {
-				if(missingIngredients.get(j).test(trimmedWrapper.getStackInSlot(i))) {
+				if(missingIngredients.get(j).test(item)) {
 					missingIngredients.remove(j);
 					break;
 				}
 			}
 		}
 		
-		return missingIngredients.size() == 0;
+		return missingIngredients.size() == 0 && itemcount == this.inputs.length;
 	}
 
 	@Override

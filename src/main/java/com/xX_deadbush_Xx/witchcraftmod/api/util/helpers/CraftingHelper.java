@@ -51,16 +51,4 @@ public class CraftingHelper {
 		}
 		return out;
 	}
-
-	public static RecipeWrapper trimEmptySlots(RecipeWrapper inv) {
-		IItemHandlerModifiable out = new ItemStackHandler();
-		for (int i = 0; i < inv.getSizeInventory(); i++) {
-			ItemStack stack = inv.getStackInSlot(i);
-			if (!stack.isEmpty()) {
-				out.insertItem(i, stack, false);
-			}
-		}
-
-		return new RecipeWrapper(out);
-	}
 }
