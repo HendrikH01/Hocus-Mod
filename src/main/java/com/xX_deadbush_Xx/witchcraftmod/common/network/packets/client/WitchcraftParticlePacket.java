@@ -9,8 +9,6 @@ import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.Effe
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 public class WitchcraftParticlePacket {
@@ -32,7 +30,7 @@ public class WitchcraftParticlePacket {
 	public static void encode(WitchcraftParticlePacket msg, PacketBuffer buf) {
 		buf.writeByte(msg.type.ordinal());
 		buf.writeDouble(msg.x);
-		buf.writeDouble(msg.y);
+		buf.writeDouble(msg.y); 
 		buf.writeDouble(msg.z);
 		buf.writeInt(msg.args.length);
 		for(float arg : msg.args) {
@@ -58,6 +56,7 @@ public class WitchcraftParticlePacket {
 		context.enqueueWork(new Runnable() {
 			private Random rand = new Random();
 
+			@SuppressWarnings("resource")
 			@Override
 			public void run() {
 				World world = Minecraft.getInstance().world;

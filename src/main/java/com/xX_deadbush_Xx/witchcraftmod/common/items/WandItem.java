@@ -16,7 +16,7 @@ public abstract class WandItem extends Item implements IWandItem {
 	public WandItem(Properties properties) {
 		super(properties);
 	}
-
+	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack wand = playerIn.getHeldItem(handIn);

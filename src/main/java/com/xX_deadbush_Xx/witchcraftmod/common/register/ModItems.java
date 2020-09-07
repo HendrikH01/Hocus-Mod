@@ -8,6 +8,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.items.FireWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.GuideBook;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.LightningRod;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagicChalk;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.NatureWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.SacrificeKnife;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ThunderStaff;
@@ -41,7 +42,8 @@ public class ModItems {
 	public static final RegistryObject<Item> FIRE_WAND = ITEMS.register("fire_wand", () -> new FireWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> WEAK_ENERGY_CRYSTAL = ITEMS.register("weak_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 500));
 	public static final RegistryObject<Item> ADVANCED_ENERGY_CRYSTAL = ITEMS.register("advanced_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 50000));
-
+	public static final RegistryObject<Item> NATURE_WAND = ITEMS.register("nature_wand", () -> new NatureWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
+	
 	// Witch Guide Book
 	public static final RegistryObject<Item> GUIDE_BOOK = ITEMS.register("guide_book", () -> new GuideBook(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	
