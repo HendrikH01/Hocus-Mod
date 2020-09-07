@@ -1,21 +1,23 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.util.helpers;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.ItemStackHandler;
-import net.minecraftforge.items.wrapper.RecipeWrapper;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class CraftingHelper {	
 	
@@ -27,6 +29,19 @@ public class CraftingHelper {
 		@SuppressWarnings("resource")
 		ClientWorld world = Minecraft.getInstance().world;
 		return world != null ? world.getRecipeManager().getRecipes().stream().filter(r -> r.getType() == type).collect(Collectors.toSet()) : Collections.emptySet();
+	}
+	
+	public static ShapedRecipe getShapedRecipeFromResult(RecipeManager recipeManager, Item item) {
+		Collection<IRecipe<?>> recipes = recipeManager.getRecipes();
+		for(IRecipe<?> recipe : recipes) {
+			System.out.println(recipe.getRecipeOutput().getItem());
+
+			if(recipe instanceof ShapedRecipe) {
+				if(recipe.getRecipeOutput().getItem().equals(item)) return (ShapedRecipe)recipe;
+			}
+		}
+		
+		return null;
 	}
 	
 	public static IRecipe<?> findCraftingRecipeByResult(ItemStack result, World world){	

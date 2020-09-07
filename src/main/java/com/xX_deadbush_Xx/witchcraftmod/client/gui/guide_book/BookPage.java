@@ -1,11 +1,16 @@
 package com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookScreen.Coords;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -13,57 +18,57 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.NonNullList;
+import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BookPage {
-	
 	private List<TextParagraph> textParagraphs = Lists.newArrayList();
 	private List<BookImage> images = Lists.newArrayList();
 	private List<Recipe> recipes = Lists.newArrayList();
-	private boolean isFirstPage = false;
 	private Side side;
-	
-	private int pagenumber;
-	private boolean isFull = false;
+	private final int chapterPageNum; // page number in the chapter! First page of chapter has number 0
+	private final boolean isFull = false;
+	private BookChapter parentChapter;
 	private static final FontRenderer fontrenderer = Minecraft.getInstance().fontRenderer;
 	
-	public BookPage(int pagenumber) {
-		this.pagenumber = pagenumber;
+	public BookPage(BookChapter bookChapter, int pagenumber) {
+		this.chapterPageNum = pagenumber;
+		this.parentChapter = bookChapter;
 	}
 	
-	public int getPage() {
-		return this.pagenumber;
+	public BookChapter getChapter() {
+		return this.parentChapter;
 	}
 	
 	public boolean isFull() {
 		return this.isFull;
 	}
 	
-	public void drawPage() {
-		for(TextParagraph txt : textParagraphs) {
-			txt.draw();
-		}
-		for(BookImage image : images) {
-			image.blit(this.side);
-		}
-		for(Recipe recipe : recipes) {
-			recipe.blit(this.side);
-		}
-	}
-
 	public boolean isFirstPage() {
-		return isFirstPage;
+		return this.chapterPageNum == 0;
 	}
 	
-	public Side getSide() {
-		return side;
+	public void drawPage() {
+		Coords pagecoords = this.side == Side.LEFT ? GuideBookScreen.getLeftPageCoords() : GuideBookScreen.getRightPageCoords();
+		for(TextParagraph txt : textParagraphs) {
+			txt.draw(this.side, pagecoords);
+		}
+		
+		for(BookImage image : images) {
+			image.blit(this.side, pagecoords);
+		}
+		
+		for(Recipe recipe : recipes) {
+			recipe.blit(pagecoords);
+		}
 	}
 	
 	//Save yourself some work: If the text doesn't fit on the page anymore just draw it anyway, the dev who writes the book has to make sure that this doesn't happen.
@@ -75,6 +80,11 @@ public class BookPage {
 	
 	public ITextComponent splitParagraphToFitAndGetLeftovers(ITextComponent content) {
 		return null;
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("BookPage {Chapter: %s, PageNumber: %s, Paragraphs: %d, Page: %s}", parentChapter.getTitle().getString(), chapterPageNum + parentChapter.startingPage, textParagraphs.size(), side.toString());
 	}
 	
 	public class Builder {
@@ -108,31 +118,32 @@ public class BookPage {
 			return this;
 		}
 		
-		public Builder addRecipe(int x, int y, List<ItemStack> list, ItemStack item) {
-			recipes.add(new Recipe(x, y, list, item));
-			return this;
-		}
-		
-		public Builder isFirstPage() {
-			BookPage.this.isFirstPage = true;
-			return this;
-		}
-		
-		public Builder setSide(Side side) {
-			BookPage.this.side = side;
+		public Builder addRecipe(RecipeManager recipeManager, int x, int y, ItemStack result) {
+			ShapedRecipe recipe = CraftingHelper.getShapedRecipeFromResult(recipeManager, result.getItem());
+			if(recipe != null) {
+				List<ItemStack> inputs = new ArrayList<>();
+				for(int i = 0; i < 9; i++) inputs.add(ItemStack.EMPTY);
+				
+				for(int i = 0; i < recipe.getHeight(); i++) {
+					for(int j = 0; j < recipe.getWidth(); j++) {
+						Ingredient ingred = recipe.getIngredients().get(i * recipe.getWidth() + j);
+						System.out.println(ingred.getMatchingStacks() + " " + (i * recipe.getWidth() + j));
+						inputs.set(i * 3 + j, ingred.hasNoMatchingItems() ? ItemStack.EMPTY : ingred.getMatchingStacks()[0]);
+					}
+				}
+				
+				recipes.add(new Recipe(x, y, inputs, result));
+			} else {
+				System.out.println("NO RECIPE FOUND FOR: " + result.toString());
+			}
+			
 			return this;
 		}
 
 		public void build() {
-			//Format and add to page
+			BookPage.this.side =  (1 + parentChapter.startingPage + chapterPageNum) % 2 == 0 ? Side.RIGHT : Side.LEFT;
 			
-			// Offsets based on Minecraft window dimensions
-			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
-			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
-			
-			// Offsets based on the page
-			int leftPageOffset = 16;
-			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
+			//Coords pagecoords = BookPage.this.side == Side.LEFT ? GuideBookScreen.getLeftPageCoords() : GuideBookScreen.getRightPageCoords();
 			
 			// TODO limit of the line
 			int wrapWidth = 120;
@@ -140,7 +151,8 @@ public class BookPage {
 			// Starting positions of the lines
 			int startingX = 0;
 			int startingY = 0;
-			if(isFirstPage) {
+			
+			if(parentChapter.getNumberOfPages() == 0) { //if first page
 				startingY = 18;
 			}
 			// Turn paragraphs into lines
@@ -148,7 +160,7 @@ public class BookPage {
 				wrapWidth = 120;
 				startingX = 0;
 				int newOffsetY = 0;
-//				String text = textComponent.getFormattedText();
+				// String text = textComponent.getFormattedText();
 				
 				if(!images.isEmpty()) {
 					for(BookImage image : images) {
@@ -181,8 +193,8 @@ public class BookPage {
 //				}
 			
 				if(side == Side.LEFT)
-					textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + leftPageOffset, startingY + OffsetY, wrapWidth));
-				else textParagraphs.add(new TextParagraph(textComponent, startingX + OffsetX + rightPageOffset, startingY + OffsetY, wrapWidth));
+					textParagraphs.add(new TextParagraph(textComponent, startingX, startingY, wrapWidth));
+				else textParagraphs.add(new TextParagraph(textComponent, startingX, startingY, wrapWidth));
 				
 				startingY += newOffsetY + 9;
 			}
@@ -196,8 +208,6 @@ public class BookPage {
 			List<String> list = fontrenderer.listFormattedStringToWidth(str, wrapWidth);
 			return list;
 		}
-		
-		
 	}
 	
 	private static class BookImage {
@@ -211,7 +221,7 @@ public class BookPage {
 		
 		public BookImage(@Nullable ResourceLocation image, int x, int y, int textureX, int textureY, int textureWidth, int textureHeight) {
 			this.x = x;
-			this.y = y;
+			this.y = y + 16;
 			this.textureHeight = textureHeight;
 			this.textureWidth = textureWidth;
 			this.textureX = textureX;
@@ -219,18 +229,9 @@ public class BookPage {
 			this.image = image;
 		}
 		
-		public void blit(Side side) {
-			// Offsets based on Minecraft window dimensions
-			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
-			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
-						
-			// Offsets based on the page
-			int leftPageOffset = 16;
-			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
+		public void blit(Side side, Coords pagecoords) {			
 			if(this.image != null) Minecraft.getInstance().getTextureManager().bindTexture(image); //if null it uses the last RL
-			if(side == Side.LEFT)
-				AbstractGui.blit(x + OffsetX + leftPageOffset, y + OffsetY, textureX, textureY, textureWidth, textureHeight, 256, 256);
-			else AbstractGui.blit(x + OffsetX + rightPageOffset, y + OffsetY, textureX, textureY, textureWidth, textureHeight, 256, 256);
+				AbstractGui.blit(x + pagecoords.x + (side == Side.LEFT ? 16 : 8), y + pagecoords.y, textureX, textureY, textureWidth, textureHeight, 256, 256);
 		}
 		
 		public int getWidth() {
@@ -250,57 +251,41 @@ public class BookPage {
 		}
 	}
 	
-	private static class Recipe{
+	private static class Recipe {
 		
 		private ResourceLocation background = new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/crafting_table_background.png");
-		private ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 		private ItemStack result;
 		private List<ItemStack> list; // contains 9 ItemStacks 
 		private int x;
 		private int y;
 		
 		
-		@SuppressWarnings("resource")
 		public Recipe(int x, int y, List<ItemStack> list, ItemStack item) {
-			
-			// Offsets based on Minecraft window dimensions
-			int OffsetX = Minecraft.getInstance().getMainWindow().getScaledWidth() / 2 - GuideBookScreen.PAGE_WIDTH;
-			int OffsetY = (Minecraft.getInstance().getMainWindow().getScaledWidth()) / 2 - GuideBookScreen.PAGE_HEIGHT + 16;
-											
-			this.x = x + OffsetX;
-			this.y = y + OffsetY;
-			result = item;
+			this.x = x;
+			this.y = y;
+			this.result = item;
 			this.list = list;
 
 		}
 		
-		public void blit(Side side) {
-			// Offsets based on the page
-			int leftPageOffset = 16;
-			int rightPageOffset = GuideBookScreen.PAGE_WIDTH + 8;
-			
+		public void blit(Coords pagecoords) {
+			ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
 			if(this.background != null) Minecraft.getInstance().getTextureManager().bindTexture(this.background); //if null it uses the last RL
-			if(side == Side.LEFT) {
-				AbstractGui.blit(x + leftPageOffset, y, 0, 0, 120, 64, 120, 64);
-				itemRenderer.renderItemAndEffectIntoGUI(result, x + leftPageOffset + 97, y + 24);
-			} else {	
-				AbstractGui.blit(x + rightPageOffset, y, 0, 0, 120, 64, 120, 64);
-				itemRenderer.renderItemAndEffectIntoGUI(result, x + rightPageOffset + 97, y + 24);
-			}
-			int ingredientOffsetX = 18;
-			int ingredientOffsetY = 18;
-			int multiplierX = 0;
-			int multiplierY = 0;
-			for(ItemStack stack : list) {
-				if(side == Side.LEFT) {
-					itemRenderer.renderItemAndEffectIntoGUI(stack, x + leftPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
-				} else {
-					itemRenderer.renderItemAndEffectIntoGUI(stack, x + rightPageOffset + ingredientOffsetX * multiplierX + 3, y + 6 + ingredientOffsetY * multiplierY);
-				}
-				multiplierX++;
-				if(multiplierX > 2) {
-					multiplierX = 0;
-					multiplierY++;
+			AbstractGui.blit(x + pagecoords.x + 8, y + pagecoords.y, 0, 0, 120, 64, 120, 64);
+
+			RenderSystem.pushMatrix();
+			RenderSystem.scaled(1.5, 1.5, 1.5);
+			itemRenderer.renderItemAndEffectIntoGUI(result, (int)((x + pagecoords.x)/1.5 + 68), (int)((y + pagecoords.y)/1.5 + 13));
+			RenderSystem.popMatrix();
+
+			int collumn = 0;
+			int row = 0;
+			for(ItemStack stack : this.list) {
+				itemRenderer.renderItemAndEffectIntoGUI(stack, x + pagecoords.x + 18 * collumn + 11, pagecoords.y + y + 6 + 18 * row);
+				collumn++;
+				if(collumn > 2) {
+					collumn = 0;
+					row++;
 				}
 			}
 		}
@@ -338,14 +323,13 @@ public class BookPage {
 			this.wrapWidth = wrapWidth;
 		}
 		
-		public void draw() {
-			fontrenderer.drawSplitString(text.getFormattedText(), startingCoordinateX, startingCoordinateY, wrapWidth, 0xFF000000);
+		public void draw(Side side, Coords pagecoords) {
+			fontrenderer.drawSplitString(text.getFormattedText(), pagecoords.x + startingCoordinateX + (side == Side.LEFT ? 16 : 8), pagecoords.y + startingCoordinateY + 16, wrapWidth, 0xFF000000);
 		}
 	}
 	
-	enum Side{
+	public enum Side{
 		LEFT,
 		RIGHT
 	}
-	
 }

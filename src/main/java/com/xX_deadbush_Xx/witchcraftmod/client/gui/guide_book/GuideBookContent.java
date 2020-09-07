@@ -2,34 +2,38 @@ package com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
-import com.google.common.collect.Lists;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.BookPage.Side;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class GuideBookContent {
-	private List<BookChapter> chapters = new ArrayList<>();
-	private int maxPageCount;
+	public List<BookChapter> chapters = new ArrayList<>();
+	private int maxPageCount = 10000;
+	private int pageCount = 0;
+	private int nextchapterid = 0;
 	
-	public GuideBookContent() {
-		
-	}
+	public GuideBookContent() {}
 	
 	public int getNumberOfPages() {
-		return maxPageCount;
+		return pageCount;
 	}
-	
-	public GuideBookContent addChapter(BookChapter chapter) {
-		chapters.add(chapter);
-		maxPageCount += chapter.getNumberOfPages();
+
+	public GuideBookContent addChapter(ITextComponent title, Consumer<BookChapter> builder) {
+		BookChapter chapter = new BookChapter(title, this, nextchapterid++);
+		builder.accept(chapter);
+		this.chapters.add(chapter);
+		this.pageCount += chapter.getNumberOfPages();
 		return this;
 	}
 	
@@ -37,66 +41,58 @@ public class GuideBookContent {
 		return chapters;
 	}
 	
-	public static void loadBookContent() {
+	public static void loadBookContent(RecipeManager recipeManager) {
 		GuideBookContent instance = new GuideBookContent();
-		instance.addChapter(
-				new BookChapter(new StringTextComponent("testchapter0"))
-					.newPage((builder) -> builder.setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addRecipe(0, 16, Lists.newArrayList(Items.DIAMOND.getDefaultInstance(), Items.DIAMOND.getDefaultInstance(), ItemStack.EMPTY, Items.DIAMOND.getDefaultInstance(), Items.STICK.getDefaultInstance(), ItemStack.EMPTY, ItemStack.EMPTY, Items.STICK.getDefaultInstance(), ItemStack.EMPTY), Items.DIAMOND_AXE.getDefaultInstance()).isFirstPage().setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addImage(new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/testing_book_image.png"), 60, 0, 64, 0, 64, 64).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addImage(new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/testing_book_image.png"), 0, 0, 0, 64, 64, 64).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter1"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 8")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 9")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 10")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 11")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter2"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter3"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter4"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter5"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter6"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-			).addChapter(
-					new BookChapter(new StringTextComponent("testchapter7"))
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).isFirstPage().setSide(Side.RIGHT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).setSide(Side.LEFT).build(), instance.getNumberOfPages())
-					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).setSide(Side.RIGHT).build(), instance.getNumberOfPages())
+		instance.addChapter(new StringTextComponent("testchapter0"), (chapter) ->
+					chapter
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addRecipe(recipeManager, 0, 32, new ItemStack(Items.ACACIA_PRESSURE_PLATE)).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2 TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addImage(new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/testing_book_image.png"), 60, 0, 64, 0, 64, 64).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).addParagraph(new StringTextComponent("TEST TEXT TEXT TEXT TEXT TEXT TEXT TEXT TEXT ")).addImage(new ResourceLocation(WitchcraftMod.MOD_ID, "textures/gui/guide_book/testing_book_image.png"), 0, 0, 0, 64, 64, 64).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).build())
+			).addChapter(new StringTextComponent("testchapter1"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 8")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 9")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 10")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 11")).build())
+			).addChapter(new StringTextComponent("testchapter2"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 5")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 6")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 7")).build())
+			).addChapter(new StringTextComponent("testchapter3"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 4")).build())
+			).addChapter(new StringTextComponent("testchapter4"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
+			).addChapter(new StringTextComponent("testchapter5"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
+			).addChapter(new StringTextComponent("testchapter6"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
+			).addChapter(new StringTextComponent("testchapter7"), (chapter) ->
+					chapter.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 2")).build())
+					.newPage((builder) -> builder.addParagraph(new StringTextComponent("TEST TEXT 3")).build())
 			);
 		
 		

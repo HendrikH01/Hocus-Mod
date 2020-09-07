@@ -20,7 +20,7 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 public class MortarRecipe implements IMortarRecipe {
 	private final ResourceLocation id;
 	private final ItemStack output;
-	private Ingredient[] inputs;
+	private Ingredient[] inputs;	
 
 	
 	public MortarRecipe(ResourceLocation id, ItemStack output, Ingredient[] ingredients) {
