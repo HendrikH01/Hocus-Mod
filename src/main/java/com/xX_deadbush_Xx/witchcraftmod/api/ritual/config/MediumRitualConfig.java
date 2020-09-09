@@ -1,10 +1,13 @@
-package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
+package com.xX_deadbush_Xx.witchcraftmod.api.ritual.config;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.IWorldReader;
 
+import java.util.List;
 import java.util.logging.Logger;
+
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTotem;
 
 public class MediumRitualConfig implements IRitualConfig {
     Logger LOGGER = Logger.getLogger(MediumRitualConfig.class.getName());
@@ -23,24 +26,12 @@ public class MediumRitualConfig implements IRitualConfig {
     }
 
     @Override
-    public boolean matchesAnchorblocks(NonNullList<Block> anchorblocksIn) {
-        if (anchorblocksIn.size() != 8) return false;
-
-        blockloop:
-        for (int i = 0; i < 8; i += 2) {
-            if (anchorblocksIn.get(0).getRegistryName() == this.anchorblocks.get(i).getRegistryName()) {
-                for (int j = 1; j < 8; j++) {
-                    if (anchorblocksIn.get(j).getRegistryName() != this.anchorblocks.get((i + j) % 8).getRegistryName())
-                        continue blockloop;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public boolean matchesTotems(IWorldReader world) {
         return false;
     }
+
+	@Override
+	public List<Block> getAnchorBlocks() {
+		return this.anchorblocks;
+	}
 }

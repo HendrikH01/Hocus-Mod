@@ -9,8 +9,8 @@ import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-//Instances of this class are deleted after usage
 public abstract class RitualEffectHandler {
+	
 	public List<IRitualEffect> effects = new ArrayList<>();
 	public final PlayerEntity player;
 	public final AbstractRitualCore ritualStone;
@@ -38,6 +38,7 @@ public abstract class RitualEffectHandler {
 				indexes.add(i);
 			}
 		}
+		
 		if(tickeffects.size() == 0) return;
 		Collections.sort(tickeffects, new RitualHelper.PrioritySorter());
 		
@@ -47,12 +48,12 @@ public abstract class RitualEffectHandler {
 		
 		//remove effects
 		Collections.sort(indexes, Collections.reverseOrder());
-		System.out.println(indexes);
+		System.out.println(indexes + " " + ritualStone.getWorld().isRemote);
 		for(int i : indexes) effects.remove(i);
 	}
 	
 	public void stopEffect(boolean shouldDoPowerDownAnimation) {
-		this.ritualStone.currentritual.stopRitual(shouldDoPowerDownAnimation);
+		this.ritualStone.currentritual.ifPresent(ritual -> ritual.stopRitual(shouldDoPowerDownAnimation));
 	}
 	
 	public void queueEffect(IRitualEffect effect, int ticksuntilfired) {

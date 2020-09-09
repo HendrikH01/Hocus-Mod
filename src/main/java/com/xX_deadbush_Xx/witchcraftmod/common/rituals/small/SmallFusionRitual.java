@@ -4,11 +4,11 @@ import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractSmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.SmallRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
@@ -29,7 +29,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingRitual, IStaticRitual {
+public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, IStaticRitual {
 	private static final Block pedestal = ModBlocks.RITUAL_PEDESTAL.get();
 	public static final SmallRitualConfig config = new SmallRitualConfig(pedestal, pedestal, pedestal, pedestal);
 	
@@ -104,10 +104,9 @@ public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingR
 			public void init() {
 				RitualEffectHandler handler = this;
 				this.addEffect(new BasicEffect(handler) {
+					
 					@Override
 					public void execute() {
-						System.out.println("1");
-
 						BlockPos pos = tile.getPos();
 						for(RitualPedestalTile pedestal : getPedestals()) {
 							BlockPos pedestalpos = pedestal.getPos();
@@ -115,23 +114,26 @@ public class SmallFusionRitual extends AbstractSmallRitual implements ICraftingR
 						}
 					} 
 				}, 10);
-				System.out.println("2");
+				
 				this.addEffect(new BasicEffect(handler) {
+					
 					@Override
 					public void execute() {
-						System.out.println("2222");
-
 						if(!recipeComplete(tile.lastRecipe)) {
 							stopRitual(true); 
 							return;
 						}
+						
 						BlockPos pos = tile.getPos();
 						for(RitualPedestalTile pedestal : getPedestals()) {
 							pedestal.useForCrafting();
 						}
+						
 						WitchcraftPacketHandler.sendToNearby(tile.getWorld(), pos, new WitchcraftParticlePacket(EffectType.RITUAL_ITEM_CREATE, pos.getX() + 0.5, pos.getY() + 1.4, pos.getZ() + 0.5));
 						tile.setItem(tile.lastRecipe.getRecipeOutput().copy());
 						tile.markDirty();
+						System.out.println("STAHP!" + this.tile.getWorld().isRemote	
+								);
 						handler.stopEffect(true);
 					}
 				}, 80);

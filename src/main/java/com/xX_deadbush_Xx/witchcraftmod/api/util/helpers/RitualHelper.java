@@ -4,10 +4,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractMediumRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractSmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTier;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.IRitualEffect;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
@@ -21,8 +21,8 @@ import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 public class RitualHelper {
-	public static boolean isChalk(IWorldReader worldIn, BlockPos pos) {
-		return worldIn.getBlockState(pos).getBlock().equals(ModBlocks.CHALK_BLOCK.get());
+	public static boolean isChalk(IWorldReader world, BlockPos pos) {
+		return world.getBlockState(pos).getBlock().equals(ModBlocks.CHALK_BLOCK.get());
 	}
 	
 	public static Direction[] getHorizontalDirections() {
@@ -33,39 +33,23 @@ public class RitualHelper {
 	/**
 	 * only call when block is a chalk block!
 	 */
-	public void setChalkState(BlockPos pos, World worldIn, GlowType type, int power) {
-		worldIn.setBlockState(pos, worldIn.getBlockState(pos).with(ChalkBlock.GLOW_TYPE, type).with(ChalkBlock.POWER, power));
+	public void setChalkState(BlockPos pos, World world, GlowType type, int power) {
+		world.setBlockState(pos, world.getBlockState(pos).with(ChalkBlock.GLOW_TYPE, type).with(ChalkBlock.POWER, power));
 	}
 	
 	/**
 	 * Only call when chalk is in place!
 	 */
-	public static void colorChalk(GlowType type, int power, Set<BlockPos> chalkpositions, World worldIn, BlockPos ritualstonepos) {
+	public static void colorChalk(GlowType type, int power, Set<BlockPos> chalkpositions, World world, BlockPos ritualstonepos) {
 		for(BlockPos pos : chalkpositions) {
 			int dist = Math.abs(ritualstonepos.getX() - pos.getX()) + Math.abs(ritualstonepos.getZ() - pos.getZ());
-			worldIn.setBlockState(pos, worldIn.getBlockState(pos).with(ChalkBlock.POWER, Math.max(0, (int)(power+50/(dist+8)-6.25))).with(ChalkBlock.GLOW_TYPE, type));
+			world.setBlockState(pos, world.getBlockState(pos).with(ChalkBlock.POWER, Math.max(0, (int)(power+50/(dist+8)-6.25))).with(ChalkBlock.GLOW_TYPE, type));
 		}
 	}
 
-	public static boolean stopsRitual(World worldIn, BlockPos pos) {
-		BlockState state = worldIn.getBlockState(pos);
+	public static boolean stopsRitual(World world, BlockPos pos) {
+		BlockState state = world.getBlockState(pos);
 		return state.getBlock().isIn(ModTags.RITUAL_BLOCK) || state.isSolid();
-	}
-	
-	public static Class<? extends IRitual> getAbstractClassFromTier(RitualTier tier) {
-		Class<? extends IRitual> clazz;
-		switch(tier) {
-			case SMALL: {
-				clazz = AbstractSmallRitual.class;
-				break;
-			}
-			case MEDIUM: {
-				clazz = AbstractMediumRitual.class;
-				break;
-			}
-			default: return null;
-		}
-		return clazz;
 	}
 	
 	public static RitualPositionHolder getRitualPositionsLarge(IWorldReader worldIn, BlockPos pos) {

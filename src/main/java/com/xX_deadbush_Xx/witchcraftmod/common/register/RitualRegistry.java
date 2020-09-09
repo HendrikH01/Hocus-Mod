@@ -1,17 +1,14 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
-import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTier;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.MediumFusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallAnimalGrowthRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallFusionRitual;
@@ -19,68 +16,58 @@ import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallGrowthRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ResourceLocation;
 
 public class RitualRegistry {
 	public static RitualRegistry INSTANCE = new RitualRegistry();
-	private BiMap<String, Class<? extends IRitual>> names = HashBiMap.create();
-	private List<Class<? extends IRitual>> rituals = new ArrayList<>();
-	private BiMap<String, IRitualConfig> configs = HashBiMap.create();
+	private BiMap<Integer, ResourceLocation> names = HashBiMap.create();
+	private BiMap<Integer, IRitualConfig> configs = HashBiMap.create();
+	private Map<Integer, IFactory> factories = new HashMap<>();
+	private static int id = 0;
 	
-	private void register(Class<? extends IRitual> ritual, IRitualConfig config, String name) {
-		if(this.names.keySet().contains(name)) throw new IllegalArgumentException("Ritual with the same name registered twice: " + name); 
-
-		this.rituals.add(ritual);
-		this.names.put(name, ritual);
-		this.configs.put(name, config);
+	private void register(ResourceLocation name, IRitualConfig config, IFactory factory) {
+		id++;
+		if(this.names.values().contains(name)) throw new IllegalArgumentException("Ritual with the same name registered twice: " + name); 
+		this.factories.put(id, factory);
+		this.names.put(id, name);
+		this.configs.put(id, config);
 	}
 	
-	public static Class<? extends IRitual> getByID(int id) {
-		return INSTANCE.rituals.get(id);
+	private void register(String name, IRitualConfig config, IFactory factory) {
+		register(new ResourceLocation(WitchcraftMod.MOD_ID, name), config, factory);
 	}
 	
-	public static Class<? extends IRitual> getByName(String name) {
-		return INSTANCE.names.get(name);
+	public static IFactory getRitual(int id) {
+		return INSTANCE.factories.get(id);
 	}
 	
-	public static String getName(IRitual ritual) {
-		return INSTANCE.names.inverse().get(ritual.getClass());
+	public static ResourceLocation getName(int id) {
+		return INSTANCE.names.get(id);
 	}
 	
-	public static List<Class<? extends IRitual>> getRituals() {
-		return INSTANCE.rituals;
-	}
-	
-	public static IRitual create(String name, AbstractRitualCore tile, PlayerEntity player) {
-		Class<? extends IRitual> clazz = getByName(name);
-		try {
-			Constructor c = clazz.getConstructors()[0];
-			System.out.println(name + " " + c.getParameters()[0].getName() + " " + c.getParameterTypes()[0].getName()+ " " + c.getParameterTypes()[1].getName());
-			return (IRitual) clazz.getConstructor(AbstractRitualCore.class, PlayerEntity.class).newInstance(tile, (PlayerEntity)player);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public List<Class<? extends IRitual>> getRitualsFromTier(RitualTier tier) {
-		Class<? extends IRitual> abstractritualclass = RitualHelper.getAbstractClassFromTier(tier);
-		return this.rituals.stream().filter(r -> abstractritualclass.isInstance(r)).collect(Collectors.toList());
+	public static IRitual create(int id, AbstractRitualCore tile, PlayerEntity player) {
+		return INSTANCE.factories.get(id).create(tile, player);
 	}
 	
 	public void registerRituals() {
 		//SMALL
-		register(SmallGrowthRitual.class, SmallGrowthRitual.config, "small_growth");
-		register(SmallAnimalGrowthRitual.class, SmallAnimalGrowthRitual.config, "small_animal_growth");
-		register(SmallFusionRitual.class, SmallFusionRitual.config,"small_fusion");
+		register("small_growth_ritual", SmallGrowthRitual.config, SmallGrowthRitual::new);
+		register("small_animal_growth_ritual", SmallAnimalGrowthRitual.config, SmallAnimalGrowthRitual::new);
+		register("small_fusion_ritual", SmallFusionRitual.config, SmallFusionRitual::new);
 		//MEDIUM
-		register(MediumFusionRitual.class, MediumFusionRitual.config,"medium_fusion");
+		register("medium_growth_ritual", MediumFusionRitual.config, MediumFusionRitual::new);
 	}
 
 	public static Set<IRitualConfig> getConfigs() {
 		return INSTANCE.configs.values();
 	}
 
-	public static String getConfigName(IRitualConfig config) {
+	public static int getIdFromConfig(IRitualConfig config) {
 		return INSTANCE.configs.inverse().get(config);
+	}
+	
+	@FunctionalInterface
+	private interface IFactory {
+		public IRitual create(AbstractRitualCore tile, PlayerEntity player);
 	}
 }

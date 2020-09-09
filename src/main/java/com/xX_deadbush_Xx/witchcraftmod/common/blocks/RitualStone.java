@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualActivationHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualManager;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
@@ -65,14 +66,16 @@ public class RitualStone extends Block {
 	
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
-		if(worldIn.isRemote) return ActionResultType.SUCCESS;
-		if (!worldIn.isRemote && handIn == Hand.MAIN_HAND) {
+		if (handIn == Hand.MAIN_HAND && !worldIn.isRemote) {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
 	        if (tileEntity instanceof AbstractRitualCore) {
 	        	AbstractRitualCore ritualStoneTile = ((AbstractRitualCore) tileEntity);
 	        	if(player.getHeldItemMainhand().getItem().equals(ModItems.RITUAL_ACTIVATOR.get())) {
-	        		if(ritualStoneTile.currentritual == null) ritualStoneTile.activateRitual(worldIn, player, RitualActivationHandler.getRitual(ritualStoneTile, player));
-	        		else ritualStoneTile.currentritual.stopRitual(true);
+	        		ritualStoneTile.currentritual.ifPresent(ritual -> {
+	        			ritual.stopRitual(true);
+	        		});
+	        		
+	        		if(!ritualStoneTile.currentritual.isPresent()) RitualManager.getInstance().tryActivateRitual(worldIn, player, ritualStoneTile);
 	        	}
 	        	else ritualStoneTile.swapItems(worldIn, player);
 	        }

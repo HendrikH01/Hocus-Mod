@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractSmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IContinuousRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.SmallRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
@@ -22,10 +22,9 @@ import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
-public class SmallGrowthRitual extends AbstractSmallRitual implements IContinuousRitual {
+public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual {
 	public static final SmallRitualConfig config = new SmallRitualConfig(Blocks.EMERALD_BLOCK, Blocks.EMERALD_BLOCK, Blocks.EMERALD_BLOCK, Blocks.EMERALD_BLOCK);
 	private List<BlockPos> blockstocheck = new ArrayList<>();
 	private int manaconsumecooldown = 20;
