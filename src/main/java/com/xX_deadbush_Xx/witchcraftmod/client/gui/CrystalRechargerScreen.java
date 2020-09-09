@@ -45,13 +45,4 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
     }
-
-    private int getBurnLeftScaled() {
-        CrystalRechargerTile tile = this.container.tile;
-        int t = tile.total;
-        if (t == 0)
-            t = 200;
-        return tile.burnTime * 13 / t;
-
-    }
 }

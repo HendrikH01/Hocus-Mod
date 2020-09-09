@@ -1,13 +1,13 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.ExtraItemSlot;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.SimpleIntReferenceHolder;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ContainerHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.CrystalRechargerTile;
+
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.ClickType;
@@ -16,6 +16,8 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 public class CrystalRechargerContainer extends Container {
@@ -33,10 +35,6 @@ public class CrystalRechargerContainer extends Container {
         this.inventory = tile.getItemHandler();
         this.tile = tile;
         this.canInteractWithCallable = IWorldPosCallable.of(tile.getWorld(), tile.getPos());
-
-        //This is to sync the "burnTime" and "total" data with the server
-        this.trackInt(new SimpleIntReferenceHolder(() -> tile.burnTime, v -> tile.burnTime = v));
-        this.trackInt(new SimpleIntReferenceHolder(() -> tile.total, v -> tile.total = v));
 
         this.addSlot(new ExtraItemSlot(this.inventory, 0, 60, 26, 64, ItemStackHelper::isFuel));
         this.addSlot(new ExtraItemSlot(this.inventory, 1, 99, 35, 1, (stack) -> stack.getItem() instanceof EnergyCrystal));
