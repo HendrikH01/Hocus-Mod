@@ -53,7 +53,7 @@ public class SacrificeKnife extends Item {
 	
 	public static boolean isBloody(ItemStack stack) {
 		if(stack.hasTag()) {
-			return StringUtils.isEmpty(stack.getTag().getString("mobname"));
+ 			return !StringUtils.isEmpty(stack.getTag().getString("mobname"));
 		}
 		return false;
 	}

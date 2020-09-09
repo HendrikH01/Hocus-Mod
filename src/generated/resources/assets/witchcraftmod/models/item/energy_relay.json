@@ -1,3 +1,6 @@
 {
-  "parent": "witchcraftmod:block/energy_relay"
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "witchcraftmod:items/energy_relay"
+  }
 }
