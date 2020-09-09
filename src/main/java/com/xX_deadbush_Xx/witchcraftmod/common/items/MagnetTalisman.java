@@ -1,16 +1,20 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.LogicalSide;
 
 public class MagnetTalisman extends TalismanItem {
-
+	
+	private static Random rand = new Random();
+	
 	public MagnetTalisman(Properties properties) {
 		super(properties);
 	}
@@ -32,11 +36,17 @@ public class MagnetTalisman extends TalismanItem {
 
 			if(!items.isEmpty()) {
 				Vec3d playerpos = player.getPositionVec().add(0, 0.5, 0);
+	
 				for(ItemEntity item : items) {
-					Vec3d direction = playerpos.subtract(item.getPositionVec());
+					Vec3d pos = item.getPositionVec();
+					Vec3d direction = playerpos.subtract(pos);
 					if(direction.length() < 1) direction.normalize();
 	
 					item.setMotion(direction.scale(0.35));
+					
+					if(player.world.isRemote) {
+						if(item.getAge()%2 == 0)player.world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.x, pos.y, pos.z, (float)(70 + rand.nextInt(110))/255, 70.0f/255, 1.0f);
+					}
 				}
 				return true;
 			}

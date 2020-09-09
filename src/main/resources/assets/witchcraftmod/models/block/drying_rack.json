@@ -3,7 +3,7 @@
 	"textures": {
 		"0": "witchcraftmod:blocks/modelled/drying_rack/1",
 		"1": "witchcraftmod:blocks/modelled/drying_rack/2",
-		"particle": "witchcraftmod:blocks/modelled/drying_rack/1"
+		"particle": "witchcraftmod:blocks/modelled/drying_rack/2"
 	},
 	"elements": [
 		{

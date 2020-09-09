@@ -22,5 +22,9 @@ public class ModTileEntities {
             () -> TileEntityType.Builder.create(ToolTableTile::new, ModBlocks.TOOL_TABLE.get()).build(null));
     public static final RegistryObject<TileEntityType<CrystalRechargerTile>> CRYSTAL_RECHARGER_TILE = TILE_ENTITIES.register("crystal_recharger_tile",
             () -> TileEntityType.Builder.create(CrystalRechargerTile::new, ModBlocks.CRYSTAL_RECHARGER.get()).build(null));
+    public static final RegistryObject<TileEntityType<EnergyRelayTile>> ENERGY_RELAY_TILE = TILE_ENTITIES.register("energy_relay_tile",
+            () -> TileEntityType.Builder.create(EnergyRelayTile::new, ModBlocks.ENERGY_RELAY.get()).build(null));
+    public static final RegistryObject<TileEntityType<CreativeManaSourceTile>> CREATIVE_MANA_SOURCE = TILE_ENTITIES.register("creative_mana_source",
+            () -> TileEntityType.Builder.create(CreativeManaSourceTile::new, ModBlocks.CREATIVE_MANA_SOURCE.get()).build(null));
 
 }

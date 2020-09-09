@@ -22,7 +22,7 @@ public class CrystalRechargerContainer extends Container {
 
     private IItemHandlerModifiable inventory;
     private final IWorldPosCallable canInteractWithCallable;
-    public final CrystalRechargerTile tile;
+    private CrystalRechargerTile tile;
 
     public CrystalRechargerContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
         this(windowId, playerInventory, ContainerHelper.getTileEntity(CrystalRechargerTile.class, playerInventory, data));
@@ -51,6 +51,19 @@ public class CrystalRechargerContainer extends Container {
         }
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public int getMaxBurnTime() {
+        return this.tile.getMaxBurnTime();
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getBurnTime() {
+        return this.tile.getBurnTime();
+    }
+
+    public CrystalRechargerTile getTile() {
+        return tile;
+    }
 
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
@@ -71,7 +84,7 @@ public class CrystalRechargerContainer extends Container {
                         this.inventory.setStackInSlot(0, itemstack);
                         return ItemStack.EMPTY;
                     }
-                } else if (index < 39 && EnergyCrystal.isStackACrystal(itemstack1)) {
+                } else if (index < 39 && EnergyCrystal.isStackEnergyCrystal(itemstack1)) {
                     if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
@@ -143,7 +156,7 @@ public class CrystalRechargerContainer extends Container {
                         player.inventory.setItemStack(stack);
                         return stack;
                     } else {
-                        if (EnergyCrystal.isStackACrystal(dragged)) {
+                        if (EnergyCrystal.isStackEnergyCrystal(dragged)) {
                             if (!dragged.isItemEqual(stack)) {
                                 tile.getItemHandler().setStackInSlot(1, dragged);
                                 player.inventory.setItemStack(stack);

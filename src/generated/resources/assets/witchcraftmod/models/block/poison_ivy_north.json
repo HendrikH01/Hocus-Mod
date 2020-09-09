@@ -1,0 +1,30 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "texture": "witchcraftmod:blocks/poison_ivy",
+    "particle": "witchcraftmod:blocks/poison_ivy"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0.5
+      ],
+      "to": [
+        16,
+        16,
+        0.5
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "texture": "#texture"
+        },
+        "south": {
+          "texture": "#texture"
+        }
+      }
+    }
+  ]
+}

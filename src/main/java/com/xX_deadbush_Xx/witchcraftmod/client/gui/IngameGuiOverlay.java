@@ -6,24 +6,30 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.potion.ModPotions;
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.CrystalEnergyStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IngameGui;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effects;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.Pre;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -45,16 +51,15 @@ public class IngameGuiOverlay extends AbstractGui {
 	
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void render(RenderGameOverlayEvent.Pre evt) {
-		INSTANCE.guiscale = evt.getWindow().getGuiScaleFactor();
-		INSTANCE.windowwidth = (int)(evt.getWindow().getWidth()/INSTANCE.guiscale);
-		INSTANCE.windowheight = (int)(evt.getWindow().getHeight()/INSTANCE.guiscale);
-
 		INSTANCE.renderOverlay(evt);
 	}
 	
 	private void renderOverlay(RenderGameOverlayEvent.Pre evt) {
 		Minecraft mc = Minecraft.getInstance();
 		TextureManager texmanager = mc.getTextureManager();
+		guiscale = evt.getWindow().getGuiScaleFactor();
+		windowwidth = (int)(evt.getWindow().getWidth() / guiscale);
+		windowheight = (int)(evt.getWindow().getHeight() / guiscale);
 		
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.enableBlend();
@@ -150,22 +155,43 @@ public class IngameGuiOverlay extends AbstractGui {
 				}
 			}
 		}
-
+		
+		if(player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == ModItems.MANASPECS.get()) {
+			renderManaSpecsGui(player);
+		}
+		
 		renderManaMeter();
 		restoreRenderSettings();	
 	}
-	
+
 	private PlayerEntity getPlayer() {
 	      return !(Minecraft.getInstance().getRenderViewEntity() instanceof PlayerEntity) ? null : (PlayerEntity)Minecraft.getInstance().getRenderViewEntity();
 	}
 	
+	private void renderManaSpecsGui(PlayerEntity player) {
+		BlockRayTraceResult context = player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(0), player.getEyePosition(0).add(player.getLookVec().scale(5)), BlockMode.COLLIDER, FluidMode.NONE, player));
+		TileEntity tile = player.world.getTileEntity(context.getPos());
+		if(tile != null) {
+			LazyOptional<TileEntityManaStorage> optional = tile.getCapability(TileEntityManaStorage.getCap(), null);
+			optional.ifPresent(storage -> {
+				Minecraft mc = Minecraft.getInstance();
+				TextureManager texmanager = mc.getTextureManager();
+				int energy = storage.getEnergy();
+				RenderSystem.disableBlend();
+				mc.fontRenderer.drawString(energy + "", 10, 20, 0xFFFFFF);
+				texmanager.bindTexture(GUI_ICONS);
+				RenderSystem.enableBlend();
+			});
+		}
+	}
+	 
 	private void renderManaMeter() {
 		Minecraft mc = Minecraft.getInstance();
 		
 		RenderSystem.disableDepthTest();
 		RenderSystem.depthMask(false);
 
-		CrystalEnergyStorage energystorage = mc.player.getCapability(CrystalEnergyStorage.Capability.get(), null).orElse(null);
+		PlayerManaStorage energystorage = mc.player.getCapability(PlayerManaStorage.Capability.get(), null).orElse(null);
 		int energy = energystorage == null ? 0 : energystorage.getEnergy();
 		int maxenergy = energystorage == null ? 0 : energystorage.getMaxEnergy();
 		

@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.data;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.IvyBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import net.minecraft.block.Block;
@@ -28,6 +29,10 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cross(getBlockName(ModBlocks.BELLADONNA), new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.BELLADONNA)));
 		cross(getBlockName(ModBlocks.DREADWOOD_SAPLING), new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.DREADWOOD_SAPLING)));
 		cross(getBlockName(ModBlocks.HELLSHROOM), new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.HELLSHROOM)));
+		cross(getBlockName(ModBlocks.CAVE_FLOWER), new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.CAVE_FLOWER)));
+
+		cross(getBlockName(ModBlocks.SWIRLY_PLANT) + "_top", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.SWIRLY_PLANT) + "_top"));
+		cross(getBlockName(ModBlocks.SWIRLY_PLANT) + "_bottom", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.SWIRLY_PLANT) + "_bottom"));
 
 		String hellshroomblockname = getBlockName(ModBlocks.HELLSHROOM_BLOCK);
 		String hellshroomstemname = getBlockName(ModBlocks.HELLSHROOM_STEM);
@@ -35,6 +40,38 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cubeFace(hellshroomstemname, getTextureRL(hellshroomstemname));
 		cubeFace(hellshroomblockname + "_inside", getTextureRL(hellshroomblockname + "_inside"));
 		cubeFace(hellshroomstemname + "_inside", getTextureRL(hellshroomblockname + "_inside"));
+		
+		String ivyname = getBlockName(ModBlocks.POISON_IVY);
+		ResourceLocation ivytex = getTextureRL(ivyname);
+    	getBuilder(ivyname + "_north").texture("texture", ivytex).texture("particle", ivytex).ao(false)
+    		.element().shade(false).from(0, 0, 0.5f).to(16, 16, 0.5f)
+    		.face(Direction.NORTH).texture("#texture").uvs(0, 0, 16, 16).end()
+    		.face(Direction.SOUTH).texture("#texture").uvs(0, 0, 16, 16).end().end();
+    	
+    	getBuilder(ivyname + "_south").texture("texture", ivytex).texture("particle", ivytex).ao(false)
+			.element().shade(false).from(16, 0, 15.5f).to(0, 16, 15.5f)
+			.face(Direction.SOUTH).texture("#texture").uvs(0, 0, 16, 16).end()
+			.face(Direction.NORTH).texture("#texture").uvs(0, 0, 16, 16).end().end();
+    	
+    	getBuilder(ivyname + "_east").texture("texture", ivytex).texture("particle", ivytex).ao(false)
+			.element().shade(false).from(15.5f, 0, 0).to(15.5f, 16, 16)
+			.face(Direction.EAST).texture("#texture").uvs(0, 0, 16, 16).end()
+			.face(Direction.WEST).texture("#texture").uvs(0, 0, 16, 16).end().end();
+    	
+    	getBuilder(ivyname + "_west").texture("texture", ivytex).texture("particle", ivytex).ao(false)
+			.element().shade(false).from(0.5f, 0, 16).to(0.5f, 16, 0)
+			.face(Direction.WEST).texture("#texture").uvs(0, 0, 16, 16).end()
+			.face(Direction.EAST).texture("#texture").uvs(0, 0, 16, 16).end().end();
+    	
+    	getBuilder(ivyname + "_up").texture("texture", ivytex).texture("particle", ivytex).ao(false)
+			.element().shade(false).from(0, 15.0f, 0).to(16, 15.5f, 16)
+			.face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
+			.face(Direction.DOWN).texture("#texture").uvs(0, 0, 16, 16).end().end();
+   
+    	getBuilder(ivyname + "_down").texture("texture", ivytex).texture("particle", ivytex).ao(false)
+			.element().shade(false).from(0, 0.5f, 0).to(16, 0.5f, 16)
+			.face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
+			.face(Direction.DOWN).texture("#texture").uvs(0, 0, 16, 16).end().end();
 	}
 	
 	private void registerCubeAll() {
@@ -45,7 +82,9 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cubeAll(ModBlocks.POLISHED_WOOD);
 		cubeAll(getBlockName(ModBlocks.HELLSHROOM_BLOCK) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_BLOCK)));
 		cubeAll(getBlockName(ModBlocks.HELLSHROOM_STEM) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_STEM)));
-
+		cubeAll(ModBlocks.CRYSTAL_RECHARGER);
+		cubeAll(ModBlocks.CREATIVE_MANA_SOURCE);
+		cubeAll(ModBlocks.ONYX_ORE);
 	}
 	
 	private void cubeAll(RegistryObject<Block> r) {

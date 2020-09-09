@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.CrystalEnergyStorage;
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerCrystalEnergyProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -22,7 +22,7 @@ public abstract class WandItem extends Item implements IWandItem {
 		ItemStack wand = playerIn.getHeldItem(handIn);
 			
 		int energyneeded = getEnergyPerUse(wand);
-		CrystalEnergyStorage storage = PlayerCrystalEnergyProvider.getPlayerCapability(playerIn).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
 
 		if (storage == null)
 			return ActionResult.resultPass(wand);
@@ -31,7 +31,7 @@ public abstract class WandItem extends Item implements IWandItem {
 
 		ActionResult<ItemStack> result = onWandUse(worldIn, playerIn, handIn, wand);
 		if (result.getType() == ActionResultType.SUCCESS)
-			EnergyCrystal.removeEnergyFromPlayer(playerIn, energyneeded);
+			storage.removeEnergy(energyneeded);
 			playerIn.getCooldownTracker().setCooldown(this, getCooldown());
 
 		return result;

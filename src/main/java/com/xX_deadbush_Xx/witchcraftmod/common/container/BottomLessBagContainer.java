@@ -19,6 +19,7 @@ import net.minecraftforge.fml.loading.FMLLoader;
 
 public class BottomLessBagContainer extends Container {
 
+	private PlayerInventory playerinv;
     private BottomlessBagInventory bagInventory;
     private int prevbagstackcount = 0;
     
@@ -29,6 +30,7 @@ public class BottomLessBagContainer extends Container {
     public BottomLessBagContainer(int windowId, PlayerInventory playerInventory, BottomlessBagInventory inventory, int selectedSlot) {
         super(ModContainers.BOTTOM_LESS_BAG.get(), windowId);
         this.bagInventory = inventory;
+        this.playerinv = playerInventory;
         this.addSlot(new BottomlessBagSlot(bagInventory, 0, 81, 35));
 
         for (int k = 0; k < 3; ++k) {
@@ -59,18 +61,19 @@ public class BottomLessBagContainer extends Container {
 	public void detectAndSendChanges() {
 		for (int i = 1; i < this.inventorySlots.size(); ++i) {
 			ItemStack itemstack = this.inventorySlots.get(i).getStack();
-			ItemStack itemstack1 = this.inventoryItemStacks.get(i);
-			if (!ItemStack.areItemStacksEqual(itemstack1, itemstack)) {
-				boolean clientStackChanged = !itemstack1.equals(itemstack, true);
-				itemstack1 = itemstack.copy();
-				this.inventoryItemStacks.set(i, itemstack1);
+			ItemStack prevstack = this.inventoryItemStacks.get(i);
+			if (!ItemStack.areItemStacksEqual(prevstack, itemstack)) {
+				boolean clientStackChanged = !prevstack.equals(itemstack, true);
+				prevstack = itemstack.copy();
+				this.inventoryItemStacks.set(i, prevstack);
 
 				if (clientStackChanged)
 					for (IContainerListener icontainerlistener : this.listeners) {
-						icontainerlistener.sendSlotContents(this, i, itemstack1);
+						icontainerlistener.sendSlotContents(this, i, prevstack);
 					}
 			}
 		}
+		
 		//bottomless bag slot
 		ItemStack bagstack = this.inventorySlots.get(0).getStack();
 		ItemStack prevbagstack = this.inventoryItemStacks.get(0);
@@ -83,7 +86,7 @@ public class BottomLessBagContainer extends Container {
 				icontainerlistener.sendSlotContents(this, 0, prevbagstack);
 			}
 		}
-
+		
 		for (int j = 0; j < this.trackedIntReferences.size(); ++j) {
 			IntReferenceHolder intreferenceholder = this.trackedIntReferences.get(j);
 			if (intreferenceholder.isDirty()) {
@@ -125,16 +128,13 @@ public class BottomLessBagContainer extends Container {
 
 
     @Override
-    public void putStackInSlot(int slotID, ItemStack stack) {
-        bagInventory.insertItem(0, stack, false);
+    public void putStackInSlot(int slotid, ItemStack stack) {
+    	if(slotid == 0) bagInventory.insertItem(slotid, stack, false);
+    	else playerinv.setInventorySlotContents(slotid + 8	, stack);
     }
 
     @Override
     public ItemStack slotClick(int slotId, int dragType, ClickType clickType, PlayerEntity player) {
-    	if(slotId != -999) {
-    		Slot slot = this.inventorySlots.get(slotId);
-        	if(slot.getStack().getItem() instanceof BottomLessBagItem) return bagInventory.getShowStack();
-    	}
     	
         if (slotId == 0) {
             ItemStack dragged = player.inventory.getItemStack();
@@ -150,13 +150,10 @@ public class BottomLessBagContainer extends Container {
                 if(!this.mergeItemStack(extracted, 1, this.inventorySlots.size(), true)) {
                     bagInventory.insertItem(0, extracted, false);
                 } else bagslot.onTake(player, extracted);
-				System.out.println(bagInventory.getStack() + " " + bagInventory.getShowStack() + " " + player.world.isRemote);
-
             } else if (clickType == ClickType.PICKUP) {
             	if(areItemsAndTagsEqual(dragged, bagStack) || dragged.isEmpty() || bagEmpty) {
     				if (dragged.isEmpty()) {
                         int amountToExtract = (int) (dragType == 0 ? Math.min(maxstacksize, bagInventory.getAmount()) : Math.ceil(Math.min((double)maxstacksize/2, (double)bagInventory.getAmount()/2))); //Calculating the amount to extract, if the player right click then dragType == 1 and its a right click otherwise a left click
-    					System.out.println((double)maxstacksize/2 + "  " +bagInventory.getAmount() + " " + playerinventory.player.world.isRemote());
                         ItemStack extracted = bagInventory.extractItem(0, amountToExtract, false);
     					bagslot.onTake(player, extracted);
     					player.inventory.setItemStack(extracted);
@@ -202,6 +199,7 @@ public class BottomLessBagContainer extends Container {
     protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
     	return super.mergeItemStack(stack, Math.min(startIndex, 1), endIndex, reverseDirection);
     }
+    
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {

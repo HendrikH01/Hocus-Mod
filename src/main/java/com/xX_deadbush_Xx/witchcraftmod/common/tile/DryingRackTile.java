@@ -8,6 +8,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -17,17 +18,26 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class DryingRackTile extends BasicItemHolderTile implements ITickableTileEntity {
 	private int ticksUntilDry = 1000;
+	TileEntityManaStorage manastorage = new TileEntityManaStorage(200000000, 50, 15, 10000);
 	
 	public DryingRackTile(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn, 1);
 	}
+	
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+    	return LazyOptional.of(() -> manastorage).cast();
+    }
 	
 	public DryingRackTile() {
 		this(ModTileEntities.DRYING_RACK.get());
@@ -110,6 +120,8 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	public CompoundNBT write(CompoundNBT compound) {
 		compound.put("item", this.getItem().write(new CompoundNBT()));
 		compound.putInt("tickUntilDry", this.ticksUntilDry);
+        compound.put("mana", TileEntityManaStorage.getCap().writeNBT(manastorage, null));
+
 		return super.write(compound);
 	}
 	
@@ -117,6 +129,7 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		CompoundNBT item = compound.getCompound("item");
+        TileEntityManaStorage.getCap().readNBT(manastorage, null, compound.get("mana"));
 
 		if(item != null && !item.isEmpty()) {
 			this.setItem(ItemStack.read(item));

@@ -7,6 +7,8 @@ import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.DoubleBlockHalf;
+import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -33,12 +35,20 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.RITUAL_STONE.get(), models().getExistingFile(getModelPath(ModBlocks.RITUAL_STONE)));
 		simpleBlock(ModBlocks.VIBRANT_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_BLOCK)));
 		simpleBlock(ModBlocks.VIBRANT_CRYSTAL_ORE.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_CRYSTAL_ORE)));
+		simpleBlock(ModBlocks.STONE_MORTAR.get(), models().getExistingFile(getModelPath(ModBlocks.STONE_MORTAR)));
+		simpleBlock(ModBlocks.CRYSTAL_RECHARGER.get(), models().getExistingFile(getModelPath(ModBlocks.CRYSTAL_RECHARGER)));
+		simpleBlock(ModBlocks.ENERGY_RELAY.get(), models().getExistingFile(getModelPath(ModBlocks.ENERGY_RELAY)));
+		simpleBlock(ModBlocks.CREATIVE_MANA_SOURCE.get(), models().getExistingFile(getModelPath(ModBlocks.CREATIVE_MANA_SOURCE)));
+		simpleBlock(ModBlocks.ONYX_ORE.get(), models().getExistingFile(getModelPath(ModBlocks.ONYX_ORE)));
+		simpleBlock(ModBlocks.CAVE_FLOWER.get(), models().getExistingFile(getModelPath(ModBlocks.CAVE_FLOWER)));
 		simpleBlock(ModBlocks.SHALE.get(), models().getExistingFile(getModelPath(ModBlocks.SHALE)));
 		simpleBlock(ModBlocks.POLISHED_WOOD.get(), models().getExistingFile(getModelPath(ModBlocks.POLISHED_WOOD)));
-
+		tallBlock(ModBlocks.SWIRLY_PLANT);
+		
 		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));
 		horizontalBlock(ModBlocks.TOOL_TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TOOL_TABLE)));
 		horizontalBlock(ModBlocks.DRYING_RACK.get(), models().getExistingFile(getModelPath(ModBlocks.DRYING_RACK)));
+		
 		
 		getVariantBuilder(ModBlocks.CANDLE.get())
 			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(newConfiguredModel("one_" + getBlockName(ModBlocks.CANDLE)))
@@ -51,8 +61,33 @@ public class BlockStatesDataGen extends BlockStateProvider {
 			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 2).setModels(newConfiguredModel("level_2_" + getBlockName(ModBlocks.STONE_MORTAR)))
 			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 3).setModels(newConfiguredModel("level_3_" + getBlockName(ModBlocks.STONE_MORTAR)));
 		
+		//getVariantBuilder(ModBlocks.POISON_IVY.get())
+		//	.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("one_" + getBlockName(ModBlocks.CANDLE)))))
+		//	.partialState().with(ModBlockStateProperties.CANDLES_1_3, 2).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("two_" + getBlockName(ModBlocks.CANDLE) + "s"))));
+
+		
 		buildMushroomBlock(ModBlocks.HELLSHROOM_BLOCK);
 		buildMushroomBlock(ModBlocks.HELLSHROOM_STEM);
+		
+		poisonIvy(ModBlocks.POISON_IVY);
+	}
+	
+	private void poisonIvy(RegistryObject<Block> block) {
+		getMultipartBuilder(block.get())
+			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_north"))).uvLock(true).addModel().condition(BlockStateProperties.NORTH, true).end()
+			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_south"))).uvLock(true).addModel().condition(BlockStateProperties.SOUTH, true).end()
+			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_east"))).uvLock(true).addModel().condition(BlockStateProperties.EAST, true).end()
+			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_west"))).uvLock(true).addModel().condition(BlockStateProperties.WEST, true).end()
+			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_up"))).uvLock(true).addModel().condition(BlockStateProperties.UP, true).end()
+			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_down"))).uvLock(true).addModel().condition(BlockStateProperties.DOWN, true).end();
+	}
+
+	private void tallBlock(RegistryObject<Block> block) {
+        getVariantBuilder(block.get())
+        .partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.UPPER)
+            .modelForState().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_top"))).addModel()
+        .partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
+        	.modelForState().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_bottom"))).addModel();
 	}
 	
 	private ConfiguredModel newConfiguredModel(String path) {

@@ -6,10 +6,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class CrystalEnergyStorage {
+public class PlayerManaStorage {
 	
 	private int energy = 0;
 	private int maxEnergy = 0;
+	private int consumedEnergy = 0;
 	
 	public void setEnergy(int amount) {
 		energy = amount;
@@ -23,22 +24,34 @@ public class CrystalEnergyStorage {
 		return energy;
 	}
 	
+	public int getConsumedEnergy() {
+		return consumedEnergy;
+	}
+	
 	public int getMaxEnergy() {
 		return maxEnergy;
 	}
 	
+	public void removeEnergy(int amount) {
+		this.consumedEnergy += amount;
+	}
+	
 	public static class Capability {
 		
-	    @CapabilityInject(CrystalEnergyStorage.class)
-	    public static net.minecraftforge.common.capabilities.Capability<CrystalEnergyStorage> CRYSTAL_ENERGY_CAP;
+	    @CapabilityInject(PlayerManaStorage.class)
+	    public static net.minecraftforge.common.capabilities.Capability<PlayerManaStorage> CRYSTAL_ENERGY_CAP;
 
-	    public static LazyOptional<CrystalEnergyStorage> getWorldPressure(final World world) {
+	    public static LazyOptional<PlayerManaStorage> getWorldPressure(final World world) {
 	        return world.getCapability(CRYSTAL_ENERGY_CAP, null);
 	    }
 	    
-	    public static net.minecraftforge.common.capabilities.Capability<CrystalEnergyStorage> get() {
+	    public static net.minecraftforge.common.capabilities.Capability<PlayerManaStorage> get() {
 	    	return CRYSTAL_ENERGY_CAP;
 	    }
 
+	}
+
+	public void setConsumeZero() {
+		consumedEnergy = 0;
 	}
 }

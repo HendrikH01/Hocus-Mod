@@ -2,7 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client;
 
 import java.util.function.Supplier;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerCrystalEnergyProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
@@ -30,7 +30,7 @@ public class CrystalEnergyUpdate {
 		context.enqueueWork(new Runnable() {
 			@Override
 			public void run() {
-				PlayerCrystalEnergyProvider.getClientCapability().ifPresent(storage -> {
+				PlayerManaProvider.getClientCapability().ifPresent(storage -> {
 					storage.setEnergy(msg.energy);
 				});
 			}

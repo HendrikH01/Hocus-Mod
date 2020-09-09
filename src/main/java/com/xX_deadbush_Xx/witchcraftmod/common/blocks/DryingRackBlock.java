@@ -2,6 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
 import javax.annotation.Nullable;
 
+import com.xX_deadbush_Xx.witchcraftmod.common.items.LinkingWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
 
@@ -28,7 +29,7 @@ import net.minecraft.world.World;
 public class DryingRackBlock extends Block {
 
 	private static final VoxelShape SHAPE_NORTH = Block.makeCuboidShape(2.0D, 0.0D, 0.0D, 14.0D, 16.0D, 16.0D);
-	private static final VoxelShape SHAPE_WEST = Block.makeCuboidShape(0.0D, 2.0D, 0.0D, 16.0D, 16.0D, 14.0D);
+	private static final VoxelShape SHAPE_WEST = Block.makeCuboidShape(0.0D, 0.0D, 2.0D, 16.0D, 16.0D, 14.0D);
 
 
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
@@ -89,6 +90,10 @@ public class DryingRackBlock extends Block {
 
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
+		if(player.getHeldItemMainhand().getItem() instanceof LinkingWand) {
+			return ActionResultType.PASS;
+		}
+		
 		TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof DryingRackTile) {
             ((DryingRackTile) tileEntity).swapItems(worldIn, pos, player);
