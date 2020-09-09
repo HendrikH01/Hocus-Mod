@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,11 +26,14 @@ public class GuideBookScreen extends Screen {
 	public static final int PAGE_HEIGHT = 182;
 	public static final int ARROW_WIDTH = 18;
 	public static final int ARROW_HEIGHT = 10;
-	private int currentPage = 0;
-	private static GuideBookContent content;
+
 	private CoverButton coverButton; 
 	private NextButton next;
 	private PreviousButton previous;
+	
+	private int currentLeftPage = 0;
+	private static GuideBookContent content;
+	public BookPage leftPage, rightPage;
 	
 	public static final GuideBookScreen INSTANCE = new GuideBookScreen();
 	
@@ -38,7 +42,7 @@ public class GuideBookScreen extends Screen {
 	}
 	
 	public GuideBookScreen() {
-		this(getDefaultName());
+		this(getFormattedName());
 	}
 	
 	public void setContent(GuideBookContent content) {
@@ -57,85 +61,157 @@ public class GuideBookScreen extends Screen {
 	@Override
 	public void init() {
 		super.init();
-		System.out.println(this.width);
-		System.out.println(Minecraft.getInstance().getMainWindow().getWidth());
 		coverButton = new CoverButton((this.width - PAGE_WIDTH) / 2, (this.height - PAGE_HEIGHT) / 2, PAGE_WIDTH, PAGE_HEIGHT, I18n.format(""), (button) -> {
-				currentPage = 1;
-				updateButtons();
-		});
-		
+					currentLeftPage = 1;
+					selectPages();
+					updateButtons();
+				});
+
 		next = new NextButton((this.width) / 2 + PAGE_WIDTH - ARROW_WIDTH - 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
-					if (getNumberOfPages() > currentPage) {
-						currentPage += 1;
+					if (getNumberOfPages() - 2 >= currentLeftPage) {
+						currentLeftPage += 2;
+						selectPages();
 						updateButtons();
 					}
 				});
 
 		previous = new PreviousButton((this.width) / 2 - PAGE_WIDTH + 25, (this.height) / 2 + PAGE_HEIGHT / 2 - 24, ARROW_WIDTH, ARROW_HEIGHT, I18n.format(""), (button) -> {
-					if (currentPage > 0) {
-						currentPage -= 1;
+					if (currentLeftPage > 2) {
+						currentLeftPage -= 2;
+						if (currentLeftPage == 0)
+							currentLeftPage = 2;
+						selectPages();
 						updateButtons();
 					}
 				});
 
 		updateButtons();
 	}
-	
-	public void addButtons() {
-		// TO-DO add buttons
+
+	public void selectPages() {
+		// cover page
+		if(this.currentLeftPage == 0) {
+			this.leftPage = null;
+			this.rightPage = null;
+			return;
+		} else if(currentLeftPage == 1) {
+			this.leftPage = null;
+			this.rightPage = content.getChapters().get(0).getPage(0);
+			return;
+		}
+		
+		BookChapter currentChapter = content.getChapters().get(0);
+		int pagenum = 1;
+		
+		for(BookChapter chapter : content.getChapters()) {
+			if(chapter.getNumberOfPages() + pagenum < this.currentLeftPage) {
+				pagenum += chapter.getNumberOfPages();
+			} else {
+				currentChapter = chapter;
+				break;
+			}
+		}
+		 
+		this.leftPage = currentChapter.getPage(currentLeftPage - pagenum - 1);
+		if(currentChapter.getNumberOfPages() + pagenum == currentLeftPage) {
+			BookChapter next = currentChapter.getNextChapter();
+			if(next != null) {
+				this.rightPage = next.getPage(0);
+			}
+		} else {
+			this.rightPage = currentChapter.getPage(currentLeftPage - pagenum);
+		}
 	}
-	
+
 	private void updateButtons() {
 		this.buttons.clear();
-		
-		if (currentPage == 0) {
+
+		if (currentLeftPage == 0) {
 			this.addButton(coverButton);
 		} else {
-			if (currentPage > 0 && currentPage < getNumberOfPages()) {
+			if (currentLeftPage >= 1 && currentLeftPage < getNumberOfPages() - 1) {
 				this.addButton(next);
 			}
-			
-			if (currentPage > 1 && currentPage <= getNumberOfPages()) {
+
+			if (currentLeftPage >= 3) {
 				this.addButton(previous);
 			}
 		}
 	}
-	
+
 	@Override
 	public void onClose() {
-		this.currentPage = 0;
+		this.currentLeftPage = 0;
 		super.onClose();
 	}
 	
-	@Override
-	public void tick() {
-		super.tick();
-		//moved button calculations to updateButtons()
+	public static Coords getLeftPageCoords() {
+		Minecraft mc = Minecraft.getInstance();
+		int x = (int) (mc.getMainWindow().getWidth() / (2 * mc.getMainWindow().getGuiScaleFactor())  - PAGE_WIDTH);
+		int y = (int) (mc.getMainWindow().getHeight() / mc.getMainWindow().getGuiScaleFactor() - PAGE_HEIGHT) / 2;
+		return new Coords(x, y);
 	}
 	
+	public static Coords getRightPageCoords() {
+		Minecraft mc = Minecraft.getInstance();
+		int x = (int) (mc.getMainWindow().getWidth() / (2 * mc.getMainWindow().getGuiScaleFactor()));
+		int y = (int) (mc.getMainWindow().getHeight() / mc.getMainWindow().getGuiScaleFactor() - PAGE_HEIGHT) / 2;
+		return new Coords(x, y);
+	}
+
 	@Override
 	public void render(int mouseX, int mouseY, float partialTicks) {
+		this.renderBackground();
 		
-		if(currentPage > 0) {
+		if(currentLeftPage > 0) {
 			Minecraft.getInstance().getTextureManager().bindTexture(TEXTURES_SHEET);
-			if(currentPage == 1) {
-				AbstractGui.blit((this.width) / 2 - PAGE_WIDTH, (this.height - PAGE_HEIGHT) / 2, 0, PAGE_WIDTH - 3, PAGE_HEIGHT + 6, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);	
+			Coords left = getLeftPageCoords();
+			Coords right = getRightPageCoords();
+
+			if(currentLeftPage == 2) {
+				AbstractGui.blit(left.x, left.y, 0, PAGE_WIDTH - 3, PAGE_HEIGHT + 6, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);	
 			} else {
-				AbstractGui.blit((this.width) / 2 - PAGE_WIDTH, (this.height - PAGE_HEIGHT) / 2, 0, 0, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
+				//Standard left page
+				AbstractGui.blit(left.x, left.y, 0, 0, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
 			}
-			AbstractGui.blit((this.width) / 2, (this.height - PAGE_HEIGHT) / 2, 0, PAGE_WIDTH, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
+			
+			AbstractGui.blit(right.x, right.y, 0, PAGE_WIDTH, 0, PAGE_WIDTH, PAGE_HEIGHT, SHEET_HEIGHT, SHEET_WIDTH);
+
+			if(leftPage != null) {
+				leftPage.drawPage();
+
+				if(leftPage.isFirstPage()) {
+					leftPage.getChapter().drawTitle(BookPage.Side.LEFT);
+				}
+			}
+			
+			if(rightPage != null) {
+				rightPage.drawPage();
+
+				if(rightPage.isFirstPage()) {
+					rightPage.getChapter().drawTitle(BookPage.Side.RIGHT);
+				}
+			}			
 		}
-		Minecraft.getInstance().fontRenderer.drawSplitString("ABCDEFGHIJKLMNOPQRSTUWfsadkfasdbkfsadkuhsdfaiukfsdhaiusdfahuihfasdliuhgsafdiuhsfdaldshafulkihaksjdhfdsajnbvkjxcxzcv", (this.width)/2 - PAGE_WIDTH + 16, (this.height - PAGE_HEIGHT)/2 + 16, 120, 0);
+		
 		super.render(mouseX, mouseY, partialTicks);
 	}
-	
-	// FOR INITIALIZATION ONLY
-	
-	private static ITextComponent getDefaultName() {
+		
+	private static ITextComponent getFormattedName() {
 		return new TranslationTextComponent(WitchcraftMod.MOD_ID + ".guidebook.title");
 	}
 	
 	public List<Widget> getButtons() {
 		return this.buttons;
+	}
+	
+	public static class Coords {
+		public int x;
+		public int y;
+		
+		public Coords(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
 	}
 }

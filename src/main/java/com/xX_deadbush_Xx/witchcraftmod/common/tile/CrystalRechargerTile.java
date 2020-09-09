@@ -85,7 +85,6 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
                 burnTime = ForgeHooks.getBurnTime(fuel);
                 maxBurnTime = burnTime;
                 fuel.shrink(1);
-
             }
         }
     }

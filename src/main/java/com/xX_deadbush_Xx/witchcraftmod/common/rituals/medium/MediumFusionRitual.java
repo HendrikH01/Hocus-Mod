@@ -4,12 +4,12 @@ import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractMediumRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTotem;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.MediumRitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
@@ -30,7 +30,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class MediumFusionRitual extends AbstractMediumRitual implements ICraftingRitual, IStaticRitual {
+public class MediumFusionRitual extends MediumRitual implements ICraftingRitual, IStaticRitual {
 	private static final Block pedestal = ModBlocks.RITUAL_PEDESTAL.get();
 	public static final MediumRitualConfig config = new MediumRitualConfig(new Block[] {pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal}, new RitualTotem[] {});
 	

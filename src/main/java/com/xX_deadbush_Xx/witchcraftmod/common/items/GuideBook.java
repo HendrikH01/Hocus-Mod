@@ -24,6 +24,7 @@ public class GuideBook extends Item{
 		if(worldIn.isRemote) {
 			Minecraft.getInstance().displayGuiScreen(GuideBookScreen.INSTANCE); 
 		}
+		
 		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
 }

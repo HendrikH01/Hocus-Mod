@@ -62,6 +62,8 @@ public class ModBlocks {
 		public static final RegistryObject<Block> DREADWOOD_LEAVES = BLOCKS.register("dreadwood_leaves", () -> new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.3F, 0.5F).notSolid().sound(SoundType.PLANT)));
 		public static final RegistryObject<Block> TABLE = BLOCKS.register("table", () -> new Table(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
 		public static final RegistryObject<Block> CREATIVE_MANA_SOURCE = BLOCKS.register("creative_mana_source", () -> new CreativeManaSourceBlock(Block.Properties.create(Material.IRON).notSolid().harvestTool(ToolType.PICKAXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)));
+		public static final RegistryObject<Block> SHALE = BLOCKS.register("shale", () -> new Block(Block.Properties.create(Material.ROCK).notSolid().harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> POLISHED_WOOD = BLOCKS.register("polished_wood", () -> new Block(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.WOOD)));
 
 		//FUNCTIONAL BLOCKS
 		public static final RegistryObject<Block> DRYING_RACK = BLOCKS.register("drying_rack", () -> new DryingRackBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.5F, 5.0F).sound(SoundType.WOOD)));

@@ -41,7 +41,8 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.CREATIVE_MANA_SOURCE.get(), models().getExistingFile(getModelPath(ModBlocks.CREATIVE_MANA_SOURCE)));
 		simpleBlock(ModBlocks.ONYX_ORE.get(), models().getExistingFile(getModelPath(ModBlocks.ONYX_ORE)));
 		simpleBlock(ModBlocks.CAVE_FLOWER.get(), models().getExistingFile(getModelPath(ModBlocks.CAVE_FLOWER)));
-
+		simpleBlock(ModBlocks.SHALE.get(), models().getExistingFile(getModelPath(ModBlocks.SHALE)));
+		simpleBlock(ModBlocks.POLISHED_WOOD.get(), models().getExistingFile(getModelPath(ModBlocks.POLISHED_WOOD)));
 		tallBlock(ModBlocks.SWIRLY_PLANT);
 		
 		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));
@@ -50,9 +51,15 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		
 		
 		getVariantBuilder(ModBlocks.CANDLE.get())
-			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("one_" + getBlockName(ModBlocks.CANDLE)))))
-			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 2).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("two_" + getBlockName(ModBlocks.CANDLE) + "s"))))
-			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 3).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("three_" + getBlockName(ModBlocks.CANDLE) + "s"))));
+			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(newConfiguredModel("one_" + getBlockName(ModBlocks.CANDLE)))
+			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 2).setModels(newConfiguredModel("two_" + getBlockName(ModBlocks.CANDLE) + "s"))
+			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 3).setModels(newConfiguredModel("three_" + getBlockName(ModBlocks.CANDLE) + "s"));
+		
+		getVariantBuilder(ModBlocks.STONE_MORTAR.get())
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 0).setModels(newConfiguredModel(getBlockName(ModBlocks.STONE_MORTAR)))
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 1).setModels(newConfiguredModel("level_1_" + getBlockName(ModBlocks.STONE_MORTAR)))
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 2).setModels(newConfiguredModel("level_2_" + getBlockName(ModBlocks.STONE_MORTAR)))
+			.partialState().with(ModBlockStateProperties.OIL_FILLLEVEL, 3).setModels(newConfiguredModel("level_3_" + getBlockName(ModBlocks.STONE_MORTAR)));
 		
 		//getVariantBuilder(ModBlocks.POISON_IVY.get())
 		//	.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(new ConfiguredModel(models().getExistingFile(getModelPath("one_" + getBlockName(ModBlocks.CANDLE)))))
@@ -81,6 +88,10 @@ public class BlockStatesDataGen extends BlockStateProvider {
             .modelForState().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_top"))).addModel()
         .partialState().with(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
         	.modelForState().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_bottom"))).addModel();
+	}
+	
+	private ConfiguredModel newConfiguredModel(String path) {
+		return new ConfiguredModel(models().getExistingFile(getModelPath(path)));
 	}
 	
 	private void buildMushroomBlock(RegistryObject<Block> block) {

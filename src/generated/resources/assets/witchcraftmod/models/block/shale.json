@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "witchcraftmod:blocks/shale_side",
+    "end": "witchcraftmod:blocks/shale_top"
+  }
+}

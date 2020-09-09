@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.gui;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.container.CrystalRechargerContainer;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.CrystalRechargerTile;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -18,16 +19,12 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         this.ySize = 166;
     }
 
-    @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        this.font.drawString("Burntime: " + this.container.getBurnTime(), 10, 10, 4210752);
-    }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0f, 1.0f, 1.0f, 1.0f);
         this.minecraft.getTextureManager().bindTexture(BACKGROUND_TEXTURE);
+
         int x = this.guiLeft;
         int y = this.guiTop;
         this.blit(x, y, 0, 0, this.xSize, this.ySize);
@@ -47,5 +44,14 @@ public class CrystalRechargerScreen extends ContainerScreen<CrystalRechargerCont
         this.renderBackground();
         super.render(mouseX, mouseY, partialTicks);
         this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    private int getBurnLeftScaled() {
+        CrystalRechargerTile tile = this.container.tile;
+        int t = tile.total;
+        if (t == 0)
+            t = 200;
+        return tile.burnTime * 13 / t;
+
     }
 }

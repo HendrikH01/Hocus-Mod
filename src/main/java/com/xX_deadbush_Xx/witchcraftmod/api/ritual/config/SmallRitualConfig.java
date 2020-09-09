@@ -1,6 +1,7 @@
-package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
+package com.xX_deadbush_Xx.witchcraftmod.api.ritual.config;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
@@ -23,25 +24,14 @@ public class SmallRitualConfig implements IRitualConfig {
 		}
 		this.anchorblocks = list;
 	}
-	
-	@Override
-	public boolean matchesAnchorblocks(NonNullList<Block> anchorblocksIn) { //S-W-N-E
-		if(anchorblocksIn.size() != 4) return false; 
-		
-		for(int i = 0; i < 4; i++) {
-			if(anchorblocksIn.get(0).getRegistryName() == this.anchorblocks.get(i).getRegistryName()) {
-				if(
-					anchorblocksIn.get(1).getRegistryName() == this.anchorblocks.get((i + 1)%4).getRegistryName()	&&
-					anchorblocksIn.get(2).getRegistryName() == this.anchorblocks.get((i + 2)%4).getRegistryName()	&&
-					anchorblocksIn.get(3).getRegistryName() == this.anchorblocks.get((i + 3)%4).getRegistryName()
-				) return true;
-			}
-		}	
-		return false;
-	}
 
 	@Override
 	public boolean matchesTotems(IWorldReader world) {
 		return true;
+	}
+
+	@Override
+	public List<Block> getAnchorBlocks() {
+		return this.anchorblocks;
 	}
 }
