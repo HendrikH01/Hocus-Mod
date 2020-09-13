@@ -43,7 +43,10 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.ADVANCED_ENERGY_CRYSTAL::get, "Advanced Energy Crystal");
 		addItem(ModItems.WEAK_ENERGY_CRYSTAL::get, "Weak Energy Crystal");
 		addItem(ModItems.LIGHTNING_ROD::get, "Lightning Rod");
+<<<<<<< master
 		addItem(ModItems.BOTTOMLESS_BAG::get, "Bottomless Bag");
+=======
+>>>>>>> 694e921 Nature Wand
 		addItem(ModItems.NATURE_WAND::get, "Nature Wand");
 
 	}

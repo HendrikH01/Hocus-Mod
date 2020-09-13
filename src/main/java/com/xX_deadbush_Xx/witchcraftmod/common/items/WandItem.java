@@ -13,6 +13,7 @@ public abstract class WandItem extends Item {
 		super(properties);
 	}
 	
+<<<<<<< master
 	public abstract int getEnergyPerUse();
 	
 	public abstract int getCooldown();
@@ -26,6 +27,14 @@ public abstract class WandItem extends Item {
 	protected boolean onWandUse(PlayerEntity player, ItemStack wand) {		
 		int energyneeded = getEnergyPerUse();
 		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
+=======
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack wand = playerIn.getHeldItem(handIn);
+			
+		int energyneeded = getEnergyPerUse(wand);
+		CrystalEnergyStorage storage = PlayerCrystalEnergyProvider.getPlayerCapability(playerIn).orElse(null);
+>>>>>>> 694e921 Nature Wand
 
 		if (storage == null)
 			return false;
