@@ -49,7 +49,7 @@ public class ModItems {
 	public static final RegistryObject<Item> DUST_OF_CHAOS = ITEMS.register("dust_of_chaos", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DUST_OF_CREATION = ITEMS.register("dust_of_creation", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DUST_OF_DESTRUCTION = ITEMS.register("dust_of_destruction", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
-	
+
 	//PLANTS
 	public static final RegistryObject<Item> ADONIS_SEED_POD = ITEMS.register("adonis_seed_pod", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> BELLADONNA_BERRY = ITEMS.register("belladonna_berry", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
@@ -101,8 +101,9 @@ public class ModItems {
     //No item group
 	public static final RegistryObject<Item> BLOOD_PHIAL = ITEMS.register("blood_sample", () -> new BloodPhial(new Item.Properties().maxStackSize(1)));
 	
-	public enum ModArmorMaterial implements IArmorMaterial{
+	public enum ModArmorMaterial implements IArmorMaterial {
 		WITCH_HAT_MATERIAL(WitchcraftMod.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> Ingredient.fromItems(Items.LEATHER));
+
 		
 		private static final int[] MAX_DAMAGE_ARRAY = new int[] {16, 16, 16, 16};
 		private final String name;
