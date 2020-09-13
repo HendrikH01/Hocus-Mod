@@ -78,11 +78,14 @@ public class ModItems {
 	public static final RegistryObject<Item> SILVER_BOOTS = ITEMS.register("silver_boots", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.FEET, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> MANASPECS = ITEMS.register("manaspecs", () -> new ArmorItem(ModArmorMaterials.MANA_GOGGLES, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> NATURE_WAND = ITEMS.register("nature_wand", () -> new NatureWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
+
+	public static final RegistryObject<Item> WITCH_HAT = ITEMS.register("witch_hat", () -> new WitchHat(ModArmorMaterial.WITCH_HAT_MATERIAL, EquipmentSlotType.HEAD, new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
+
 	
 	public enum ModArmorMaterial implements IArmorMaterial{
 		WITCH_HAT_MATERIAL(WitchcraftMod.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> {
 			return Ingredient.fromItems(Items.LEATHER);
-		});
+		});	
 		
 		private static final int[] MAX_DAMAGE_ARRAY = new int[] {16, 16, 16, 16};
 		private final String name;
