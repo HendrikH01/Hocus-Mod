@@ -30,7 +30,8 @@ public enum GlowType implements IStringSerializable {
 	   }
 	   
 	   public int getColor(int strength, int colorToBlend) {
-		   double blendingratio = (double)MathHelper.clamp(strength, 0, 15)/15;
+		   int multiplier =  13;
+		   double blendingratio = (double)MathHelper.clamp(strength, 0, multiplier)/multiplier;
 		   double invblendingratio = 1.0D - blendingratio;		   
 		   int r=255, g=255, b=255;
 		   switch(this) {

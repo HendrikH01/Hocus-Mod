@@ -6,26 +6,23 @@ import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IContinuousRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.SmallRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTaskHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
 
 public class SmallAnimalGrowthRitual extends SmallRitual implements IContinuousRitual {
-	public static final SmallRitualConfig config = new SmallRitualConfig(Blocks.RED_WOOL, Blocks.EMERALD_BLOCK, Blocks.RED_WOOL, Blocks.EMERALD_BLOCK);
+	public static final RitualConfig config = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(2, Blocks.RED_WOOL, Blocks.EMERALD_BLOCK);
 	private final double checkradius = 8;
 	private int manaconsumecooldown = 20;
 	private static Random rand =  new Random();
@@ -39,7 +36,7 @@ public class SmallAnimalGrowthRitual extends SmallRitual implements IContinuousR
 	}
 	
 	@Override
-	public void activate() {
+	public void init() {
 		if(!conditionsMet()) { 
 			stopRitual(false);
 		} else {
@@ -75,16 +72,17 @@ public class SmallAnimalGrowthRitual extends SmallRitual implements IContinuousR
 	}
 
 	@Override
-	public IRitualConfig getConfig() {
-		return this.config;
+	public RitualConfig getConfig() {
+		return SmallAnimalGrowthRitual.config;
 	}
-	
-	private void accelerateGrowth(BlockPos pos) {
-		BlockState state = this.worldIn.getBlockState(pos);
-		Block block = state.getBlock();
-		if(block instanceof CropsBlock) {
-			if(((CropsBlock)block).isMaxAge(state)) return;
-			if(this.rand.nextInt(80)==0) block.tick(state, (ServerWorld) this.worldIn, pos, this.rand);
-		}
+
+	@Override
+	public RitualActivationTaskHandler getActivationHandler() {
+		return new RitualActivationTaskHandler(this.tile, this.performingPlayer) {
+
+			@Override
+			public void init() {}
+			
+		};
 	}
 }

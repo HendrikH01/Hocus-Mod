@@ -8,7 +8,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.BloodInfusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.MediumFusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallAnimalGrowthRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallFusionRitual;
@@ -19,13 +20,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class RitualRegistry {
-	public static RitualRegistry INSTANCE = new RitualRegistry();
+	public static final RitualRegistry INSTANCE = new RitualRegistry();
 	private BiMap<Integer, ResourceLocation> names = HashBiMap.create();
-	private BiMap<Integer, IRitualConfig> configs = HashBiMap.create();
+	private BiMap<Integer, RitualConfig> configs = HashBiMap.create();
 	private Map<Integer, IFactory> factories = new HashMap<>();
 	private static int id = 0;
 	
-	private void register(ResourceLocation name, IRitualConfig config, IFactory factory) {
+	private void register(ResourceLocation name, RitualConfig config, IFactory factory) {
 		id++;
 		if(this.names.values().contains(name)) throw new IllegalArgumentException("Ritual with the same name registered twice: " + name); 
 		this.factories.put(id, factory);
@@ -33,7 +34,7 @@ public class RitualRegistry {
 		this.configs.put(id, config);
 	}
 	
-	private void register(String name, IRitualConfig config, IFactory factory) {
+	private void register(String name, RitualConfig config, IFactory factory) {
 		register(new ResourceLocation(WitchcraftMod.MOD_ID, name), config, factory);
 	}
 	
@@ -56,13 +57,15 @@ public class RitualRegistry {
 		register("small_fusion_ritual", SmallFusionRitual.config, SmallFusionRitual::new);
 		//MEDIUM
 		register("medium_growth_ritual", MediumFusionRitual.config, MediumFusionRitual::new);
+		register("infusion_ritual", BloodInfusionRitual.config, BloodInfusionRitual::new);
+
 	}
 
-	public static Set<IRitualConfig> getConfigs() {
+	public static Set<RitualConfig> getConfigs() {
 		return INSTANCE.configs.values();
 	}
 
-	public static int getIdFromConfig(IRitualConfig config) {
+	public static int getIdFromConfig(RitualConfig config) {
 		return INSTANCE.configs.inverse().get(config);
 	}
 	

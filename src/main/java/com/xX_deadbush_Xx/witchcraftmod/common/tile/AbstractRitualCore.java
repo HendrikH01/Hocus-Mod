@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractRitual.Phase;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
@@ -30,10 +31,10 @@ public abstract class AbstractRitualCore extends BasicItemHolderTile implements 
 		super(tileEntityTypeIn, 1);
 	}
 	
-	@Override
+	@Override 
 	public void tick() {
 		this.currentritual.ifPresent(ritual -> {
-			if(!ritual.isPoweringDown()) {
+			if(ritual.getPhase() != Phase.POWERDOWN) {
 				if(ritual.conditionsMet()) {
 					this.updateGlow(ritual.getGlowType(), ritual);
 					if(!this.world.isRemote) ritual.tick();
@@ -50,7 +51,7 @@ public abstract class AbstractRitualCore extends BasicItemHolderTile implements 
 
 	private void updateGlow(GlowType glowtype, IRitual ritual) {
 		this.glowpower += this.diffglowpower;
-		this.diffglowpower = this.glowpower == 15 || ritual.isPoweringDown() ?
+		this.diffglowpower = this.glowpower == 15 || ritual.getPhase() == Phase.POWERDOWN ?
 				-0.5F : this.glowpower <= 7 ?
 						0.5F : this.diffglowpower; //nested tenaries yay
 		this.world.setBlockState(this.pos, this.getBlockState().with(RitualStone.GLOW_TYPE, glowtype).with(RitualStone.POWER, (int)this.glowpower));

@@ -6,4 +6,8 @@ public class RenderHelper {
 	public static boolean isSolidOrTranslucent(RenderType layerToCheck) {
 	    return layerToCheck == RenderType.getSolid() || layerToCheck == RenderType.getTranslucent();
 	}
+	
+	public static boolean isSolidOrCutout(RenderType layerToCheck) {
+	    return layerToCheck == RenderType.getSolid() || layerToCheck == RenderType.getCutout();
+	}
 }

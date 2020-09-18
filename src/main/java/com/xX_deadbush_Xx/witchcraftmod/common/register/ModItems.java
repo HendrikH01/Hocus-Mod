@@ -58,6 +58,7 @@ public class ModItems {
 	public static final RegistryObject<Item> LINKING_WAND = ITEMS.register("linking_wand", () -> new LinkingWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", () -> new Item(new Item.Properties().maxStackSize(64).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> WITCHES_HAT = ITEMS.register("witches_hat", () -> new WitchHatItem(ModArmorMaterials.MAGIC_LEATHER, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
+	
 	public static final RegistryObject<Item> SILVER_HELMET = ITEMS.register("silver_helmet", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_CHESTPLATE = ITEMS.register("silver_chestplate", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.CHEST, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_LEGGINS = ITEMS.register("silver_leggins", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.LEGS, new Item.Properties().group(WitchcraftItemGroup.instance)));

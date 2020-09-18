@@ -28,6 +28,7 @@ public class ItemModelsDataGen extends ItemModelProvider {
 		blockitemsWithGeneratedModel.add(ModBlocks.ADONIS.get());
 		blockitemsWithGeneratedModel.add(ModBlocks.DREADWOOD_SAPLING.get());
 		blockitemsWithGeneratedModel.add(ModBlocks.CAVE_FLOWER.get());
+
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -55,6 +56,7 @@ public class ItemModelsDataGen extends ItemModelProvider {
 				else if(ModBlocks.HELLSHROOM_BLOCK.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");
 				else if(ModBlocks.HELLSHROOM_STEM.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name + "_inventory");
 				else if(ModBlocks.ENERGY_RELAY.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "items/" + name));
+				else if(ModBlocks.FIRE_BOWL.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "items/" + name));
 				else withExistingParent(name, WitchcraftMod.MOD_ID + ":block/" + name);
 			} else if (!existingFileHelper.exists(new ResourceLocation(WitchcraftMod.MOD_ID, name), ResourcePackType.CLIENT_RESOURCES, ".json", "models/item")) {
 				 if(ModBlocks.SWIRLY_PLANT.get().asItem().getRegistryName().getPath() == name) withExistingParent(name, "item/generated").texture("layer0", new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + name + "_top"));

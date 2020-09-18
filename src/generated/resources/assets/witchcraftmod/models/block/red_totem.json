@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "side": "witchcraftmod:blocks/totem_side",
+    "front": "witchcraftmod:blocks/red_totem",
+    "top": "witchcraftmod:blocks/totem_top"
+  }
+}

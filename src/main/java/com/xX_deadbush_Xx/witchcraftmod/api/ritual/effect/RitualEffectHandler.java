@@ -50,7 +50,7 @@ public abstract class RitualEffectHandler {
 		Collections.sort(indexes, Collections.reverseOrder());
 		System.out.println(indexes + " " + ritualStone.getWorld().isRemote);
 		for(int i : indexes) effects.remove(i);
-	}
+		}
 	
 	public void stopEffect(boolean shouldDoPowerDownAnimation) {
 		this.ritualStone.currentritual.ifPresent(ritual -> ritual.stopRitual(shouldDoPowerDownAnimation));

@@ -50,7 +50,7 @@ public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, 
     float x = (float)(MathHelper.lerp((double)partialTicks, this.prevPosX, this.posX));
     float y = (float)(MathHelper.lerp((double)partialTicks, this.prevPosY, this.posY));
     float z = (float)(MathHelper.lerp((double)partialTicks, this.prevPosZ, this.posZ));
-    
+     
     Vec3d startpos = new Vec3d(x, y, z);
 
     Vec3d difference = startpos.subtract(endpos);
@@ -68,10 +68,10 @@ public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, 
     
 	for(int j = 0; j < this.bumpcount; j++) {
 		double pos = (double)(j+1)/(bumpcount+2)*distance;
-		points1[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin((age*j/2)*Math.PI/40)*0.6 + 0.15, 0);
-		points2[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin((age*j/2)*Math.PI/40)*0.6, 0);
+		points1[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin(((age+partialTicks)*j/2)*Math.PI/40)*0.6 + 0.15, 0);
+		points2[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin(((age+partialTicks)*j/2)*Math.PI/40)*0.6, 0);
 	}
-	
+		
     for(int i = 0; i < segments ; i++) {
     	Vec3d pos = startpos.add(difference.normalize().scale((double)(i+1)/segments*distance));
     	double offset1 = ModMathHelper.bezierCurve((double)(i+1)/segments, points1).y;
@@ -80,7 +80,7 @@ public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, 
     	Vec3d pos2 = pos.add(cross.scale(offset2));
 
     	renderSegment(builder, renderInfo, partialTicks, pos1, pos2, prev2, prev1);
-    	prev1 = pos1.scale(1); // copy vector
+    	prev1 = pos1.scale(1);
     	prev2 = pos2.scale(1);
     }
 }

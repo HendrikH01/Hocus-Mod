@@ -6,8 +6,9 @@ import java.util.Random;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IContinuousRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.SmallRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTaskHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
@@ -25,7 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
 public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual {
-	public static final SmallRitualConfig config = new SmallRitualConfig(Blocks.EMERALD_BLOCK, Blocks.EMERALD_BLOCK, Blocks.EMERALD_BLOCK, Blocks.EMERALD_BLOCK);
+	public static final RitualConfig config = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(4, Blocks.EMERALD_BLOCK).build();
 	private List<BlockPos> blockstocheck = new ArrayList<>();
 	private int manaconsumecooldown = 20;
 	private static Random rand =  new Random();
@@ -46,13 +47,6 @@ public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual 
 	
 	public static SmallGrowthRitual create(AbstractRitualCore tile, PlayerEntity player) {
 		return new SmallGrowthRitual(tile, player);
-	}
-
-	@Override
-	public void activate() {
-		if(!conditionsMet()) { 
-			stopRitual(false);
-		}
 	}
 
 	@Override
@@ -80,12 +74,17 @@ public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual 
 		Block block = state.getBlock();
 		if(block instanceof CropsBlock) {
 			if(((CropsBlock)block).isMaxAge(state)) return;
-			if(this.rand.nextInt(80)==0) block.tick(state, (ServerWorld) this.worldIn, pos, this.rand);
+			if(SmallGrowthRitual.rand.nextInt(75) == 0) ((CropsBlock)block).tick(state, (ServerWorld) this.worldIn, pos, SmallGrowthRitual.rand);
 		}
 	}
 
 	@Override
-	public IRitualConfig getConfig() {
+	public RitualConfig getConfig() {
 		return SmallGrowthRitual.config;
+	}
+
+	@Override
+	public RitualActivationTaskHandler getActivationHandler() {
+		return new RitualActivationTaskHandler(tile, performingPlayer) {public void init() {}};
 	}
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ISmallFusionRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.common.recipes.SmallFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 
 import mezz.jei.api.constants.VanillaTypes;
@@ -18,7 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
-public class SmallFusionCategory implements IRecipeCategory<ISmallFusionRecipe> {
+public class SmallFusionCategory implements IRecipeCategory<SmallFusionRecipe> {
 	private final String localizedName;
 	private final IDrawable background;
 	private final IDrawable icon;
@@ -37,8 +37,8 @@ public class SmallFusionCategory implements IRecipeCategory<ISmallFusionRecipe> 
 	}
 
 	@Override
-	public Class<? extends ISmallFusionRecipe> getRecipeClass() {
-		return ISmallFusionRecipe.class;
+	public Class<? extends SmallFusionRecipe> getRecipeClass() {
+		return SmallFusionRecipe.class;
 	}
 		
 	@Override
@@ -58,7 +58,7 @@ public class SmallFusionCategory implements IRecipeCategory<ISmallFusionRecipe> 
 
 
 	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, ISmallFusionRecipe recipe, IIngredients ingredients) {
+	public void setRecipe(IRecipeLayout recipeLayout, SmallFusionRecipe recipe, IIngredients ingredients) {
 		recipeLayout.getItemStacks().init(0, true, 64, 80);
 		recipeLayout.getItemStacks().set(0, new ItemStack(ModBlocks.RITUAL_STONE.get()));
 		
@@ -82,7 +82,7 @@ public class SmallFusionCategory implements IRecipeCategory<ISmallFusionRecipe> 
 	}
 
 	@Override
-	public void setIngredients(ISmallFusionRecipe recipe, IIngredients ingredients) {
+	public void setIngredients(SmallFusionRecipe recipe, IIngredients ingredients) {
 		List<List<ItemStack>> list = new ArrayList<>();
 		for (Ingredient ingr : recipe.getIngredients()) {
 			list.add(Arrays.asList(ingr.getMatchingStacks()));

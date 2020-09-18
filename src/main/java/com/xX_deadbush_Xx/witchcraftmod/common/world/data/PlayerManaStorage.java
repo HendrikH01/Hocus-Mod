@@ -33,6 +33,7 @@ public class PlayerManaStorage {
 	}
 	
 	public void removeEnergy(int amount) {
+		if(amount > this.energy);
 		this.consumedEnergy += amount;
 	}
 	

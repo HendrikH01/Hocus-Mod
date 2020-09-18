@@ -24,7 +24,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class ToolTable extends FourWayBlock {
+public class ToolTable extends SimpleFourWayBlock {
 	private static final ITextComponent NAME = new TranslationTextComponent("container.tooltable");
 	private static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 13.0D, 16.0D);
 

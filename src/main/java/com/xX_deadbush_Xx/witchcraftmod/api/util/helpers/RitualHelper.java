@@ -8,6 +8,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTier;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.TotemPattern;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.IRitualEffect;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
@@ -69,10 +70,10 @@ public class RitualHelper {
 			BlockPos pos10 = pos5.offset(right, 5);
 
 			out.chalkpositions.add(pos1); out.chalkpositions.add(pos2); out.chalkpositions.add(pos3); out.chalkpositions.add(pos4); out.chalkpositions.add(pos6); out.chalkpositions.add(pos7); out.chalkpositions.add(pos8);
-			out.junctionBlocks.add(pos5); out.junctionBlocks.add(pos2.offset(right, 2));
-			out.totems.add(new BlockPos[]{pos10, pos10.up()});
-			out.totems.add(new BlockPos[]{pos10.offset(direction, 3), pos10.offset(direction, 3).up(), pos10.offset(direction, 3).up(2)});
-			out.totems.add(new BlockPos[]{pos10.offset(right, 3), pos10.offset(right, 3).up(), pos10.offset(right, 3).up(2)});
+			out.anchorblocks.add(pos5); out.anchorblocks.add(pos2.offset(right, 2));
+			out.totems.add(new TotemPattern(pos10, pos10.up()));
+			out.totems.add(new TotemPattern(pos10.offset(direction, 3), pos10.offset(direction, 3).up(), pos10.offset(direction, 3).up(2)));
+			out.totems.add(new TotemPattern(pos10.offset(right, 3), pos10.offset(right, 3).up(), pos10.offset(right, 3).up(2)));
 
 			out.chalkpositions.add(pos1.offset(right, 2));
 			out.chalkpositions.add(pos2.offset(right));
@@ -100,62 +101,6 @@ public class RitualHelper {
 		return out;
 	}
 	
-	public static RitualPositionHolder getRitualPositionsMedium(IWorldReader worldIn, BlockPos pos) {
-		RitualPositionHolder out = new RitualPositionHolder();
-
-		for(Direction direction : getHorizontalDirections()) {
-			Direction right = direction.rotateY(); Direction back = direction.getOpposite();
-			BlockPos pos1 = pos.offset(direction);
-			BlockPos pos2 = pos.offset(direction, 2);
-			BlockPos pos3 = pos.offset(direction, 3);
-			BlockPos pos4 = pos.offset(direction, 4);
-			BlockPos pos5 = pos.offset(direction, 5);
-			BlockPos pos6 = pos.offset(direction, 6);
-			BlockPos pos7 = pos5.offset(right, 5);
-
-			out.chalkpositions.add(pos1); out.chalkpositions.add(pos2); out.chalkpositions.add(pos3); out.chalkpositions.add(pos4);
-			out.junctionBlocks.add(pos5); out.junctionBlocks.add(pos2.offset(right, 2));
-			out.totems.add(new BlockPos[]{pos7, pos7.up()});
-
-			out.chalkpositions.add(pos1.offset(right, 2));
-			out.chalkpositions.add(pos2.offset(right));
-			for(int i = 1; i < 5; i++) {
-				out.chalkpositions.add(pos5.offset(right, i));
-				out.chalkpositions.add(pos7.offset(back, i));
-				
-				out.nonRitualBlocks.add(pos3.offset(right, i));
-				out.nonRitualBlocks.add(pos4.offset(right, i));
-			}
-			out.nonRitualBlocks.add(pos2.offset(right, 3));
-			out.nonRitualBlocks.add(pos2.offset(right, 4));				
-			out.nonRitualBlocks.add(pos1.offset(right, 3));
-			out.nonRitualBlocks.add(pos1.offset(right, 4));
-			for(int i = -5; i < 5; i++) out.nonRitualBlocks.add(pos6.offset(right, i));
-		}
-		return out;
-	}
-	
-	public static RitualPositionHolder getRitualPositionsSmall(World world, BlockPos pos) {
-		RitualPositionHolder out = new RitualPositionHolder();
-		
-		for(Direction direction : getHorizontalDirections()) {
-			Direction right = direction.rotateY();
-			BlockPos pos1 = pos.offset(direction);
-			BlockPos pos2 = pos.offset(direction, 2);
-			BlockPos pos3 = pos.offset(direction, 3);
-
-			out.chalkpositions.add(pos2.offset(right));
-			out.chalkpositions.add(pos1.offset(right, 2)); 
-			out.chalkpositions.add(pos1); out.chalkpositions.add(pos2);
-
-			out.nonRitualBlocks.add(pos1.offset(right));
-			for(int i = -2; i < 2; i++) out.nonRitualBlocks.add(pos3.offset(right, i));
-			
-			out.junctionBlocks.add(pos2.offset(right, 2));
-		}
-		return out;
-	}
-	
 	public static class PrioritySorter implements Comparator<IRitualEffect> {
 		@Override
 		public int compare(IRitualEffect effect1, IRitualEffect effect2) {
@@ -166,7 +111,7 @@ public class RitualHelper {
 	public static class RitualPositionHolder {
 		public Set<BlockPos> chalkpositions = new HashSet<>();
 		public Set<BlockPos> nonRitualBlocks = new HashSet<>();
-		public Set<BlockPos> junctionBlocks = new HashSet<>();
-		public Set<BlockPos[]> totems = new HashSet<>();
+		public Set<BlockPos> anchorblocks = new HashSet<>();
+		public Set<TotemPattern> totems = new HashSet<>();
 	}
 }

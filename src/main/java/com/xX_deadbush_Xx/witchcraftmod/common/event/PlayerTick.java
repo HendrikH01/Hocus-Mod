@@ -13,10 +13,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
-@EventBusSubscriber(modid = WitchcraftMod.MOD_ID, bus=Mod.EventBusSubscriber.Bus.FORGE)
+@EventBusSubscriber(modid = WitchcraftMod.MOD_ID, bus=Bus.FORGE)
 public class PlayerTick {
 	@SubscribeEvent
 	public static void onPlayerTick(PlayerTickEvent event) {

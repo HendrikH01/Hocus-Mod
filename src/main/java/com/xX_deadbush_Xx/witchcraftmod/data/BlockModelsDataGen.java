@@ -24,6 +24,9 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		registerCubeAll();
 		registerPillarBlocks();
 		
+		totem(ModBlocks.RED_TOTEM);
+		totem(ModBlocks.GREEN_TOTEM);
+		totem(ModBlocks.PURPLE_TOTEM);
 		leaves(ModBlocks.DREADWOOD_LEAVES);
 		cross(getBlockName(ModBlocks.ADONIS), new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.ADONIS)));
 		cross(getBlockName(ModBlocks.BELLADONNA), new ResourceLocation(WitchcraftMod.MOD_ID, "blocks/" + getBlockName(ModBlocks.BELLADONNA)));
@@ -85,6 +88,9 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cubeAll(ModBlocks.CRYSTAL_RECHARGER);
 		cubeAll(ModBlocks.CREATIVE_MANA_SOURCE);
 		cubeAll(ModBlocks.ONYX_ORE);
+		cubeAll(ModBlocks.SHALE_BRICKS);
+		cubeAll(ModBlocks.CHISELED_SHALE);
+
 	}
 	
 	private void cubeAll(RegistryObject<Block> r) {
@@ -96,6 +102,12 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		String name = getBlockName(r);
         return withExistingParent(name, BLOCK_FOLDER + "/leaves")
         		.texture("all", "blocks/" + name);
+    }
+    
+
+    private void totem(RegistryObject<Block> r) {
+		String name = getBlockName(r);
+		orientable(name, getTextureRL("totem_side"), getTextureRL(name), getTextureRL("totem_top"));
     }
     
     private void registerPillarBlocks() {

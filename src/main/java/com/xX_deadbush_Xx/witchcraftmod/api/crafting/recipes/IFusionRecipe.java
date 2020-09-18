@@ -10,17 +10,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public interface ISmallFusionRecipe extends IRecipe<RecipeWrapper> {
-	ResourceLocation TYPE_ID = new ResourceLocation(WitchcraftMod.MOD_ID, "small_fusion");
-
-	@Nonnull
-	@Override
-	default IRecipeType<?> getType() {
-		return Registry.RECIPE_TYPE.getValue(TYPE_ID).get();
-	}
+public interface IFusionRecipe extends IRecipe<RecipeWrapper> {
 
 	@Override
 	default boolean canFit(int width, int height) {
 		return false;
 	}
+	
+	int getActivationCost();
 }

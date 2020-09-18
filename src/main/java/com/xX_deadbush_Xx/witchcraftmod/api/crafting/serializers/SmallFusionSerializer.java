@@ -24,13 +24,14 @@ public class SmallFusionSerializer extends ForgeRegistryEntry<IRecipeSerializer<
 		ItemStack output = CraftingHelper.getItemStack(JSONUtils.getJsonObject(json, "output"), true);
 		JsonArray ingredientsJson = JSONUtils.getJsonArray(json, "ingredients");
 		boolean shapeless = JSONUtils.getBoolean(json, "shapeless");
+		int activationcost = JSONUtils.hasField(json, "activation_cost") ? JSONUtils.getInt(json, "activation_cost") : 0;
 		List<Ingredient> ingredients = new ArrayList<>();
 		
 		for (JsonElement e : ingredientsJson) {
 			ingredients.add(Ingredient.deserialize(e));
 		}
 		
-		return new SmallFusionRecipe(recipeId, output, shapeless, ingredients.stream().toArray(Ingredient[]::new));
+		return new SmallFusionRecipe(recipeId, output, shapeless, activationcost, ingredients.stream().toArray(Ingredient[]::new));
 	}
 
 	@Override
@@ -44,7 +45,9 @@ public class SmallFusionSerializer extends ForgeRegistryEntry<IRecipeSerializer<
 		
 		ItemStack output = buffer.readItemStack();
 		boolean shapeless = buffer.readBoolean();
-		return new SmallFusionRecipe(recipeId, output, shapeless, inputs.stream().toArray(Ingredient[]::new));
+		int activationcost = buffer.readInt();
+
+		return new SmallFusionRecipe(recipeId, output, shapeless, activationcost, inputs.stream().toArray(Ingredient[]::new));
 	}
 
 	@Override
@@ -57,5 +60,6 @@ public class SmallFusionSerializer extends ForgeRegistryEntry<IRecipeSerializer<
 		
 		buffer.writeItemStack(recipe.getRecipeOutput(), false);
 		buffer.writeBoolean(recipe.isShapeless());
+		buffer.writeInt(recipe.getActivationCost());
 	}
 }

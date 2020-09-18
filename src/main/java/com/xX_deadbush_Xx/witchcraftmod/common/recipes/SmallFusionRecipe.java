@@ -3,32 +3,38 @@ package com.xX_deadbush_Xx.witchcraftmod.common.recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ISmallFusionRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
-public class SmallFusionRecipe implements ISmallFusionRecipe {
+public class SmallFusionRecipe implements IFusionRecipe {
+	public static final ResourceLocation TYPE_ID = new ResourceLocation(WitchcraftMod.MOD_ID, "small_fusion");
 	private final ResourceLocation id;
 	private final ItemStack output;
 	private NonNullList<Ingredient> inputs;
 	private final boolean shapeless;
+	private int activationcost;
 
 	
-	public SmallFusionRecipe(ResourceLocation id, ItemStack output, boolean shapeless, Ingredient... inputs) {
+	public SmallFusionRecipe(ResourceLocation id, ItemStack output, boolean shapeless, int activationcost, Ingredient... inputs) {
 		this.id = id;
 		this.output = output;
 		this.inputs = NonNullList.create();
 		this.shapeless = shapeless;
+		this.activationcost = activationcost;
 		for(Ingredient input : inputs) {
 			this.inputs.add(input);
 		}
@@ -62,6 +68,12 @@ public class SmallFusionRecipe implements ISmallFusionRecipe {
 		return missingIngredients.size() == 0;
 	}
 
+	@Nonnull
+	@Override
+	public IRecipeType<?> getType() {
+		return Registry.RECIPE_TYPE.getValue(TYPE_ID).get();
+	}
+
 	@Override
 	public ItemStack getCraftingResult(RecipeWrapper inv) {
 		return this.output;
@@ -89,5 +101,10 @@ public class SmallFusionRecipe implements ISmallFusionRecipe {
 
 	public boolean isShapeless() {
 		return this.shapeless;
+	}
+
+	@Override
+	public int getActivationCost() {
+		return this.activationcost;
 	}
 }

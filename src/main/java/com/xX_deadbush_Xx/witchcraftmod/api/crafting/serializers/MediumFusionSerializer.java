@@ -24,13 +24,14 @@ public class MediumFusionSerializer extends ForgeRegistryEntry<IRecipeSerializer
 		ItemStack output = CraftingHelper.getItemStack(JSONUtils.getJsonObject(json, "output"), true);
 		JsonArray ingredientsJson = JSONUtils.getJsonArray(json, "ingredients");
 		boolean shapeless = JSONUtils.getBoolean(json, "shapeless");
+		int activationcost = JSONUtils.hasField(json, "activation_cost") ? JSONUtils.getInt(json, "activation_cost") : 0;
 		List<Ingredient> ingredients = new ArrayList<>();
 		
 		for (JsonElement e : ingredientsJson) {
 			ingredients.add(Ingredient.deserialize(e));
 		}
 		
-		return new MediumFusionRecipe(recipeId, output, shapeless, ingredients.stream().toArray(Ingredient[]::new));
+		return new MediumFusionRecipe(recipeId, output, shapeless, activationcost, ingredients.stream().toArray(Ingredient[]::new));
 	}
 
 	@Override
@@ -44,7 +45,8 @@ public class MediumFusionSerializer extends ForgeRegistryEntry<IRecipeSerializer
 		
 		ItemStack output = buffer.readItemStack();
 		boolean shapeless = buffer.readBoolean();
-		return new MediumFusionRecipe(recipeId, output, shapeless, inputs.stream().toArray(Ingredient[]::new));
+		int activationcost = buffer.readInt();
+		return new MediumFusionRecipe(recipeId, output, shapeless, activationcost, inputs.stream().toArray(Ingredient[]::new));
 	}
 
 	@Override
@@ -57,5 +59,6 @@ public class MediumFusionSerializer extends ForgeRegistryEntry<IRecipeSerializer
 		
 		buffer.writeItemStack(recipe.getRecipeOutput(), false);
 		buffer.writeBoolean(recipe.isShapeless());
+		buffer.writeInt(recipe.getActivationCost());
 	}
 }

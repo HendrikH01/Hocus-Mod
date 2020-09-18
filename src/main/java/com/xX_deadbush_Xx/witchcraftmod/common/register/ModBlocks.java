@@ -15,6 +15,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ModSaplingBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.MortarBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualPedestal;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualStone;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.SimpleFourWayBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.Table;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ToolTable;
 import com.xX_deadbush_Xx.witchcraftmod.common.potion.BelladonnaPoisionEffect;
@@ -53,6 +54,9 @@ public class ModBlocks {
 		//NORMAL BLOCKS
 		public static final RegistryObject<Block> VIBRANT_CRYSTAL_ORE = BLOCKS.register("vibrant_crystal_ore", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_IRON).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
 		public static final RegistryObject<Block> ONYX_ORE = BLOCKS.register("onyx_ore", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_IRON).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> RED_TOTEM = BLOCKS.register("red_totem", () -> new SimpleFourWayBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).hardnessAndResistance(3.0F, 12.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> GREEN_TOTEM = BLOCKS.register("green_totem", () -> new SimpleFourWayBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).hardnessAndResistance(3.0F, 12.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> PURPLE_TOTEM = BLOCKS.register("purple_totem", () -> new SimpleFourWayBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).hardnessAndResistance(3.0F, 12.0F).sound(SoundType.STONE)));
 
 		public static final RegistryObject<Block> VIBRANT_BLOCK = BLOCKS.register("vibrant_block", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_IRON).hardnessAndResistance(5.0F, 15.0F).sound(SoundType.STONE)));
 		public static final RegistryObject<Block> HARDENED_NETHERRACK = BLOCKS.register("hardened_netherrack", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE)));
@@ -62,8 +66,10 @@ public class ModBlocks {
 		public static final RegistryObject<Block> DREADWOOD_LEAVES = BLOCKS.register("dreadwood_leaves", () -> new LeavesBlock(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.3F, 0.5F).notSolid().sound(SoundType.PLANT)));
 		public static final RegistryObject<Block> TABLE = BLOCKS.register("table", () -> new Table(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
 		public static final RegistryObject<Block> CREATIVE_MANA_SOURCE = BLOCKS.register("creative_mana_source", () -> new CreativeManaSourceBlock(Block.Properties.create(Material.IRON).notSolid().harvestTool(ToolType.PICKAXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)));
-		public static final RegistryObject<Block> SHALE = BLOCKS.register("shale", () -> new Block(Block.Properties.create(Material.ROCK).notSolid().harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
-		public static final RegistryObject<Block> POLISHED_WOOD = BLOCKS.register("polished_wood", () -> new Block(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> SHALE = BLOCKS.register("shale", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> SHALE_BRICKS = BLOCKS.register("shale_bricks", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> CHISELED_SHALE = BLOCKS.register("chiseled_shale", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
+		public static final RegistryObject<Block> POLISHED_WOOD = BLOCKS.register("polished_wood", () -> new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.WOOD)));
 
 		//FUNCTIONAL BLOCKS
 		public static final RegistryObject<Block> DRYING_RACK = BLOCKS.register("drying_rack", () -> new DryingRackBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(1.5F, 5.0F).sound(SoundType.WOOD)));

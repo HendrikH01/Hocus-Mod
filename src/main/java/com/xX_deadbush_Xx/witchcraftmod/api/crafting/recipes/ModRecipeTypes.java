@@ -9,6 +9,8 @@ import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.ToolTableShaped
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.serializers.ToolTableShapelessSerializer;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.BloodPhialRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.DryingRackRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MediumFusionRecipe;
+import com.xX_deadbush_Xx.witchcraftmod.common.recipes.SmallFusionRecipe;
 
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -28,9 +30,9 @@ public class ModRecipeTypes {
 	public static final RegistryObject<IRecipeSerializer<IDryingRackRecipe>> DRYING_RACK_SERIALIZER = SERIALIZERS
 			.register(IDryingRackRecipe.TYPE_ID.getPath(), () -> new OneInOneOutSerializer<>(DryingRackRecipe::new));
 	public static final RegistryObject<SmallFusionSerializer> SMALL_FUSION_SERIALIZER = SERIALIZERS
-			.register(ISmallFusionRecipe.TYPE_ID.getPath(), SmallFusionSerializer::new);
+			.register(SmallFusionRecipe.TYPE_ID.getPath(), SmallFusionSerializer::new);
 	public static final RegistryObject<MediumFusionSerializer> MEDIUM_FUSION_SERIALIZER = SERIALIZERS
-			.register(IMediumFusionRecipe.TYPE_ID.getPath(), MediumFusionSerializer::new);
+			.register(MediumFusionRecipe.TYPE_ID.getPath(), MediumFusionSerializer::new);
 	public static final RegistryObject<ToolTableShapedSerializer> TOOL_TABLE_SHAPED_SERIALIZER = SERIALIZERS
 			.register("tool_table_shaped", ToolTableShapedSerializer::new);
 	public static final RegistryObject<ToolTableShapelessSerializer> TOOL_TABLE_SHAPELESS_SERIALIZER = SERIALIZERS
@@ -40,8 +42,8 @@ public class ModRecipeTypes {
 	
 	public static final IRecipeType<IMortarRecipe> MORTAR_TYPE = registerType(IMortarRecipe.TYPE_ID);
 	public static final IRecipeType<IDryingRackRecipe> DRYING_RACK_TYPE = registerType(IDryingRackRecipe.TYPE_ID);
-	public static final IRecipeType<ISmallFusionRecipe> SMALL_FUSION_TYPE = registerType(ISmallFusionRecipe.TYPE_ID);
-	public static final IRecipeType<IMediumFusionRecipe> MEDIUM_FUSION_TYPE = registerType(IMediumFusionRecipe.TYPE_ID);
+	public static final IRecipeType<IFusionRecipe> SMALL_FUSION_TYPE = registerType(SmallFusionRecipe.TYPE_ID);
+	public static final IRecipeType<IFusionRecipe> MEDIUM_FUSION_TYPE = registerType(MediumFusionRecipe.TYPE_ID);
 	public static final IRecipeType<IToolTableRecipe> TOOL_TABLE = registerType(IToolTableRecipe.TYPE_ID);
 
 	private static class RecipeType<T extends IRecipe<?>> implements IRecipeType<T> {

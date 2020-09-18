@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualActivationHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualManager;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTaskHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;

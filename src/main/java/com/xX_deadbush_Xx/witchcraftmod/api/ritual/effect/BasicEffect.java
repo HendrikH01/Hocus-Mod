@@ -10,17 +10,17 @@ public abstract class BasicEffect implements IRitualEffect {
 	private final int priority;
 	private int tick;
 	
-	public BasicEffect(RitualEffectHandler effecthandler, int priority) {
-		this.player = effecthandler.player;
-		this.tile = effecthandler.ritualStone;
+	public BasicEffect(PlayerEntity player, AbstractRitualCore tile, int priority) {
+		this.player = player;
+		this.tile = tile;
 		this.priority = priority;
 	}
 	
 	/**
 	 * Default priority is zero
 	 */
-	public BasicEffect(RitualEffectHandler effecthandler) {
-		this(effecthandler, 0);
+	public BasicEffect(PlayerEntity player, AbstractRitualCore tile) {
+		this(player, tile, 0);
 	}
 	
 	@Override

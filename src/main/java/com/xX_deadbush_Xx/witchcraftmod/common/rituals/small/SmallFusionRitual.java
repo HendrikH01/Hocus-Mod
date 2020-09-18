@@ -2,13 +2,15 @@ package com.xX_deadbush_Xx.witchcraftmod.common.rituals.small;
 
 import java.util.Set;
 
+import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.SmallRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTaskHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
@@ -21,17 +23,15 @@ import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipe;	
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, IStaticRitual {
-	private static final Block pedestal = ModBlocks.RITUAL_PEDESTAL.get();
-	public static final SmallRitualConfig config = new SmallRitualConfig(pedestal, pedestal, pedestal, pedestal);
+	public static final RitualConfig config = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(4, ModBlocks.RITUAL_PEDESTAL.get());
 	
 	public SmallFusionRitual(AbstractRitualCore tile, PlayerEntity player) {
 		super(tile, player);
@@ -46,8 +46,7 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 	}
 
 	@Override
-	public void activate() {
-		if(!conditionsMet()) return;
+	public void init() {
 		SmallFusionRecipe recipe = getRecipe();
 		if(recipe != null) {
 			tile.lastRecipe = recipe;
@@ -103,7 +102,7 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 			@Override
 			public void init() {
 				RitualEffectHandler handler = this;
-				this.addEffect(new BasicEffect(handler) {
+				this.addEffect(new BasicEffect(player, ritualStone) {
 					
 					@Override
 					public void execute() {
@@ -115,7 +114,7 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 					} 
 				}, 10);
 				
-				this.addEffect(new BasicEffect(handler) {
+				this.addEffect(new BasicEffect(player, ritualStone) {
 					
 					@Override
 					public void execute() {
@@ -132,8 +131,7 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 						WitchcraftPacketHandler.sendToNearby(tile.getWorld(), pos, new WitchcraftParticlePacket(EffectType.RITUAL_ITEM_CREATE, pos.getX() + 0.5, pos.getY() + 1.4, pos.getZ() + 0.5));
 						tile.setItem(tile.lastRecipe.getRecipeOutput().copy());
 						tile.markDirty();
-						System.out.println("STAHP!" + this.tile.getWorld().isRemote	
-								);
+						System.out.println("STAHP!" + this.tile.getWorld().isRemote);
 						handler.stopEffect(true);
 					}
 				}, 80);
@@ -142,7 +140,18 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 	}
 
 	@Override
-	public IRitualConfig getConfig() {
+	public RitualConfig getConfig() {
 		return this.config;
+	}
+
+	@Override
+	public RitualActivationTaskHandler getActivationHandler() {
+		return new RitualActivationTaskHandler(this.tile, this.performingPlayer) {
+
+			@Override
+			public void init() {
+				this.consumeEnergy(((IFusionRecipe)tile.lastRecipe).getActivationCost());
+			}
+		};
 	}
 }

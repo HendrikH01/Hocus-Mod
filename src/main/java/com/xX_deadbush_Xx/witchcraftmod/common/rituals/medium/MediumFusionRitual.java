@@ -2,14 +2,15 @@ package com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium;
 
 import java.util.Set;
 
+import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.SimpleItemHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.ICraftingRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IStaticRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitual;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTotem;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.IRitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.MediumRitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTaskHandler;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
@@ -23,6 +24,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -31,8 +33,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class MediumFusionRitual extends MediumRitual implements ICraftingRitual, IStaticRitual {
-	private static final Block pedestal = ModBlocks.RITUAL_PEDESTAL.get();
-	public static final MediumRitualConfig config = new MediumRitualConfig(new Block[] {pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal, pedestal}, new RitualTotem[] {});
+	public static final RitualConfig config = new RitualConfig(ConfigType.MEDIUM).addAnchorBlocks(8,  ModBlocks.RITUAL_PEDESTAL.get()).addTotems(4, new Block[] {Blocks.CHISELED_STONE_BRICKS, ModBlocks.PURPLE_TOTEM.get()});
 	
 	public MediumFusionRitual(AbstractRitualCore tile, PlayerEntity player) {
 		super(tile, player);
@@ -47,8 +48,7 @@ public class MediumFusionRitual extends MediumRitual implements ICraftingRitual,
 	}
 
 	@Override
-	public void activate() {
-		if(!conditionsMet()) return;
+	public void init() {
 		MediumFusionRecipe recipe = getRecipe();
 		if(recipe != null) {
 			tile.lastRecipe = recipe;
@@ -105,7 +105,7 @@ public class MediumFusionRitual extends MediumRitual implements ICraftingRitual,
 			@Override
 			public void init() {
 				RitualEffectHandler handler = this;
-				this.addEffect(new BasicEffect(handler) {
+				this.addEffect(new BasicEffect(player, ritualStone) {
 					@Override
 					public void execute() {
 						BlockPos pos = tile.getPos();
@@ -115,7 +115,8 @@ public class MediumFusionRitual extends MediumRitual implements ICraftingRitual,
 						}
 					} 
 				}, 10);
-				this.addEffect(new BasicEffect(handler) {
+				
+				this.addEffect(new BasicEffect(player, ritualStone) {
 					@Override
 					public void execute() {
 						if(!recipeComplete(tile.lastRecipe)) {
@@ -137,7 +138,18 @@ public class MediumFusionRitual extends MediumRitual implements ICraftingRitual,
 	}
 
 	@Override
-	public IRitualConfig getConfig() {
+	public RitualConfig getConfig() {
 		return config;
+	}
+
+	@Override
+	public RitualActivationTaskHandler getActivationHandler() {
+		return new RitualActivationTaskHandler(this.tile, this.performingPlayer) {
+
+			@Override
+			public void init() {
+				consumeEnergy(((IFusionRecipe)tile.lastRecipe).getActivationCost());
+			}
+		};
 	}
 }

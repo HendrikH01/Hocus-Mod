@@ -10,9 +10,9 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 
-public class FourWayBlock extends HorizontalBlock {
+public class SimpleFourWayBlock extends HorizontalBlock {
 	 
-	public FourWayBlock(Properties properties) {
+	public SimpleFourWayBlock(Properties properties) {
 		super(properties);
 	}
 	
