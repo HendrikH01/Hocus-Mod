@@ -12,27 +12,19 @@ import com.xX_deadbush_Xx.witchcraftmod.common.items.GuideBook;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.LightningRod;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.LinkingWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagicChalk;
-<<<<<<< HEAD
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagnetTalisman;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ModArmorMaterials;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.SacrificeKnife;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.ThunderStaff;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.WaterWalkingTalisman;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.WitchHatItem;
-
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-=======
 import com.xX_deadbush_Xx.witchcraftmod.common.items.NatureWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.SacrificeKnife;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ThunderStaff;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.WaterWalkingTalisman;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.WitchHat;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.WitchHatItem;
 
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
->>>>>>> GenZVirus's-Branch
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
@@ -44,6 +36,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItems {
+	static {
+		System.out.println("WHAT THE HECKKK");
+	}
 	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WitchcraftMod.MOD_ID);
 	
 	public static final RegistryObject<Item> VIBRANT_CRYSTAL = ITEMS.register("vibrant_crystal", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));
@@ -69,7 +64,6 @@ public class ModItems {
 	public static final RegistryObject<Item> BOTTOMLESS_BAG = ITEMS.register("bottomless_bag", () -> new BottomLessBagItem(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> WEAK_ENERGY_CRYSTAL = ITEMS.register("weak_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 500));
 	public static final RegistryObject<Item> ADVANCED_ENERGY_CRYSTAL = ITEMS.register("advanced_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 50000));
-<<<<<<< HEAD
 	public static final RegistryObject<Item> SUPREME_ENERGY_CRYSTAL = ITEMS.register("supreme_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance), 900000));
 	public static final RegistryObject<Item> WATER_WALKING_TALISMAN = ITEMS.register("water_walk_talisman", () -> new WaterWalkingTalisman(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> MAGNET_TALISMAN = ITEMS.register("magnet_talisman", () -> new MagnetTalisman(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
@@ -83,15 +77,7 @@ public class ModItems {
 	public static final RegistryObject<Item> SILVER_LEGGINS = ITEMS.register("silver_leggins", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.LEGS, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_BOOTS = ITEMS.register("silver_boots", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.FEET, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> MANASPECS = ITEMS.register("manaspecs", () -> new ArmorItem(ModArmorMaterials.MANA_GOGGLES, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
-
-=======
 	public static final RegistryObject<Item> NATURE_WAND = ITEMS.register("nature_wand", () -> new NatureWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
-
-	public static final RegistryObject<Item> WITCH_HAT = ITEMS.register("witch_hat", () -> new WitchHat(ModArmorMaterial.WITCH_HAT_MATERIAL, EquipmentSlotType.HEAD, new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
-
-	
-	// Witch Guide Book
-	public static final RegistryObject<Item> GUIDE_BOOK = ITEMS.register("guide_book", () -> new GuideBook(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	
 	public enum ModArmorMaterial implements IArmorMaterial{
 		WITCH_HAT_MATERIAL(WitchcraftMod.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> {
@@ -150,9 +136,6 @@ public class ModItems {
 		@Override
 		public float getToughness() {
 			return this.toughness;
-		}
-		
+		}		
 	}
-	
->>>>>>> GenZVirus's-Branch
 }

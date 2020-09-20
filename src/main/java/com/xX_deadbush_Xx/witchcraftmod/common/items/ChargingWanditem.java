@@ -1,20 +1,19 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
+import javax.annotation.Nullable;
+
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public abstract class ChargingWanditem extends Item implements IWandItem {
+public abstract class ChargingWanditem extends WandItem {
 
 	public ChargingWanditem(Properties properties) {
 		super(properties);
@@ -25,27 +24,16 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 		if(!(entity instanceof PlayerEntity)) return;
 		PlayerEntity player = (PlayerEntity)entity;
 			
-		int energyneeded = getEnergyPerUse(wand);
 		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
-
-		if (storage == null)
-			return;
-		if (storage.getEnergy() < energyneeded)
-			return;
-		
+		if(!canUse(player, wand, storage)) return;
 		storage.removeEnergy(getEnergyUsedWhileCharging(wand));
 	}
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		ItemStack wand = playerIn.getHeldItem(handIn);
-		if(canUse(playerIn, wand))playerIn.setActiveHand(handIn);
+		if(canUse(playerIn, wand, null))playerIn.setActiveHand(handIn);
 		return ActionResult.resultSuccess(wand);
-	}
-
-	@Override
-	public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-		return super.onItemUseFinish(stack, worldIn, entityLiving);
 	}
 	
 	@Override
@@ -53,16 +41,11 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 		if(!(entity instanceof PlayerEntity)) return;
 		PlayerEntity player = (PlayerEntity)entity;
 		
-		int energyneeded = getEnergyPerUse(wand);
 		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
-
-		if (storage == null)
-			return;
-		if (storage.getEnergy() < energyneeded)
-			return;
+		if(!canUse(player, wand, storage)) return;
 
 		if(onFinishWandUse(worldIn, player, wand, timeLeft)) {
-			storage.removeEnergy(energyneeded);
+			storage.removeEnergy(getEnergyPerUse());
 			player.getCooldownTracker().setCooldown(this, getCooldown());
 		}
 	}
@@ -72,13 +55,12 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 	 */
 	protected abstract boolean onFinishWandUse(World worldIn, PlayerEntity player, ItemStack wand, int timeLeft);
 
-	protected boolean canUse(PlayerEntity playerIn, ItemStack wand) {
-		int energyneeded = getEnergyPerUse(wand);
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
+	protected boolean canUse(PlayerEntity playerIn, ItemStack wand, @Nullable PlayerManaStorage manastorage) {
+		PlayerManaStorage storage = manastorage == null ? PlayerManaProvider.getPlayerCapability(playerIn).orElse(null) : manastorage;
 
 		if (storage == null)
 			return false;
-		if (storage.getEnergy() < energyneeded)
+		if (storage.getEnergy() < getEnergyPerUse())
 			return false;
 		
 		return true;

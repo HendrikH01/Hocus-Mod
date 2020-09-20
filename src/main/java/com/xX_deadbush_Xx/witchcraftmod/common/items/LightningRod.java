@@ -20,7 +20,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
@@ -63,21 +62,25 @@ public class LightningRod extends WandItem {
 	}
 
 	@Override
-	protected ActionResult<ItemStack> onWandUse(World worldIn, PlayerEntity player, Hand handIn, ItemStack wand) {
-		if(player.areEyesInFluid(FluidTags.WATER)) return ActionResult.resultPass(wand);
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+		ItemStack wand = player.getHeldItem(hand);
+		if(player.areEyesInFluid(FluidTags.WATER) || !this.onWandUse(player, wand)) 
+			return ActionResult.resultPass(wand);
 
-		performAttack(worldIn, wand, player);
-		if(worldIn.isRemote) {
+		performAttack(world, wand, player);
+		
+		if(world.isRemote) {
 			Vec3d look = player.getLookVec();
 			Vec3d eyes = player.getPositionVec().add(0, player.getEyeHeight(), 0);
-			Vec3d startpos = handIn == Hand.MAIN_HAND ? eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), -20)) : eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), 20));
-			worldIn.addParticle(new ScaledColoredParticleData(ModParticles.LIGHTNING, true, 0xAFC6FF, 1), startpos.x, startpos.y- 0.3, startpos.z, look.x, look.y, look.z);
+			Vec3d startpos = hand == Hand.MAIN_HAND ? eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), -20)) : eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), 20));
+			world.addParticle(new ScaledColoredParticleData(ModParticles.LIGHTNING, true, 0xAFC6FF, 1), startpos.x, startpos.y- 0.3, startpos.z, look.x, look.y, look.z);
  		}
+		
 		return ActionResult.resultSuccess(wand);
 	}
-
+	
 	@Override
-	public int getEnergyPerUse(ItemStack wand) {
+	public int getEnergyPerUse() {
 		return 50;
 	}
 

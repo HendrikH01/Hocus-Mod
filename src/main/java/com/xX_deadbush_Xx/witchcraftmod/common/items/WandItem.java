@@ -1,44 +1,42 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
 
-public abstract class WandItem extends Item implements IWandItem {
+public abstract class WandItem extends Item {
 
 	public WandItem(Properties properties) {
 		super(properties);
 	}
 	
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack wand = playerIn.getHeldItem(handIn);
-			
-		int energyneeded = getEnergyPerUse(wand);
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
+	public abstract int getEnergyPerUse();
+	
+	public abstract int getCooldown();
+
+	/**
+	 * Removes energy from player and adds stat, returns true if successful
+	 * @param player
+	 * @param wand
+	 * @return success
+	 */
+	protected boolean onWandUse(PlayerEntity player, ItemStack wand) {		
+		int energyneeded = getEnergyPerUse();
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
 
 		if (storage == null)
-			return ActionResult.resultPass(wand);
-		if (storage.getEnergy() <= energyneeded)
-			return ActionResult.resultPass(wand);
-
-		ActionResult<ItemStack> result = onWandUse(worldIn, playerIn, handIn, wand);
-		if (result.getType() == ActionResultType.SUCCESS)
+			return false;
+		else if (storage.getEnergy() > energyneeded) {
 			storage.removeEnergy(energyneeded);
-			playerIn.getCooldownTracker().setCooldown(this, getCooldown());
-
-		return result;
+			player.getCooldownTracker().setCooldown(this, getCooldown());
+			
+			//TODO: add stat
+			return true;
+		}
+		
+		return false;
 	}
-
-	protected abstract ActionResult<ItemStack> onWandUse(World worldIn, PlayerEntity player, Hand handIn,
-			ItemStack wand);
-
-
 }
