@@ -14,7 +14,7 @@ import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.Effe
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -26,12 +26,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
 public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual {
-	public static final RitualConfig config = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(4, Blocks.EMERALD_BLOCK).build();
+	public static final RitualConfig CONFIG = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(4, Blocks.EMERALD_BLOCK).build();
 	private List<BlockPos> blockstocheck = new ArrayList<>();
-	private int manaconsumecooldown = 20;
 	private static Random rand =  new Random();
 	
-	public SmallGrowthRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public SmallGrowthRitual(RitualStoneTile tile, PlayerEntity player) {
 		super(tile, player);
 		
 		//init blockstocheck
@@ -45,7 +44,7 @@ public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual 
 		}
 	}
 	
-	public static SmallGrowthRitual create(AbstractRitualCore tile, PlayerEntity player) {
+	public static SmallGrowthRitual create(RitualStoneTile tile, PlayerEntity player) {
 		return new SmallGrowthRitual(tile, player);
 	}
 
@@ -55,8 +54,8 @@ public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual 
 	}
 
 	@Override
-	public int manaPerSecond() {
-		return 10;
+	public double manaPerSecond() {
+		return 0.1;
 	}
 
 	@Override
@@ -66,21 +65,21 @@ public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual 
 			accelerateGrowth(postocheck);
 		}
 		
-		WitchcraftPacketHandler.sendToNearby(this.worldIn, pos, new WitchcraftParticlePacket(EffectType.GROWTH_RITUAL, pos.getX(), pos.getY(), pos.getZ(), 1));
+		WitchcraftPacketHandler.sendToNearby(this.world, pos, new WitchcraftParticlePacket(EffectType.GROWTH_RITUAL, pos.getX(), pos.getY(), pos.getZ(), 1));
 	}
 	
 	private void accelerateGrowth(BlockPos pos) {
-		BlockState state = this.worldIn.getBlockState(pos);
+		BlockState state = this.world.getBlockState(pos);
 		Block block = state.getBlock();
 		if(block instanceof CropsBlock) {
 			if(((CropsBlock)block).isMaxAge(state)) return;
-			if(SmallGrowthRitual.rand.nextInt(75) == 0) ((CropsBlock)block).tick(state, (ServerWorld) this.worldIn, pos, SmallGrowthRitual.rand);
+			if(SmallGrowthRitual.rand.nextInt(75) == 0) ((CropsBlock)block).tick(state, (ServerWorld) this.world, pos, SmallGrowthRitual.rand);
 		}
 	}
 
 	@Override
 	public RitualConfig getConfig() {
-		return SmallGrowthRitual.config;
+		return SmallGrowthRitual.CONFIG;
 	}
 
 	@Override

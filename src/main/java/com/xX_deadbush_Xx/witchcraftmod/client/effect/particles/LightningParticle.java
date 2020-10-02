@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -97,8 +98,8 @@ public void tick() {
 	}
 }
 
-public static IParticleData getData(boolean show, int color, float scale) {
-	return new ScaledColoredParticleData(ModParticles.SHIMMER, show, color, scale);
+public static ScaledColoredParticleData getData(boolean show, int color, float scale) {
+	return new Data(show, color, scale);
 }
 
 private static class LightningTree {
@@ -159,35 +160,48 @@ private static class LightningTree {
 		return out;
 	}
 	
-	private class LightningSegment {
-		public List<LightningSegment> children = new ArrayList<>();
-		public Vec3d start;
-		public Vec3d end;
-		
-		public LightningSegment(Vec3d start, Vec3d end, LightningSegment... children) {
-			this.children.addAll(Arrays.asList(children));
-			this.start = start;
-			this.end = end;
+	
+		private static class LightningSegment {
+			public List<LightningSegment> children = new ArrayList<>();
+			public Vec3d start;
+			public Vec3d end;
+			
+			public LightningSegment(Vec3d start, Vec3d end, LightningSegment... children) {
+				this.children.addAll(Arrays.asList(children));
+				this.start = start;
+				this.end = end;
+			}
+			
+			public Vec3d getDifference() {
+				return end.subtract(start);
+			}
 		}
-		
-		public Vec3d getDifference() {
-			return end.subtract(start);
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	public static class Factory implements IParticleFactory<ScaledColoredParticleData> {
+		private final IAnimatedSprite spriteSet;
+	
+		public Factory(IAnimatedSprite p_i50823_1_) {
+			this.spriteSet = p_i50823_1_;
+		}
+	
+		public Particle makeParticle(ScaledColoredParticleData type, World worldIn, double x, double y, double z, double ox,
+				double oy, double oz) {
+			LightningParticle shimmer = new LightningParticle(worldIn, x, y, z, ox, oy, oz, type.getColor());
+			shimmer.selectSpriteRandomly(this.spriteSet);
+			return shimmer;
 		}
 	}
-}
+	
+	public static class Data extends ScaledColoredParticleData {
+		public Data(boolean alwaysShow, int color, float scale) {
+			super(Data::new, alwaysShow, color, scale);
+		}
 
-@OnlyIn(Dist.CLIENT)
-public static class Factory implements IParticleFactory<ScaledColoredParticleData> {
-	private final IAnimatedSprite spriteSet;
-
-	public Factory(IAnimatedSprite p_i50823_1_) {
-		this.spriteSet = p_i50823_1_;
+		@Override
+		public ParticleType<?> getType() {
+			return ModParticles.LIGHTNING.get();
+		}
 	}
-
-	public Particle makeParticle(ScaledColoredParticleData type, World worldIn, double x, double y, double z, double ox, double oy, double oz) {
-		LightningParticle shimmer = new LightningParticle(worldIn, x, y, z, ox, oy, oz, type.getColor());
-		shimmer.selectSpriteRandomly(this.spriteSet);
-		return shimmer;
-	}
-}
 }

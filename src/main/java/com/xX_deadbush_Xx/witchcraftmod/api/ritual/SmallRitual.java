@@ -2,7 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper.RitualPositionHolder;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public abstract class SmallRitual extends AbstractRitual {
 
-	public SmallRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public SmallRitual(RitualStoneTile tile, PlayerEntity player) {
 		super(tile, player);
 		RitualPositionHolder positions = getRitualPositions(tile.getWorld(), tile.getPos());
 		this.chalkpositions = positions.chalkpositions;

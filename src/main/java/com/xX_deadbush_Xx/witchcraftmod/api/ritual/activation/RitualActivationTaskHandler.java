@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,15 +15,15 @@ public abstract class RitualActivationTaskHandler {
 
 	public List<RitualTask<? extends Event>> tasks = new ArrayList<>();
 	public final PlayerEntity player;
-	public final AbstractRitualCore ritualStone;
+	public final RitualStoneTile tile;
 	private int ticks;
 	private int stopTime = 72000;
 	private LazyOptional<PlayerManaStorage> playerenergy;
 
-	protected RitualActivationTaskHandler(AbstractRitualCore tile, PlayerEntity player) {
-		this.ritualStone = tile;
+	protected RitualActivationTaskHandler(RitualStoneTile tile, PlayerEntity player) {
+		this.tile = tile;
 		this.player = player;
-		playerenergy = player.getCapability(PlayerManaStorage.Capability.get());
+		playerenergy = player.getCapability(PlayerManaStorage.getCap());
 	}
 
 	/**
@@ -38,18 +38,26 @@ public abstract class RitualActivationTaskHandler {
 	 * @return if removing was successful
 	 */
 	protected boolean consumeEnergy(int amount) {
-		if (amount > 0) {
-			boolean[] success = { false }; // array fixes scope error
-
-			playerenergy.ifPresent((s) -> {
-				if (s.getEnergy() >= amount) {
-					success[0] = true;
-					s.removeEnergy(amount);
-				}
-			});
-			return success[0];
+		if (amount > 0 && hasEnoughEnergy(amount)) {
+			amount -= this.tile.manastorage.extractEnergy(amount, false);
+			if(amount > 0) {
+				PlayerManaStorage storage = playerenergy.orElse(null);
+				if(storage != null) storage.removeEnergy(amount);
+			}
+			
+			return true;
 		} else
 			return false;
+	}
+	
+	protected boolean hasEnoughEnergy(int amount) {
+		if (this.tile.manastorage.getEnergy() >= amount)
+			return true;
+		PlayerManaStorage storage = playerenergy.orElse(null);
+		if (storage != null) {
+			return this.tile.manastorage.getEnergy() + storage.getEnergy() >= amount;
+		}
+		return false;
 	}
 
 	public final void tick() {
@@ -80,9 +88,9 @@ public abstract class RitualActivationTaskHandler {
 			nextPhase();
 	}
 
-	private void nextPhase() {
+	protected void nextPhase() {
 		this.onActivationEnd();
-		this.ritualStone.currentritual.ifPresent(ritual -> ritual.enterEffectPhase());
+		this.tile.currentritual.ifPresent(ritual -> ritual.enterEffectPhase());
 	}
 
 	public void addTask(RitualTask<? extends Event> task) {

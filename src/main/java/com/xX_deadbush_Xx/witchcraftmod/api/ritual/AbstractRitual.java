@@ -14,7 +14,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ListHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,8 +24,8 @@ import net.minecraftforge.eventbus.api.Event;
 
 public abstract class AbstractRitual implements IRitual {
 	protected final PlayerEntity performingPlayer;	
-	protected final AbstractRitualCore tile;
-	protected final  World worldIn;
+	protected final RitualStoneTile tile;
+	protected final  World world;
 	protected RitualEffectHandler effecthandler;
 	protected RitualActivationTaskHandler taskhandler;
 	
@@ -37,8 +37,8 @@ public abstract class AbstractRitual implements IRitual {
 	protected Phase phase = Phase.ACTIVATION;
 	protected int age = 0;
 	
-	public AbstractRitual(AbstractRitualCore tile, PlayerEntity player) {
-		this.worldIn = tile.getWorld();
+	public AbstractRitual(RitualStoneTile tile, PlayerEntity player) {
+		this.world = tile.getWorld();
 		this.tile = tile;
 		this.performingPlayer = player;
  		if(this instanceof IStaticRitual) this.effecthandler = ((IStaticRitual)this).getEffectHandler();
@@ -48,7 +48,7 @@ public abstract class AbstractRitual implements IRitual {
 	
 	public void activate() {
 		this.init();
-
+		if(this.phase == Phase.STOPPED) return; //if ritual was stopped return
 		this.taskhandler = getActivationHandler();
 		this.taskhandler.init();
 	}
@@ -63,7 +63,9 @@ public abstract class AbstractRitual implements IRitual {
 		} else { 
 			if(this instanceof IStaticRitual) this.effecthandler.tick();
 			if(this instanceof IContinuousRitual) {
-				((IContinuousRitual)this).effectTick();
+				if(RitualHelper.removeEnergy(((IContinuousRitual)this).manaPerSecond(), tile, performingPlayer)) {
+					((IContinuousRitual)this).effectTick();
+				} else stopRitual(true);
 			}
 		}
 	}
@@ -81,7 +83,7 @@ public abstract class AbstractRitual implements IRitual {
 	@Override
 	public boolean multiblockComplete(RitualConfig config) {
 		for(BlockPos pos : this.nonRitualBlocks) {
-			if(RitualHelper.stopsRitual(this.worldIn, pos)) {
+			if(RitualHelper.stopsRitual(this.world, pos)) {
 				System.out.println("stopped ritual because of block at: " + pos);
 				return false;
 			}
@@ -99,7 +101,7 @@ public abstract class AbstractRitual implements IRitual {
 
 	public boolean chalkInPlace() {
 		for(BlockPos pos : this.chalkpositions) {
-			if(!RitualHelper.isChalk(this.worldIn, pos)) {
+			if(!RitualHelper.isChalk(this.world, pos)) {
 				System.out.println("Chalk missing at: " + pos);
 				return false;
 			}
@@ -109,13 +111,13 @@ public abstract class AbstractRitual implements IRitual {
 	}
 	
 	public boolean anchorBlocksInPlace(RitualConfig config) {
-		List<Block> blocks = anchorBlocks.stream().map(this.worldIn::getBlockState).map(s -> s.getBlock()).collect(Collectors.toList());
+		List<Block> blocks = anchorBlocks.stream().map(this.world::getBlockState).map(s -> s.getBlock()).collect(Collectors.toList());
 		return config.matchesAnchorblocks(ListHelper.toNonNullList(blocks));
 	}
 	
 	protected void resetChalk() {
 		for(BlockPos pos : this.chalkpositions) {
-			if(RitualHelper.isChalk(worldIn, pos)) worldIn.setBlockState(pos, worldIn.getBlockState(pos).with(ChalkBlock.POWER, 0).with(ChalkBlock.GLOW_TYPE, GlowType.WHITE));
+			if(RitualHelper.isChalk(world, pos)) world.setBlockState(pos, world.getBlockState(pos).with(ChalkBlock.POWER, 0).with(ChalkBlock.GLOW_TYPE, GlowType.WHITE));
 		}
 	}
 	
@@ -129,6 +131,7 @@ public abstract class AbstractRitual implements IRitual {
  		if(shouldDoChalkAnimation) {
 			this.phase = Phase.POWERDOWN;
 		} else {
+			this.phase = Phase.STOPPED;
 			this.tile.currentritual.invalidate();
 			this.resetChalk();
 		}
@@ -140,7 +143,7 @@ public abstract class AbstractRitual implements IRitual {
 	}
 	
 	@Override
-	public AbstractRitualCore getRitualStone() {
+	public RitualStoneTile getRitualStone() {
 		return this.tile;
 	}
 	
@@ -168,6 +171,7 @@ public abstract class AbstractRitual implements IRitual {
 	public enum Phase {
 		ACTIVATION,
 		EFFECT,
-		POWERDOWN
+		POWERDOWN,
+		STOPPED
 	}
 }

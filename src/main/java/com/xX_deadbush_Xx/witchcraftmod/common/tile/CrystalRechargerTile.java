@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
+import javax.annotation.Nullable;
+
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.ContainerTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.container.CrystalRechargerContainer;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
@@ -9,24 +11,17 @@ import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-
-import javax.annotation.Nullable;
 
 
 public class CrystalRechargerTile extends ContainerTile implements ITickableTileEntity {
@@ -46,8 +41,6 @@ public class CrystalRechargerTile extends ContainerTile implements ITickableTile
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
     	if(cap.equals(TileEntityManaStorage.getCap()) && EnergyCrystal.isStackEnergyCrystal(this.inventory.getStackInSlot(CRYSTAL_SLOT))) {
     		ItemStack crystal = this.inventory.getStackInSlot(CRYSTAL_SLOT);
-    		int energy = EnergyCrystal.getEnergyStored(crystal);
-    		int maxenergy = EnergyCrystal.getMaxEnergy(crystal);
     		return TileEntityManaStorage.getCap().orEmpty(cap, LazyOptional.of(() -> new CrystalLinkedManaStorage(crystal, 10, 10)));
     	} else if (cap.equals(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)) {
     		 return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.orEmpty(cap, LazyOptional.of(() -> inventory));

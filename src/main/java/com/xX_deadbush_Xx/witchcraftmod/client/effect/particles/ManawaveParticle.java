@@ -1,11 +1,8 @@
 package com.xX_deadbush_Xx.witchcraftmod.client.effect.particles;
 
-import java.util.Random;
-
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.Matrix3d;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ManawaveParticleData;
 
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
@@ -14,7 +11,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -29,20 +25,21 @@ private Vec3d difference;
 private Vec3d endpos;
 private int segments;
 private int bumpcount;
+private int tick;
+private double thickness;
 
-public ManawaveParticle(World worldIn, double startX, double startY, double startZ, double endX, double endY, double endZ, int color) {
+public ManawaveParticle(World worldIn, double startX, double startY, double startZ, double endX, double endY, double endZ, int color, double thickness, int tick) {
 	super(worldIn, startX, startY, startZ, 0, 0, 0);
-	this.maxAge = 400;
 	this.particleRed = (float) ((color & 0xFF0000) >> 16) / 255;
 	this.particleGreen = (float) ((color & 0xFF00) >> 8) / 255;
 	this.particleBlue = (float) (color & 0xFF) / 255;
 	this.particleAlpha = 130;
+	this.tick = tick;
 	this.endpos = new Vec3d(endX, endY, endZ);
-	this.difference = endpos.subtract(startX, startY, startZ);
-	this.distance = difference.length();
-	
+	this.distance = new Vec3d(startX - endX, startY - endY, startZ - endZ).length();
+	this.thickness = thickness;
 	this.segments = (int)Math.sqrt(this.distance)*15;
-	this.bumpcount = (int)segments/10;
+	this.bumpcount = (int)segments/10 + 1;
 }
 
 @Override
@@ -53,23 +50,23 @@ public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, 
      
     Vec3d startpos = new Vec3d(x, y, z);
 
-    Vec3d difference = startpos.subtract(endpos);
+    Vec3d difference = endpos.subtract(startpos);
     Vec3d particleToCamPos = startpos.subtract(renderInfo.getProjectedView()).add(difference);
     Vec3d cross = particleToCamPos.crossProduct(difference).normalize();
     
     Vec3d[] points1 = new Vec3d[this.bumpcount + 2];
     points1[this.bumpcount+1] = new Vec3d(this.distance, 0, 0);
     Vec3d[] points2 = points1.clone();
-    points1[0] = new Vec3d(0, 0.05, 0);
-    points2[0] = new Vec3d(0, -0.05, 0);
+    points1[0] = new Vec3d(0, thickness/3, 0);
+    points2[0] = new Vec3d(0, -thickness/3, 0);
 
-    Vec3d prev1 = startpos.add(cross.scale(0.05));
-    Vec3d prev2 = startpos.add(cross.scale(-0.05));
-    
+    Vec3d prev1 = startpos.add(cross.scale(thickness/3));
+    Vec3d prev2 = startpos.add(cross.scale(-thickness/3));
+    double intensity = (bumpcount == 2) ? 0.2 : 0.6;
 	for(int j = 0; j < this.bumpcount; j++) {
 		double pos = (double)(j+1)/(bumpcount+2)*distance;
-		points1[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin(((age+partialTicks)*j/2)*Math.PI/40)*0.6 + 0.15, 0);
-		points2[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin(((age+partialTicks)*j/2)*Math.PI/40)*0.6, 0);
+		points1[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin(((tick+partialTicks)*j/2)*Math.PI/40)*intensity + thickness, 0);
+		points2[j + 1] = new Vec3d(pos, Math.pow(-1, j)*Math.sin(((tick+partialTicks)*j/2)*Math.PI/40)*intensity, 0);
 	}
 		
     for(int i = 0; i < segments ; i++) {
@@ -111,17 +108,15 @@ public IParticleRenderType getRenderType() {
 
 @Override
 public void tick() {
-	if (this.age++ >= this.maxAge) {
-		this.setExpired();
-	}
+	this.setExpired();
 }
 
-public static IParticleData getData(boolean show, int color, float scale) {
-	return new ScaledColoredParticleData(ModParticles.SHIMMER, show, color, scale);
+public static ManawaveParticleData getData(boolean show, int color, int tick, double thickness) {
+	return new ManawaveParticleData(show, color, tick, thickness);
 }
 
 	@OnlyIn(Dist.CLIENT)
-	public static class Factory implements IParticleFactory<ScaledColoredParticleData> {
+	public static class Factory implements IParticleFactory<ManawaveParticleData> {
 		
 		private IAnimatedSprite sprite;
 
@@ -129,8 +124,8 @@ public static IParticleData getData(boolean show, int color, float scale) {
 			this.sprite = sprite;
 		}
 		
-		public Particle makeParticle(ScaledColoredParticleData type, World worldIn, double x1, double y1, double z1, double x2, double y2, double z2) {
-			ManawaveParticle shimmer = new ManawaveParticle(worldIn, x1, y1, z1, x2, y2, z2, type.getColor());
+		public Particle makeParticle(ManawaveParticleData type, World worldIn, double x1, double y1, double z1, double x2, double y2, double z2) {
+			ManawaveParticle shimmer = new ManawaveParticle(worldIn, x1, y1, z1, x2, y2, z2, type.getColor(), type.getThickness(), type.getTick());
 			shimmer.selectSpriteRandomly(this.sprite);
 			return shimmer;
 		}

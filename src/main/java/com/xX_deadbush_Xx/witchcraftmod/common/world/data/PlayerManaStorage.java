@@ -8,31 +8,31 @@ import net.minecraftforge.common.util.LazyOptional;
 
 public class PlayerManaStorage {
 	
-	private int energy = 0;
-	private int maxEnergy = 0;
-	private int consumedEnergy = 0;
+	private double energy = 0;
+	private double maxEnergy = 0;
+	private double consumedEnergy = 0;
 	
-	public void setEnergy(int amount) {
+	public void setEnergy(double amount) {
 		energy = amount;
 	}
 	
-	public void setMaxEnergy(int amount) {
+	public void setMaxEnergy(double amount) {
 		this.maxEnergy = amount;
 	}
 	
-	public int getEnergy() {
+	public double getEnergy() {
 		return energy;
 	}
 	
-	public int getConsumedEnergy() {
+	public double getConsumedEnergy() {
 		return consumedEnergy;
 	}
 	
-	public int getMaxEnergy() {
+	public double getMaxEnergy() {
 		return maxEnergy;
 	}
 	
-	public void removeEnergy(int amount) {
+	public void removeEnergy(double amount) {
 		if(amount > this.energy);
 		this.consumedEnergy += amount;
 	}
@@ -45,14 +45,13 @@ public class PlayerManaStorage {
 	    public static LazyOptional<PlayerManaStorage> getWorldPressure(final World world) {
 	        return world.getCapability(CRYSTAL_ENERGY_CAP, null);
 	    }
-	    
-	    public static net.minecraftforge.common.capabilities.Capability<PlayerManaStorage> get() {
-	    	return CRYSTAL_ENERGY_CAP;
-	    }
-
 	}
 
 	public void setConsumeZero() {
 		consumedEnergy = 0;
+	}
+
+	public static net.minecraftforge.common.capabilities.Capability<PlayerManaStorage> getCap() {
+		return Capability.CRYSTAL_ENERGY_CAP;
 	}
 }

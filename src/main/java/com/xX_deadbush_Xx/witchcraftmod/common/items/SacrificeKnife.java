@@ -5,7 +5,7 @@ import java.util.List;
 import org.codehaus.plexus.util.StringUtils;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.client.WitchcraftItemGroup;
+import com.xX_deadbush_Xx.witchcraftmod.client.ModItemGroups;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
 
 import net.minecraft.client.util.ITooltipFlag;
@@ -32,7 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class SacrificeKnife extends Item {
 
 	public SacrificeKnife() {
-		super(new Properties().maxDamage(50).group(WitchcraftItemGroup.instance));
+		super(new Properties().maxDamage(50).group(ModItemGroups.ITEMS));
 	    this.addPropertyOverride(new ResourceLocation(WitchcraftMod.MOD_ID, "bloody"), new IItemPropertyGetter() {
 			@Override
 			@OnlyIn(Dist.CLIENT)

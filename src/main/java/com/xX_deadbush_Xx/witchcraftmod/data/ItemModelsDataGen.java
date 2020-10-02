@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
+import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
@@ -28,10 +29,8 @@ public class ItemModelsDataGen extends ItemModelProvider {
 		blockitemsWithGeneratedModel.add(ModBlocks.ADONIS.get());
 		blockitemsWithGeneratedModel.add(ModBlocks.DREADWOOD_SAPLING.get());
 		blockitemsWithGeneratedModel.add(ModBlocks.CAVE_FLOWER.get());
-
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void registerModels() {
 		File dir = generator.getOutputFolder().resolve("assets/" + WitchcraftMod.MOD_ID + "/models/item").toFile();
@@ -47,8 +46,7 @@ public class ItemModelsDataGen extends ItemModelProvider {
 		
 		Set<String> names = blockitemsWithGeneratedModel.stream().map(b -> b.asItem().getRegistryName().getPath()).collect(Collectors.toSet());
 		
-		Registry.ITEM.stream().filter(item -> WitchcraftMod.MOD_ID.equals(item.getRegistryName().getNamespace()))
-		.forEach(item -> {
+		ModItems.ITEMS.getEntries().stream().map(i -> i.get()).forEach(item -> {
 			String name = item.getRegistryName().getPath();
 
 			if (item instanceof BlockItem && existingFileHelper.exists(item.getRegistryName(), ResourcePackType.CLIENT_RESOURCES, ".json", "models/block")) {

@@ -7,7 +7,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTa
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualTask;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +35,7 @@ public interface IRitual {
 
 	Set<BlockPos> getChalkPositions();
 	
-	AbstractRitualCore getRitualStone();
+	RitualStoneTile getRitualStone();
 	
 	PlayerEntity getPerformingPlayer();
 	

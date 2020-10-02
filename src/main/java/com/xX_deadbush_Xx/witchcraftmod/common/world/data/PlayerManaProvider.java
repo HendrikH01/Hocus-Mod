@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -22,25 +21,25 @@ public class PlayerManaProvider implements ICapabilitySerializable<IntArrayNBT> 
     
 	@SuppressWarnings("resource")
 	public static LazyOptional<PlayerManaStorage> getClientCapability() {
-        return Optional.of(Minecraft.getInstance().player).map(p -> p.getCapability(PlayerManaStorage.Capability.get())).orElse(null);
+        return Optional.of(Minecraft.getInstance().player).map(p -> p.getCapability(PlayerManaStorage.getCap())).orElse(null);
 	}
 	
 	public static  LazyOptional<PlayerManaStorage> getPlayerCapability(PlayerEntity player) {
-        return player.getCapability(PlayerManaStorage.Capability.get());
+        return player.getCapability(PlayerManaStorage.getCap());
 	}
 	
-	public static int getEnergy(PlayerEntity player) {
-        return player.getCapability(PlayerManaStorage.Capability.get()).map(s -> s.getEnergy()).orElse(0);
+	public static double getEnergy(PlayerEntity player) {
+        return player.getCapability(PlayerManaStorage.getCap()).map(s -> s.getEnergy()).orElse(0.0);
 	}
 	
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        return PlayerManaStorage.Capability.get().orEmpty(cap, this.energy);
+        return PlayerManaStorage.getCap().orEmpty(cap, this.energy);
 	}
 
 	@Override
 	public IntArrayNBT serializeNBT() {
-		return new IntArrayNBT(new int[] {this.energy.map(s -> s.getEnergy()).orElse(0), this.energy.map(s -> s.getMaxEnergy()).orElse(0)});
+		return new IntArrayNBT(new int[] {this.energy.map(s -> (int)s.getEnergy()).orElse(0), this.energy.map(s -> (int)s.getMaxEnergy()).orElse(0)});
 	}
 
 	@Override

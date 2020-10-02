@@ -2,7 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -20,14 +20,14 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
-public class RitualStoneRenderer extends TileEntityRenderer<AbstractRitualCore>{
+public class RitualStoneRenderer extends TileEntityRenderer<RitualStoneTile>{
 	
 	public RitualStoneRenderer(TileEntityRendererDispatcher rendererDispatcherIn) {
 		super(rendererDispatcherIn);
 	}
 
 	@Override
-	public void render(AbstractRitualCore tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {		
+	public void render(RitualStoneTile tileEntityIn, float partialTicks, MatrixStack matrixStackIn, IRenderTypeBuffer bufferIn, int combinedLightIn, int combinedOverlayIn) {		
 	    if(tileEntityIn.hasItem()) {
 			long time = System.currentTimeMillis();
 		    Quaternion rotation = Vector3f.YP.rotationDegrees((time/20)%360);

@@ -6,7 +6,6 @@ import com.xX_deadbush_Xx.witchcraftmod.client.ModColorHandler;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.BottomLessBagScreen;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.CrystalRechargerScreen;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.ToolTableScreen;
-import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookContent;
 import com.xX_deadbush_Xx.witchcraftmod.client.models.model_loaders.GlowingModelLoader;
 import com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities.DryingRackRenderer;
 import com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities.MortarRenderer;
@@ -22,9 +21,9 @@ import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.INBT;
-import net.minecraft.nbt.IntArrayNBT;
-import net.minecraft.nbt.IntNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
@@ -50,6 +49,7 @@ public class SetupEvents {
     	RenderTypeLookup.setRenderLayer(ModBlocks.CHALK_BLOCK.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.DREADWOOD_SAPLING.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.RITUAL_STONE.get(), RenderHelper::isSolidOrTranslucent);
+    	RenderTypeLookup.setRenderLayer(ModBlocks.RITUAL_PEDESTAL.get(), RenderHelper::isSolidOrTranslucent);
     	RenderTypeLookup.setRenderLayer(ModBlocks.FIRE_BOWL.get(), RenderHelper::isSolidOrCutout);
 
     	MortarRenderer.register();
@@ -69,13 +69,16 @@ public class SetupEvents {
 			
 			@Override
 			public INBT writeNBT(Capability<PlayerManaStorage> capability, PlayerManaStorage instance, Direction side) {
-				return new IntArrayNBT(new int[] {instance.getEnergy(), instance.getMaxEnergy()});
+				CompoundNBT nbt = new CompoundNBT();
+				nbt.putDouble("energy", instance.getEnergy());
+				nbt.putDouble("max", instance.getMaxEnergy());
+				return nbt;
 			}
 			
 			@Override
 			public void readNBT(Capability<PlayerManaStorage> capability, PlayerManaStorage instance, Direction side, INBT nbt) {
-				instance.setEnergy(((IntArrayNBT)nbt).get(0).getInt());
-				instance.setMaxEnergy(((IntArrayNBT)nbt).get(1).getInt());
+				instance.setEnergy(((CompoundNBT)nbt).getDouble("energy"));
+				instance.setMaxEnergy(((CompoundNBT)nbt).getDouble("max"));
 			}
 			
 		}, PlayerManaStorage::new);
@@ -84,14 +87,13 @@ public class SetupEvents {
 			
 			@Override
 			public INBT writeNBT(Capability<TileEntityManaStorage> capability, TileEntityManaStorage instance, Direction side) {
-				return IntNBT.valueOf(instance.getEnergy());
+				return DoubleNBT.valueOf(instance.getEnergy());
 			}
 			
 			@Override
 			public void readNBT(Capability<TileEntityManaStorage> capability, TileEntityManaStorage instance, Direction side, INBT nbt) {
-				instance.setEnergy(((IntNBT)nbt).getInt());
+				instance.setEnergy(((DoubleNBT)nbt).getInt());
 			}
-			
 		}, () -> new TileEntityManaStorage(1000, 20 , 20));
 	}
 }

@@ -36,21 +36,20 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 		ItemStack returnedItem = ItemStack.EMPTY;
 		boolean empty = false;
 		
-		if (this.hasItem() || getItem().equals(playerItems)) {
-			returnedItem = this.getItem().copy();
+		if (this.hasItem() || getStack().equals(playerItems)) {
+			returnedItem = this.getStack().copy();
 			empty = true;
 		}
 		
-		if ((!getItem().equals(playerItems) && !empty || !this.hasItem()) && !playerItems.isEmpty()) {
+		if ((!getStack().equals(playerItems) && !empty || !this.hasItem()) && !playerItems.isEmpty()) {
 			player.getHeldItemMainhand().shrink(1);
 			playerItems.setCount(1);
-			setItem(playerItems); 
+			setStack(playerItems); 
 			this.markDirty();
 		}
 		
 		if(empty) {
-			setItem(ItemStack.EMPTY); 
-			this.markDirty();
+			clearItem();
 		}
 		
 		if(!returnedItem.isEmpty()) {
@@ -62,16 +61,16 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 		}
 	}
 	
-	public ItemStack getItem() {
+	public ItemStack getStack() {
 		return this.inventory.getStackInSlot(0);
 	}
 	
-	public void setItem(ItemStack stack) {
+	public void setStack(ItemStack stack) {
 		this.inventory.setStackInSlot(0, stack);
 	}
 	
 	public boolean hasItem() {
-		return !this.getItem().isEmpty() && !this.getItem().getItem().equals(Items.AIR);
+		return !this.getStack().isEmpty() && !this.getStack().getItem().equals(Items.AIR);
 	}
 	
 	public void useForCrafting() {
@@ -81,7 +80,7 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 	
 	@Override
 	public CompoundNBT write(CompoundNBT compound) {
-		compound.put("item", getItem().write(new CompoundNBT()));
+		compound.put("item", getStack().write(new CompoundNBT()));
 		return super.write(compound);
 	}
 	
@@ -91,7 +90,12 @@ public class RitualPedestalTile extends BasicItemHolderTile {
 		CompoundNBT item = compound.getCompound("item");
 
 		if(item != null && !item.isEmpty()) {
-			setItem(ItemStack.read(item));
+			setStack(ItemStack.read(item));
 		}
+	}
+
+	public void clearItem() {
+		this.inventory.clear();
+		this.markDirty();
 	}
 }

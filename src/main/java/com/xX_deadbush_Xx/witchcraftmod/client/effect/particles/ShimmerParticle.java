@@ -9,6 +9,7 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,7 +19,7 @@ public class ShimmerParticle extends SpriteTexturedParticle {
 
 public ShimmerParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, float scale, int color) {
       super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-      this.maxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 1000;
+      this.maxAge = 1;
       this.particleScale = scale/10;
       this.particleRed = (float)((color & 0xFF0000) >> 16 ) / 255;
       this.particleGreen = (float)((color & 0xFF00) >> 8 ) / 255;
@@ -44,8 +45,8 @@ public ShimmerParticle(World worldIn, double xCoordIn, double yCoordIn, double z
       }
    }
    
-   public static IParticleData getData(boolean show, int color, float scale) {
-	   return new ScaledColoredParticleData(ModParticles.SHIMMER, show, color, scale);
+   public static ScaledColoredParticleData getData(boolean show, int color, float scale) {
+	   return new Data(show, color, scale);
    }
 
    @OnlyIn(Dist.CLIENT)
@@ -62,4 +63,15 @@ public ShimmerParticle(World worldIn, double xCoordIn, double yCoordIn, double z
          return shimmer;
       }
    }
+
+	private static class Data extends ScaledColoredParticleData {
+		public Data(boolean alwaysShow, int color, float scale) {
+			super(Data::new, alwaysShow, color, scale);
+		}
+
+		@Override
+		public ParticleType<?> getType() {
+			return ModParticles.SHIMMER.get();
+		}
+	}
 }

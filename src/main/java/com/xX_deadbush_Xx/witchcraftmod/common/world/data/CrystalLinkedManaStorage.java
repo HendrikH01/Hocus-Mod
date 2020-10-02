@@ -12,7 +12,7 @@ public class CrystalLinkedManaStorage extends TileEntityManaStorage {
 
 	private ItemStack crystal;
 
-	public CrystalLinkedManaStorage(ItemStack crystal, int maxExtract, int maxReceive) {
+	public CrystalLinkedManaStorage(ItemStack crystal, double maxExtract, double maxReceive) {
 		super(EnergyCrystal.getMaxEnergy(crystal), maxExtract, maxReceive, EnergyCrystal.getEnergyStored(crystal));
 		if(!EnergyCrystal.isStackEnergyCrystal(crystal)) {
 			throw new IllegalArgumentException("Stack " + crystal.toString() + " is not an Energy crystal!");
@@ -21,8 +21,8 @@ public class CrystalLinkedManaStorage extends TileEntityManaStorage {
 		}
 	}
 
-	public int receiveEnergy(int maxReceive, boolean simulate) {
-		int received = super.receiveEnergy(maxReceive, simulate);
+	public double receiveEnergy(double maxReceive, boolean simulate) {
+		double received = super.receiveEnergy(maxReceive, simulate);
 		if(!simulate) {
 			EnergyCrystal.setEnergyStored(this.crystal, this.energy);
 		}
@@ -30,8 +30,8 @@ public class CrystalLinkedManaStorage extends TileEntityManaStorage {
 		return received;
 	}
 
-	public int extractEnergy(int maxExtract, boolean simulate) {
-		int extracted = super.extractEnergy(maxExtract, simulate);
+	public double extractEnergy(double maxExtract, boolean simulate) {
+		double extracted = super.extractEnergy(maxExtract, simulate);
 		if(!simulate) {
 			EnergyCrystal.setEnergyStored(this.crystal, this.energy);
 		}

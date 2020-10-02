@@ -13,7 +13,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -22,15 +22,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 
 public class BloodInfusionRitual extends MediumRitual implements IStaticRitual {
-	public static final RitualConfig config = new RitualConfig(ConfigType.MEDIUM).addAnchorBlocks(4, ModBlocks.FIRE_BOWL.get(), ModBlocks.CANDLE.get()).addTotems(4, new Block[] {Blocks.CHISELED_STONE_BRICKS, ModBlocks.RED_TOTEM.get()});
+	public static final RitualConfig CONFIG = new RitualConfig(ConfigType.MEDIUM).addAnchorBlocks(4, ModBlocks.FIRE_BOWL.get(), ModBlocks.CANDLE.get()).addTotems(4, new Block[] {Blocks.CHISELED_STONE_BRICKS, ModBlocks.RED_TOTEM.get()});
 	private final double checkradius = 8;
 	private int manaconsumecooldown = 20;
 
-	public BloodInfusionRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public BloodInfusionRitual(RitualStoneTile tile, PlayerEntity player) {
 		super(tile, player);
 	}
 	
-	public static BloodInfusionRitual create(AbstractRitualCore tile, PlayerEntity player) {
+	public static BloodInfusionRitual create(RitualStoneTile tile, PlayerEntity player) {
 		return new BloodInfusionRitual(tile, player);
 	}
 	
@@ -41,7 +41,7 @@ public class BloodInfusionRitual extends MediumRitual implements IStaticRitual {
 
 	@Override
 	public RitualConfig getConfig() {
-		return config;
+		return CONFIG;
 	}
 
 	@Override

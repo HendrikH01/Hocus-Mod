@@ -11,7 +11,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.world.IWorldReader;
 
 public class RitualConfig {
-	protected final NonNullList<Block> anchorblocks = NonNullList.create();
+	public final NonNullList<Block> anchorblocks = NonNullList.create();
 	protected final NonNullList<Block[]> totems = NonNullList.create();
 	public final ConfigType type;
 	

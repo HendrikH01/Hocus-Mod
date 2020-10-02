@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
@@ -20,7 +22,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MediumFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 
 import net.minecraft.block.Block;
@@ -28,18 +30,20 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class MediumFusionRitual extends MediumRitual implements ICraftingRitual, IStaticRitual {
-	public static final RitualConfig config = new RitualConfig(ConfigType.MEDIUM).addAnchorBlocks(8,  ModBlocks.RITUAL_PEDESTAL.get()).addTotems(4, new Block[] {Blocks.CHISELED_STONE_BRICKS, ModBlocks.PURPLE_TOTEM.get()});
+	public static final RitualConfig CONFIG = new RitualConfig(ConfigType.MEDIUM).addAnchorBlocks(8,  ModBlocks.RITUAL_PEDESTAL.get()).addTotems(4, new Block[] {Blocks.CHISELED_STONE_BRICKS, ModBlocks.PURPLE_TOTEM.get()});
 	
-	public MediumFusionRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public MediumFusionRitual(RitualStoneTile tile, PlayerEntity player) {
 		super(tile, player);
 	}
 	
-	public static MediumFusionRitual create(AbstractRitualCore tile, PlayerEntity player) {
+	public static MediumFusionRitual create(RitualStoneTile tile, PlayerEntity player) {
 		return new MediumFusionRitual(tile, player);
 	}
 	
@@ -78,25 +82,25 @@ public class MediumFusionRitual extends MediumRitual implements ICraftingRitual,
 		ItemStack[] items = new ItemStack[9];
 		items[0] = this.tile.getItem();
 
-		RitualPedestalTile[] pedestals = getPedestals();
+		List<RitualPedestalTile> pedestals = getPedestals();
 		for(int i = 1; i < 9; i++) {
-			items[i] = pedestals[i-1].getItem();
+			items[i] = pedestals.get(i-1).getStack();
 		}
 		return items;
 	}
 	
-	private RitualPedestalTile[] getPedestals() {
-		RitualPedestalTile[] pedestals = new RitualPedestalTile[8];
-		for(int i = 0; i < 4; i++) {
-			Direction direction = Direction.byHorizontalIndex(i);
-			pedestals[i] =  (RitualPedestalTile) this.worldIn.getTileEntity(this.tile.getPos().offset(direction, 2).offset(direction.rotateY(), 2));
-			pedestals[i + 4] =  (RitualPedestalTile) this.worldIn.getTileEntity(this.tile.getPos().offset(direction, 5));
+	private List<RitualPedestalTile> getPedestals() {
+		List<RitualPedestalTile> pedestals = new ArrayList<>();
+		World world = this.tile.getWorld();
+		for(BlockPos pos : this.anchorBlocks) {
+			TileEntity tile = world.getTileEntity(pos);
+			if(tile instanceof RitualPedestalTile) pedestals.add((RitualPedestalTile)tile);
 		}
 		return pedestals;
 	}
 	
 	private boolean recipeComplete(IRecipe<RecipeWrapper> recipe) {
-		return recipe.matches(new RecipeWrapper(new SimpleItemHandler(9, getRecipeInputs())), this.worldIn);
+		return recipe.matches(new RecipeWrapper(new SimpleItemHandler(9, getRecipeInputs())), this.world);
 	}
 
 	@Override
@@ -139,7 +143,7 @@ public class MediumFusionRitual extends MediumRitual implements ICraftingRitual,
 
 	@Override
 	public RitualConfig getConfig() {
-		return config;
+		return CONFIG;
 	}
 
 	@Override

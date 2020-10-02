@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.Item;
@@ -21,6 +20,7 @@ import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.util.NonNullList;
 import net.minecraft.world.World;
+import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class CraftingHelper {	
 	
@@ -46,6 +46,15 @@ public class CraftingHelper {
 		return null;
 	}
 	
+	public static List<ItemStack> asList(RecipeWrapper inv) {
+		List<ItemStack> out = new ArrayList<>();
+		for(int i = 0; i < inv.getSizeInventory(); i++) {
+			out.add(inv.getStackInSlot(i));
+		}
+		
+		return out;
+	}
+	
 	public static IRecipe<?> findCraftingRecipeByResult(ItemStack result, World world){	
 			Set<IRecipe<?>> recipes = findRecipesByType(IRecipeType.CRAFTING, world);
 			for(IRecipe<?> recipe : recipes) {
@@ -67,22 +76,15 @@ public class CraftingHelper {
 		return out;
 	}
 
-	public static <A, B> boolean checkMatchUnordered(final List<A> wanted, final List<B> gotten, BiPredicate<A, B> comp) {
+	public static <A, B> boolean checkMatchUnordered(final List<A> wanted, final List<B> gotten, BiPredicate<A, B> compare) {
 		int wsize = wanted.size();		
 		if(wsize != gotten.size()) return false;
-		
 		List<A> missing = new ArrayList<>(wanted);
-		if(wanted.get(0) instanceof Block[]) {
-			for(A t : wanted) 
-				for(Block b : (Block[])t) 
-					System.out.println(((Block)b).getRegistryName());
-		}
 
 		outer:
         for (int i = wsize - 1; i >= 0; i--) {  
-        	B b = gotten.get(i);
             for (int j = 0; j < missing.size(); j++) {
-                if (comp.test(missing.get(j), b)) {
+                if (compare.test(missing.get(j), gotten.get(i))) {
                 	missing.remove(j);
                 	continue outer;
                 }
@@ -93,14 +95,14 @@ public class CraftingHelper {
 	}
 	
 	
-	public static <A, B> boolean checkMatchOrderedRotational(final List<A> wanted, final List<B> gotten, BiPredicate<A, B> comp) {
+	public static <A, B> boolean checkMatchOrderedRotational(final List<A> wanted, final List<B> gotten, BiPredicate<A, B> compare) {
 		int wsize = wanted.size();
 		if(wsize != gotten.size()) return false;
 		
 		outer:
         for (int i = 0; i < wsize; i++) {
             for (int j = 0; j < wsize; j++) {
-                if (!comp.test(wanted.get((i + j)%wsize), gotten.get(i))) {
+                if (!compare.test(wanted.get((i + j)%wsize), gotten.get(i))) {
                 	continue outer;
                 }
             }

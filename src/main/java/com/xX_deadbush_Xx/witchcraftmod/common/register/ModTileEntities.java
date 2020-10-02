@@ -1,7 +1,15 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.*;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.CreativeManaSourceTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.CrystalRechargerTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.EnergyRelayTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.ToolTableTile;
+
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;

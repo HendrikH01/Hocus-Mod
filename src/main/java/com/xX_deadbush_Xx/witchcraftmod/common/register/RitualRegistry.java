@@ -9,12 +9,14 @@ import com.google.common.collect.HashBiMap;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
+import com.xX_deadbush_Xx.witchcraftmod.common.rituals.large.LargeFusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.BloodInfusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.MediumFusionRitual;
+import com.xX_deadbush_Xx.witchcraftmod.common.rituals.medium.WeatherControllRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallAnimalGrowthRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallFusionRitual;
 import com.xX_deadbush_Xx.witchcraftmod.common.rituals.small.SmallGrowthRitual;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
@@ -46,18 +48,21 @@ public class RitualRegistry {
 		return INSTANCE.names.get(id);
 	}
 	
-	public static IRitual create(int id, AbstractRitualCore tile, PlayerEntity player) {
+	public static IRitual create(int id, RitualStoneTile tile, PlayerEntity player) {
 		return INSTANCE.factories.get(id).create(tile, player);
 	}
 	
 	public void registerRituals() {
 		//SMALL
-		register("small_growth_ritual", SmallGrowthRitual.config, SmallGrowthRitual::new);
-		register("small_animal_growth_ritual", SmallAnimalGrowthRitual.config, SmallAnimalGrowthRitual::new);
-		register("small_fusion_ritual", SmallFusionRitual.config, SmallFusionRitual::new);
+		register("small_growth_ritual", SmallGrowthRitual.CONFIG, SmallGrowthRitual::new);
+		register("small_animal_growth_ritual", SmallAnimalGrowthRitual.CONFIG, SmallAnimalGrowthRitual::new);
+		register("small_fusion_ritual", SmallFusionRitual.CONFIG, SmallFusionRitual::new);
 		//MEDIUM
-		register("medium_growth_ritual", MediumFusionRitual.config, MediumFusionRitual::new);
-		register("infusion_ritual", BloodInfusionRitual.config, BloodInfusionRitual::new);
+		register("medium_growth_ritual", MediumFusionRitual.CONFIG, MediumFusionRitual::new);
+		register("infusion_ritual", BloodInfusionRitual.CONFIG, BloodInfusionRitual::new);
+		register("weather_ritual", WeatherControllRitual.CONFIG, WeatherControllRitual::new);
+		//LARGE
+		register("large_fusion_ritual", LargeFusionRitual.CONFIG, LargeFusionRitual::new);
 
 	}
 
@@ -71,6 +76,6 @@ public class RitualRegistry {
 	
 	@FunctionalInterface
 	private interface IFactory {
-		public IRitual create(AbstractRitualCore tile, PlayerEntity player);
+		public IRitual create(RitualStoneTile tile, PlayerEntity player);
 	}
 }

@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.client;
 
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
+import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualPedestal;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.RitualStone;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
@@ -16,11 +17,20 @@ public class ModColorHandler {
 	public static void registerBlocks() {
 		BlockColors colors = Minecraft.getInstance().getBlockColors();
 		colors.register((state, light, pos, color) -> ChalkBlock.getColor(state), ModBlocks.CHALK_BLOCK.get());
+		
+		colors.register((state, light, pos, color) -> {
+			int power = state.get(RitualPedestal.POWER);
+			System.out.println(power);
+			GlowType type = power <= 1 ? GlowType.WHITE : state.get(RitualPedestal.GLOW_TYPE);
+			return type.getColor(power, 0x262629);
+		}, ModBlocks.RITUAL_PEDESTAL.get());
+		
 		colors.register((state, light, pos, color) -> {
 			int power = state.get(RitualStone.POWER);
 			GlowType type = power <= 1 ? GlowType.WHITE : state.get(RitualStone.GLOW_TYPE);
 			return type.getColor(power, 0x262629);
 		}, ModBlocks.RITUAL_STONE.get());
+		
 		colors.register((state, light, pos, color) ->  0x3C8455, ModBlocks.DREADWOOD_LEAVES.get());
 	}
 	

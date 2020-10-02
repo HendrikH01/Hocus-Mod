@@ -9,47 +9,47 @@ import net.minecraftforge.common.util.LazyOptional;
 //mostly taken from net.minecraftforge.energy.EnergyStorage
 public class TileEntityManaStorage {
 
-	protected int energy;
-	protected int maxenergy;
-	protected int maxinput;
-	protected int maxoutput;
+	protected double energy;
+	protected double maxenergy;
+	protected double maxinput;
+	protected double maxoutput;
 
-	public TileEntityManaStorage(int capacity, int maxReceive, int maxExtract) {
+	public TileEntityManaStorage(double capacity, double maxReceive, double maxExtract) {
 		this(capacity, maxReceive, maxExtract, 0);
 	}
 
-	public TileEntityManaStorage(int capacity, int maxReceive, int maxExtract, int energy) {
+	public TileEntityManaStorage(double capacity, double maxReceive, double maxExtract, double energy) {
 		this.maxenergy = capacity;
 		this.maxinput = maxReceive;
 		this.maxoutput = maxExtract;
 		this.energy = Math.max(0, Math.min(capacity, energy));
 	}
 
-	public int receiveEnergy(int maxReceive, boolean simulate) {
+	public double receiveEnergy(double maxReceive, boolean simulate) {
 		if (!canReceive())
 			return 0;
 
-		int energyReceived = Math.min(maxenergy - energy, Math.min(this.maxinput, maxReceive));
+		double energyReceived = Math.min(maxenergy - energy, Math.min(this.maxinput, maxReceive));
 		if (!simulate)
 			energy += energyReceived;
 		return energyReceived;
 	}
 
-	public int extractEnergy(int maxExtract, boolean simulate) {
+	public double extractEnergy(double maxExtract, boolean simulate) {
 		if (!canExtract())
 			return 0;
 
-		int energyExtracted = Math.min(energy, Math.min(this.maxoutput, maxExtract));
+		double energyExtracted = Math.min(energy, Math.min(this.maxoutput, maxExtract));
 		if (!simulate)
 			energy -= energyExtracted;
 		return energyExtracted;
 	}
 
-	public int getEnergy() {
+	public double getEnergy() {
 		return this.energy;
 	}
 
-	public int getMaxEnergy() {
+	public double getMaxEnergy() {
 		return this.maxenergy;
 	}
 	
@@ -61,7 +61,7 @@ public class TileEntityManaStorage {
 		return this.maxinput > 0 && this.energy < this.maxenergy;
 	}
 	
-	public void setEnergy(int amount) {
+	public void setEnergy(double amount) {
 		this.energy = Math.min(amount, maxenergy);
 	}
 	

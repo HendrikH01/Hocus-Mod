@@ -2,7 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
 import javax.annotation.Nullable;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.items.LinkingWand;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.LinkingWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.DryingRackTile;
 

@@ -2,6 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.effect.particles;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ public class ModParticleRenderTypes {
 	public static IParticleRenderType SHIMMER_PARTICLE_TYPE = new IParticleRenderType() {
 	      public void beginRender(BufferBuilder buf, TextureManager texmanager) {
 				RenderSystem.enableBlend();
+				RenderSystem.disableCull();
 				RenderSystem.depthFunc(GL11.GL_LEQUAL);
 				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 				RenderSystem.alphaFunc(GL11.GL_GEQUAL, 0.003921569F);
@@ -33,6 +35,7 @@ public class ModParticleRenderTypes {
 				tessellator.draw();
 				RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
 				RenderSystem.disableBlend();
+				RenderSystem.enableCull();
 				Minecraft.getInstance().textureManager.getTexture(AtlasTexture.LOCATION_PARTICLES_TEXTURE).restoreLastBlurMipmap();
 			 }
 

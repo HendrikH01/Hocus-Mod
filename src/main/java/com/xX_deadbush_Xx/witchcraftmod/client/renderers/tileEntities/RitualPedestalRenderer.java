@@ -3,7 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.renderers.tileEntities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -39,7 +39,7 @@ public class RitualPedestalRenderer extends TileEntityRenderer<RitualPedestalTil
 	        matrixStackIn.rotate(rotation);
 	        
 			ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-	        ItemStack stack = tileEntityIn.getItem();
+	        ItemStack stack = tileEntityIn.getStack();
 	        IBakedModel ibakedmodel = itemRenderer.getItemModelWithOverrides(stack, tileEntityIn.getWorld(), null);
 	        
 	        itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, true, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn, ibakedmodel);

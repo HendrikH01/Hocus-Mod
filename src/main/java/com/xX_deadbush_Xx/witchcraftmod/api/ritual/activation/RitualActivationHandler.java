@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.IRitual;
+import com.xX_deadbush_Xx.witchcraftmod.api.ritual.LargeRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.MediumRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTier;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
@@ -11,7 +12,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.RitualRegistry;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -19,7 +20,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.NonNullList;
 
 public class RitualActivationHandler {
-	public static IRitual getRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public static IRitual getRitual(RitualStoneTile tile, PlayerEntity player) {
 		 RitualTier tier = determineTier(tile);
 		 System.out.println("Tier: " + tier);
 		 if(tier == null) return null;
@@ -28,7 +29,7 @@ public class RitualActivationHandler {
 		 return createRitualFromJunctionBlocks(tier, NonNullList.from(null, junctionblocks), tile, player);
 	}
 	
-	private static RitualTier determineTier(AbstractRitualCore tile) {		 
+	private static RitualTier determineTier(RitualStoneTile tile) {		 
 		if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().north())) {
 			if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().north(3))) {
 				if(RitualHelper.isChalk(tile.getWorld(), tile.getPos().north(6))) {
@@ -38,7 +39,8 @@ public class RitualActivationHandler {
 		} else return null;
 	}
 	
-	private static List<BlockState> getJunctionBlocks(AbstractRitualCore tile, RitualTier tier) {
+	@SuppressWarnings("resource")
+	private static List<BlockState> getJunctionBlocks(RitualStoneTile tile, RitualTier tier) {
 		switch(tier) {
 		case SMALL: {
 			return SmallRitual.getRitualPositions(tile.getWorld(), tile.getPos()).anchorblocks.stream().map(tile.getWorld()::getBlockState).collect(Collectors.toList());
@@ -47,13 +49,13 @@ public class RitualActivationHandler {
 			return MediumRitual.getRitualPositions(tile.getWorld(), tile.getPos()).anchorblocks.stream().map(tile.getWorld()::getBlockState).collect(Collectors.toList());
 		}
 		case LARGE: {
-			
+			return LargeRitual.getRitualPositions(tile.getWorld(), tile.getPos()).anchorblocks.stream().map(tile.getWorld()::getBlockState).collect(Collectors.toList());
 		}
 		default: return null;
 		}
 	}
 	
-	private static IRitual createRitualFromJunctionBlocks(RitualTier tier, NonNullList<Block> blocks, AbstractRitualCore tile, PlayerEntity player){
+	private static IRitual createRitualFromJunctionBlocks(RitualTier tier, NonNullList<Block> blocks, RitualStoneTile tile, PlayerEntity player){
 		ConfigType type;
 		
 		switch(tier) {
@@ -64,8 +66,9 @@ public class RitualActivationHandler {
 		}
 		
 		System.out.println(tier + " " + type);
-
-		for (RitualConfig config : RitualRegistry.getConfigs().stream().filter(config -> config.type == type).collect(Collectors.toList())) {
+		for (RitualConfig config : RitualRegistry.getConfigs().stream().filter(config -> {
+			return config.type == type;
+		}).collect(Collectors.toList())) {
 			System.out.println(config.toString() + " " + config.getClass());
 			if(config.matchesAnchorblocks(blocks)) return RitualRegistry.create(RitualRegistry.getIdFromConfig(config), tile, player);
 		}

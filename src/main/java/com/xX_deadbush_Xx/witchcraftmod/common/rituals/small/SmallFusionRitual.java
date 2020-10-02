@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.rituals.small;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
@@ -20,24 +22,25 @@ import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
 import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.SmallFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualPedestalTile;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;	
-import net.minecraft.util.Direction;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, IStaticRitual {
-	public static final RitualConfig config = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(4, ModBlocks.RITUAL_PEDESTAL.get());
+	public static final RitualConfig CONFIG = new RitualConfig(ConfigType.SMALL).addAnchorBlocks(4, ModBlocks.RITUAL_PEDESTAL.get());
 	
-	public SmallFusionRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public SmallFusionRitual(RitualStoneTile tile, PlayerEntity player) {
 		super(tile, player);
 	}
 	
-	public static SmallFusionRitual create(AbstractRitualCore tile, PlayerEntity player) {
+	public static SmallFusionRitual create(RitualStoneTile tile, PlayerEntity player) {
 		return new SmallFusionRitual(tile, player);
 	}
 	
@@ -76,24 +79,25 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 		ItemStack[] items = new ItemStack[5];
 		items[0] = this.tile.getItem();
 
-		RitualPedestalTile[] pedestals = getPedestals();
+		List<RitualPedestalTile> pedestals = getPedestals();
 		for(int i = 1; i < 5; i++) {
-			items[i] = pedestals[i-1].getItem();
+			items[i] = pedestals.get(i-1).getStack();
 		}
 		return items;
 	}
 	
-	private RitualPedestalTile[] getPedestals() {
-		RitualPedestalTile[] pedestals = new RitualPedestalTile[4];
-		for(int i = 0; i < 4; i++) {
-			Direction direction = Direction.byHorizontalIndex(i);
-			pedestals[i] =  (RitualPedestalTile) this.worldIn.getTileEntity(this.tile.getPos().offset(direction, 2).offset(direction.rotateY(), 2));
+	private List<RitualPedestalTile> getPedestals() {
+		List<RitualPedestalTile> pedestals = new ArrayList<>();
+		World world = this.tile.getWorld();
+		for(BlockPos pos : this.anchorBlocks) {
+			TileEntity tile = world.getTileEntity(pos);
+			if(tile instanceof RitualPedestalTile) pedestals.add((RitualPedestalTile)tile);
 		}
 		return pedestals;
 	}
 	
 	private boolean recipeComplete(IRecipe<RecipeWrapper> recipe) {
-		return recipe.matches(new RecipeWrapper(new SimpleItemHandler(5, getRecipeInputs())), this.worldIn);
+		return recipe.matches(new RecipeWrapper(new SimpleItemHandler(5, getRecipeInputs())), this.world);
 	}
 
 	@Override
@@ -141,7 +145,7 @@ public class SmallFusionRitual extends SmallRitual implements ICraftingRitual, I
 
 	@Override
 	public RitualConfig getConfig() {
-		return this.config;
+		return this.CONFIG;
 	}
 
 	@Override

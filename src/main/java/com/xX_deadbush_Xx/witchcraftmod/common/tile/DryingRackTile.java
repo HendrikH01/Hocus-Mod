@@ -28,16 +28,10 @@ import net.minecraftforge.items.wrapper.RecipeWrapper;
 
 public class DryingRackTile extends BasicItemHolderTile implements ITickableTileEntity {
 	private int ticksUntilDry = 1000;
-	TileEntityManaStorage manastorage = new TileEntityManaStorage(200000000, 50, 15, 10000);
 	
 	public DryingRackTile(TileEntityType<?> tileEntityTypeIn) {
 		super(tileEntityTypeIn, 1);
 	}
-	
-    @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-    	return LazyOptional.of(() -> manastorage).cast();
-    }
 	
 	public DryingRackTile() {
 		this(ModTileEntities.DRYING_RACK.get());
@@ -120,7 +114,6 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	public CompoundNBT write(CompoundNBT compound) {
 		compound.put("item", this.getItem().write(new CompoundNBT()));
 		compound.putInt("tickUntilDry", this.ticksUntilDry);
-        compound.put("mana", TileEntityManaStorage.getCap().writeNBT(manastorage, null));
 
 		return super.write(compound);
 	}
@@ -129,8 +122,6 @@ public class DryingRackTile extends BasicItemHolderTile implements ITickableTile
 	public void read(CompoundNBT compound) {
 		super.read(compound);
 		CompoundNBT item = compound.getCompound("item");
-        TileEntityManaStorage.getCap().readNBT(manastorage, null, compound.get("mana"));
-
 		if(item != null && !item.isEmpty()) {
 			this.setItem(ItemStack.read(item));
 		}

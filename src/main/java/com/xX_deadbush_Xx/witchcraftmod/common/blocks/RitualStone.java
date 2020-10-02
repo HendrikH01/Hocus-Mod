@@ -6,7 +6,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -37,16 +37,18 @@ public class RitualStone extends Block {
 		this.setDefaultState(this.stateContainer.getBaseState());
 	}
 	
+	@Override
 	public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-		if (!worldIn.isRemote) {
-	    	if(worldIn.isBlockPowered(pos)) {
-	    		TileEntity tileEntity = worldIn.getTileEntity(pos);
-	    		if (tileEntity instanceof AbstractRitualCore) {
-	    			AbstractRitualCore altar = (AbstractRitualCore) tileEntity;
+		if (state.get(POWER) > 0) {
+			TileEntity tileEntity = worldIn.getTileEntity(pos);
+			if (tileEntity instanceof RitualStoneTile) {
+				RitualStoneTile tile = (RitualStoneTile) tileEntity;
+				if (!tile.currentritual.isPresent()) {
+					worldIn.setBlockState(pos, state.with(POWER, 0).with(GLOW_TYPE, GlowType.WHITE));
+				}
+			}
 
-	    		}
-	    	}
-	    }
+		}
 	}
 	
 	@Override 
@@ -68,20 +70,24 @@ public class RitualStone extends Block {
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult result) {
 		if (handIn == Hand.MAIN_HAND && !worldIn.isRemote) {
 			TileEntity tileEntity = worldIn.getTileEntity(pos);
-	        if (tileEntity instanceof AbstractRitualCore) {
-	        	AbstractRitualCore ritualStoneTile = ((AbstractRitualCore) tileEntity);
+	        if (tileEntity instanceof RitualStoneTile) {
+	        	RitualStoneTile ritualStoneTile = ((RitualStoneTile) tileEntity);
 	        	if(player.getHeldItemMainhand().getItem().equals(ModItems.RITUAL_ACTIVATOR.get())) {
-	        		ritualStoneTile.currentritual.ifPresent(ritual -> {
-	        			ritual.stopRitual(true);
-	        		});
-	        		
-	        		if(!ritualStoneTile.currentritual.isPresent()) RitualManager.getInstance().tryActivateRitual(worldIn, player, ritualStoneTile);
-	        	}
-	        	else ritualStoneTile.swapItems(worldIn, player);
-	        }
+					ritualStoneTile.currentritual.ifPresent(ritual -> {
+						ritual.stopRitual(true);
+					});
+
+					if (!ritualStoneTile.currentritual.isPresent())
+						RitualManager.getInstance().tryActivateRitual(worldIn, player, ritualStoneTile);
+				} else if (player.getHeldItem(handIn).getItem().equals(ModItems.LINKING_WAND.get())) {
+					return ActionResultType.PASS;
+				} else
+					ritualStoneTile.swapItems(worldIn, player);
+			}
 			return ActionResultType.SUCCESS;
-		} else return ActionResultType.PASS;
-	} 
+		} else
+			return ActionResultType.PASS;
+	}
 	
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(GLOW_TYPE, POWER);

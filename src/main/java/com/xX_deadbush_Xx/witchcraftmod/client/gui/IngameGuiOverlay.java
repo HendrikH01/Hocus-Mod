@@ -10,21 +10,30 @@ import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.IngameGui;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
 import net.minecraft.util.math.RayTraceContext.FluidMode;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -67,97 +76,14 @@ public class IngameGuiOverlay extends AbstractGui {
         RenderSystem.defaultBlendFunc();
 		texmanager.bindTexture(GUI_ICONS);
 		PlayerEntity player = getPlayer();
-
-		if(evt.getType() == ElementType.HEALTH && player != null) {
-			int hearts = MathHelper.ceil(player.getHealth());
-	        long time = Util.milliTime();
-			boolean flag = this.healthUpdateCounter > (long) mc.ingameGUI.getTicks() && (this.healthUpdateCounter - (long) mc.ingameGUI.getTicks()) / 3L % 2L == 1L;
-	        if (hearts < this.playerHealth && player.hurtResistantTime > 0) {
-	           this.lastSystemTime = time;
-	           this.healthUpdateCounter = (long)(mc.ingameGUI.getTicks() + 20);
-	        } else if (hearts > this.playerHealth && player.hurtResistantTime > 0) {
-	           this.lastSystemTime = time;
-	           this.healthUpdateCounter = (long)(mc.ingameGUI.getTicks() + 10);
-	        }
-
-	        if (time - this.lastSystemTime > 1000L) {
-	           this.lastPlayerHealth = hearts;
-	           this.playerHealth = hearts;
-	           this.lastSystemTime = time;
-				System.out.println(flag + " " + lastPlayerHealth + " " + hearts);
-	        }
-	        
-	        this.playerHealth = hearts;
-	        
-			if(player.isPotionActive(ModPotions.BELLADONNA_POISION)) {
-				evt.setCanceled(true);
-				Random rand = new Random(mc.ingameGUI.getTicks() * 312871);
-				float maxhealth = (float) mc.player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue();
-				int absorption = MathHelper.ceil(player.getAbsorptionAmount());
-				int lasthealth = this.lastPlayerHealth;
-				int i = MathHelper.ceil(player.getHealth());
-				int i1 = mc.getMainWindow().getScaledWidth() / 2 - 91;
-				int k1 = mc.getMainWindow().getScaledHeight() - 39;
-				int i2 = MathHelper.ceil((maxhealth + (float) absorption) / 2.0F / 10.0F);
-				int j2 = Math.max(10 - (i2 - 2), 3);
-				int i3 = absorption;
-				int k3 = -1;
-				for (int l5 = MathHelper.ceil((maxhealth + (float) absorption) / 2.0F) - 1; l5 >= 0; --l5) {					
-		            int j4 =  flag ? 1 : 0;
-		            
-					int k4 = MathHelper.ceil((float) (l5 + 1) / 10.0F) - 1;
-					int l4 = i1 + l5 % 10 * 8;
-					int i5 = k1 - k4 * j2;
-					if (i <= 4) {
-						i5 += rand.nextInt(2);
-					}
-	
-					if (i3 <= 0 && l5 == k3) {
-						i5 -= 2;
-					}
-	
-					int posyfactor = 0;
-					if (player.world.getWorldInfo().isHardcore()) {
-						posyfactor = 5;
-					}
-					texmanager.bindTexture(VANILLA_GUI_ICONS);
-					this.blit(l4, i5, 16 + j4 * 9, 9 * posyfactor, 9, 9); //golden hearts
-					if (i3 > 0) {
-						if (i3 == absorption && absorption % 2 == 1) {
-							this.blit(l4, i5, 16 + 153, 9 * posyfactor, 9, 9);
-							--i3;
-						} else {
-							this.blit(l4, i5, 16 + 144, 9 * posyfactor, 9, 9);
-							i3 -= 2;
-						}
-					}
-					
-					texmanager.bindTexture(GUI_ICONS);
-					if (flag) {
-						if (l5 * 2 + 1 < lasthealth) {
-							this.blit(l4, i5, 49, 9 * posyfactor + 28, 9, 9);
-						}
-	
-						if (l5 * 2 + 1 == lasthealth) {
-							this.blit(l4, i5, 58, 9 * posyfactor + 28, 9, 9);
-						}
-					}
-	
-					if (i3 <= 0) {
-						if (l5 * 2 + 1 < i) {
-							this.blit(l4, i5, 31, 9 * posyfactor + 28, 9, 9);
-						}
-	
-						if (l5 * 2 + 1 == i) {
-							this.blit(l4, i5, 40, 9 * posyfactor + 28, 9, 9);
-						}
-					}
-				}
-			}
-		}
 		
 		if(player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == ModItems.MANASPECS.get()) {
 			renderManaSpecsGui(player);
+		}
+		
+		if(evt.getType() == ElementType.HEALTH && player != null) {
+			if(renderPurpleHearts(player))
+				evt.setCanceled(true);
 		}
 		
 		renderManaMeter();
@@ -168,15 +94,100 @@ public class IngameGuiOverlay extends AbstractGui {
 	      return !(Minecraft.getInstance().getRenderViewEntity() instanceof PlayerEntity) ? null : (PlayerEntity)Minecraft.getInstance().getRenderViewEntity();
 	}
 	
+	private boolean renderPurpleHearts(PlayerEntity player) {
+		Minecraft mc = Minecraft.getInstance();
+		TextureManager texmanager = mc.getTextureManager();
+		int hearts = MathHelper.ceil(player.getHealth());
+        long time = Util.milliTime();
+		boolean flag = this.healthUpdateCounter > (long) mc.ingameGUI.getTicks() && (this.healthUpdateCounter - (long) mc.ingameGUI.getTicks()) / 3L % 2L == 1L;
+        if (hearts < this.playerHealth && player.hurtResistantTime > 0) {
+           this.lastSystemTime = time;
+           this.healthUpdateCounter = (long)(mc.ingameGUI.getTicks() + 20);
+        } else if (hearts > this.playerHealth && player.hurtResistantTime > 0) {
+           this.lastSystemTime = time;
+           this.healthUpdateCounter = (long)(mc.ingameGUI.getTicks() + 10);
+        }
+
+        if (time - this.lastSystemTime > 1000L) {
+           this.lastPlayerHealth = hearts;
+           this.playerHealth = hearts;
+           this.lastSystemTime = time;
+			System.out.println(flag + " " + lastPlayerHealth + " " + hearts);
+        }
+        
+        this.playerHealth = hearts;
+        
+		if(player.isPotionActive(ModPotions.BELLADONNA_POISION)) {
+			Random rand = new Random(mc.ingameGUI.getTicks() * 312871);
+			float maxhealth = (float) mc.player.getAttribute(SharedMonsterAttributes.MAX_HEALTH).getValue();
+			int absorption = MathHelper.ceil(player.getAbsorptionAmount());
+			int lasthealth = this.lastPlayerHealth;
+			int i = MathHelper.ceil(player.getHealth());
+			int i1 = mc.getMainWindow().getScaledWidth() / 2 - 91;
+			int k1 = mc.getMainWindow().getScaledHeight() - 39;
+			int i2 = MathHelper.ceil((maxhealth + (float) absorption) / 2.0F / 10.0F);
+			int j2 = Math.max(10 - (i2 - 2), 3);
+			int i3 = absorption;
+			int k3 = -1;
+			for (int l5 = MathHelper.ceil((maxhealth + (float) absorption) / 2.0F) - 1; l5 >= 0; --l5) {					
+	            int j4 =  flag ? 1 : 0;
+	            
+				int k4 = MathHelper.ceil((float) (l5 + 1) / 10.0F) - 1;
+				int l4 = i1 + l5 % 10 * 8;
+				int i5 = k1 - k4 * j2;
+				if (i <= 4)
+					i5 += rand.nextInt(2);
+
+				if (i3 <= 0 && l5 == k3)
+					i5 -= 2;
+
+				int posyfactor = 0;
+				if (player.world.getWorldInfo().isHardcore()) {
+					posyfactor = 5;
+				}
+				texmanager.bindTexture(VANILLA_GUI_ICONS);
+				this.blit(l4, i5, 16 + j4 * 9, 9 * posyfactor, 9, 9); //golden hearts
+				if (i3 > 0) {
+					if (i3 == absorption && absorption % 2 == 1) {
+						this.blit(l4, i5, 16 + 153, 9 * posyfactor, 9, 9);
+						--i3;
+					} else {
+						this.blit(l4, i5, 16 + 144, 9 * posyfactor, 9, 9);
+						i3 -= 2;
+					}
+				}
+				
+				texmanager.bindTexture(GUI_ICONS);
+				if (flag) {
+					if (l5 * 2 + 1 < lasthealth)
+						this.blit(l4, i5, 49, 9 * posyfactor + 28, 9, 9);
+
+					if (l5 * 2 + 1 == lasthealth) 
+						this.blit(l4, i5, 58, 9 * posyfactor + 28, 9, 9);
+				}
+
+				if (i3 <= 0) {
+					if (l5 * 2 + 1 < i)
+						this.blit(l4, i5, 31, 9 * posyfactor + 28, 9, 9);
+
+					if (l5 * 2 + 1 == i)
+						this.blit(l4, i5, 40, 9 * posyfactor + 28, 9, 9);
+				}
+			}
+			return true;
+		} else return false;
+	}
+	
 	private void renderManaSpecsGui(PlayerEntity player) {
 		BlockRayTraceResult context = player.world.rayTraceBlocks(new RayTraceContext(player.getEyePosition(0), player.getEyePosition(0).add(player.getLookVec().scale(5)), BlockMode.COLLIDER, FluidMode.NONE, player));
-		TileEntity tile = player.world.getTileEntity(context.getPos());
+		BlockPos pos = context.getPos();
+		TileEntity tile = player.world.getTileEntity(pos);
 		if(tile != null) {
 			LazyOptional<TileEntityManaStorage> optional = tile.getCapability(TileEntityManaStorage.getCap(), null);
 			optional.ifPresent(storage -> {
 				Minecraft mc = Minecraft.getInstance();
 				TextureManager texmanager = mc.getTextureManager();
-				int energy = storage.getEnergy();
+				int energy = (int)storage.getEnergy();
 				RenderSystem.disableBlend();
 				mc.fontRenderer.drawString(energy + "", 10, 20, 0xFFFFFF);
 				texmanager.bindTexture(GUI_ICONS);
@@ -191,19 +202,19 @@ public class IngameGuiOverlay extends AbstractGui {
 		RenderSystem.disableDepthTest();
 		RenderSystem.depthMask(false);
 
-		PlayerManaStorage energystorage = mc.player.getCapability(PlayerManaStorage.Capability.get(), null).orElse(null);
-		int energy = energystorage == null ? 0 : energystorage.getEnergy();
-		int maxenergy = energystorage == null ? 0 : energystorage.getMaxEnergy();
+		PlayerManaStorage energystorage = mc.player.getCapability(PlayerManaStorage.getCap(), null).orElse(null);
+		double energy = energystorage == null ? 0 : energystorage.getEnergy();
+		double maxenergy = energystorage == null ? 0 : energystorage.getMaxEnergy();
 		
 		if(energy == 0) return;
 		
-		double ratio = (double)energy/maxenergy;
-		int boxwidth = ModMathHelper.getIntDigits(energy)*6+16;
+		double ratio = energy/maxenergy;
+		int boxwidth = ModMathHelper.getIntDigits((int)energy)*6+16;
 		int boxY = windowheight - 20;
 		for(int i = 0; i < 28*ratio; i++) blit((int)(boxwidth/2 - 9), boxY - 7 - i*3, 32, 0, 17, 3);
 
 		
-		renderTextBox(3, boxY, energy);
+		renderTextBox(3, boxY, (int)energy);
 	
 		blit((int)(boxwidth/2 - 12), boxY - 98, 23, 100);
 

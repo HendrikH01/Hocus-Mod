@@ -10,7 +10,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractRitual.Phase;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualTask;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.MiscUtil;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ public class RitualManager {
 		return INSTANCE;
 	}
 
-	public boolean tryActivateRitual(World worldIn, PlayerEntity player, AbstractRitualCore ritualStoneTile) {
+	public boolean tryActivateRitual(World worldIn, PlayerEntity player, RitualStoneTile ritualStoneTile) {
 		IRitual ritual = RitualActivationHandler.getRitual(ritualStoneTile, player);
 		if (ritual == null)
 			return false;

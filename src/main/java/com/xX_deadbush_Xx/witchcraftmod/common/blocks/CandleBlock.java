@@ -63,18 +63,18 @@ public class CandleBlock extends Block {
        worldIn.addParticle(ParticleTypes.SMOKE, x+0.5D, y+0.7D, z+0.5D, 0.0D, 0.02D, 0.0D);
        switch(state.get(CANDLECOUNT)) {
        case 1: {
-           worldIn.addParticle(ModParticles.SMALL_FLAME, x+0.5D, y+0.6D, z+0.5D, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ModParticles.SMALL_FLAME.get(), x+0.5D, y+0.6D, z+0.5D, 0.0D, 0.0D, 0.0D);
     	   break;
        }
        case 2: {
-           worldIn.addParticle(ModParticles.SMALL_FLAME, x+0.38D, y+0.51D, z+0.44D, 0.0D, 0.0D, 0.0D);
-           worldIn.addParticle(ModParticles.SMALL_FLAME, x+0.66D, y+0.57D, z+0.6D, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ModParticles.SMALL_FLAME.get(), x+0.38D, y+0.51D, z+0.44D, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ModParticles.SMALL_FLAME.get(), x+0.66D, y+0.57D, z+0.6D, 0.0D, 0.0D, 0.0D);
     	   break;
        }
        case 3: {
-           worldIn.addParticle(ModParticles.SMALL_FLAME, x+0.31D, y+0.41D, z+0.44D, 0.0D, 0.0D, 0.0D);
-           worldIn.addParticle(ModParticles.SMALL_FLAME, x+0.59D, y+0.47D, z+0.66D, 0.0D, 0.0D, 0.0D);
-           worldIn.addParticle(ModParticles.SMALL_FLAME, x+0.66D, y+0.56D, z+0.34, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ModParticles.SMALL_FLAME.get(), x+0.31D, y+0.41D, z+0.44D, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ModParticles.SMALL_FLAME.get(), x+0.59D, y+0.47D, z+0.66D, 0.0D, 0.0D, 0.0D);
+           worldIn.addParticle(ModParticles.SMALL_FLAME.get(), x+0.66D, y+0.56D, z+0.34, 0.0D, 0.0D, 0.0D);
     	   break;
        }
        }

@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -42,30 +43,11 @@ public class SmallFusionRecipe implements IFusionRecipe {
 	
 	@Override
 	public boolean matches(RecipeWrapper inv, @Nullable World worldIn) {
-		List<Ingredient> missingIngredients = new ArrayList<>(this.inputs); 
-		if(!missingIngredients.get(0).test(inv.getStackInSlot(0))) return false; //center Item
-		
-		int invsize = inv.getSizeInventory();
 		if(shapeless) {
-			for(int i = 1; i < invsize; i++) {
-				for(int j = 1; j < missingIngredients.size(); j++) {
-					if(missingIngredients.get(j).test(inv.getStackInSlot(i))) {
-						missingIngredients.remove(j);
-						break;
-					}
-				}
-			}
+			return CraftingHelper.checkMatchUnordered(this.inputs, CraftingHelper.asList(inv), (ingred, stack) -> ingred.test(stack));
 		} else {
-			for(int i = 1; i < invsize; i++) {
-				for(int j = 1; j < invsize; j++) {
-					if(missingIngredients.get(j).test(inv.getStackInSlot((j+i)%invsize))) {
-						missingIngredients.remove(j);
-					} else break;	
-				}
-			}
+			return CraftingHelper.checkMatchOrderedRotational(this.inputs, CraftingHelper.asList(inv), (ingred, stack) -> ingred.test(stack));
 		}
-		missingIngredients.remove(0);
-		return missingIngredients.size() == 0;
 	}
 
 	@Nonnull

@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper.RitualPositionHolder;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.AbstractRitualCore;
+import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 
 public abstract class MediumRitual extends AbstractRitual {
 
-	public MediumRitual(AbstractRitualCore tile, PlayerEntity player) {
+	public MediumRitual(RitualStoneTile tile, PlayerEntity player) {
 		super(tile, player);
 		RitualPositionHolder positions = getRitualPositions(tile.getWorld(), tile.getPos());
 		this.chalkpositions = positions.chalkpositions;
@@ -33,10 +33,13 @@ public abstract class MediumRitual extends AbstractRitual {
 			BlockPos pos6 = pos.offset(direction, 6);
 			BlockPos pos7 = pos5.offset(right, 5);
 
-			out.chalkpositions.add(pos1); out.chalkpositions.add(pos2); out.chalkpositions.add(pos3); out.chalkpositions.add(pos4);
-			out.totems.add(new TotemPattern(pos5, pos5.up())); out.anchorblocks.add(pos2.offset(right, 2));
+			out.chalkpositions.add(pos1);
+			out.chalkpositions.add(pos2);
+			out.chalkpositions.add(pos3);
+			out.chalkpositions.add(pos4);
+			out.totems.add(new TotemPattern(pos5, pos5.up()));
+			out.anchorblocks.add(pos2.offset(right, 2));
 			out.anchorblocks.add(pos7);
-
 			out.chalkpositions.add(pos1.offset(right, 2));
 			out.chalkpositions.add(pos2.offset(right));
 			for(int i = 1; i < 5; i++) {

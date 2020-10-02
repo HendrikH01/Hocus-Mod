@@ -22,24 +22,23 @@ public class PlayerTick {
 	public static void onPlayerTick(PlayerTickEvent event) {
 		if(event.phase == TickEvent.Phase.END) {
 			PlayerEntity player = event.player;
-			PlayerManaStorage storage = player.getCapability(PlayerManaStorage.Capability.get(), null).orElse(null);
+			PlayerManaStorage storage = player.getCapability(PlayerManaStorage.getCap(), null).orElse(null);
 			if(storage == null) return;
-			int inventoryEnergy = 0;
-			int maxenergy = 0;
-			int consumed = storage.getConsumedEnergy();
+			double inventoryEnergy = 0;
+			double maxenergy = 0;
+			double consumed = storage.getConsumedEnergy();
 			
 			Object2IntOpenHashMap<TalismanItem> talismans = new Object2IntOpenHashMap<>();
 			
 			for(int i = 0; i < player.inventory.getSizeInventory(); i++) {
 				ItemStack stack = player.inventory.getStackInSlot(i);
 				Item item = stack.getItem();
-
-				if(item instanceof IPlayerInventoryTickingItem) {
+				if(item instanceof EnergyCrystal) {
+					inventoryEnergy += EnergyCrystal.getEnergyStored(stack);
+					maxenergy += EnergyCrystal.getMaxEnergy(stack);
+				} 
+				else if(item instanceof IPlayerInventoryTickingItem) {
 					((IPlayerInventoryTickingItem) item).tick(stack, player, event.side);
-					if(item instanceof EnergyCrystal) {
-						inventoryEnergy += EnergyCrystal.getEnergyStored(stack);
-						maxenergy += EnergyCrystal.getMaxEnergy(stack);
-					} 
 				} else if (item instanceof TalismanItem) {
 					talismans.put((TalismanItem) item, i);
 				}
