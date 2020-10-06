@@ -35,10 +35,17 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\razva\Desktop\Witchcraft-Mod\build\natives"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< Upstream, based on origin/rituals
 	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer"/>
 	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
 	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.0.3_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.0.3_mapped_snapshot_20200617-1.15.1-api.jar">
+=======
+	<classpathentry kind="con" path="org.eclipse.buildship.core.gradleclasspathcontainer" exported="true"/>
+	<classpathentry kind="output" path="bin/default"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.3.15_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.3.15_mapped_snapshot_20200617-1.15.1-api.jar">
+>>>>>>> 68dbe95 Added features from genZs branch, fixed textures and datagens
 		<attributes>
 			<attribute name="gradle_used_by_scope" value=""/>
 		</attributes>
@@ -408,7 +415,11 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
+<<<<<<< Upstream, based on origin/rituals
 	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.0.3_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.0.3_mapped_snapshot_20200617-1.15.1.jar">
+=======
+	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.3.15_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.3.15_mapped_snapshot_20200617-1.15.1.jar">
+>>>>>>> 68dbe95 Added features from genZs branch, fixed textures and datagens
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>

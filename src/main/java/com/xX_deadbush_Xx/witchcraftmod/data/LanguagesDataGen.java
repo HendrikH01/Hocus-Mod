@@ -32,11 +32,11 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.BELLADONNA_BERRY::get, "Belladonna Berry");
 		addItem(ModItems.DREADWOOD_STICK::get, "Dreadwood Stick");
 		addItem(ModItems.MAGIC_CHALK::get, "Magic Chalk");
+		addItem(ModItems.WET_CHALK::get, "Wet Chalk");
 		addItem(ModItems.PARTICLE_DEBUGGER::get, "Particle Debugger");
 		addItem(ModItems.SACRIFICE_KNIFE::get, "Sacrifice Knife");
 		addItem(ModItems.VIBRANT_CRYSTAL::get, "Vibrant Crystal");
 		addItem(ModItems.VIBRANT_DUST::get, "Vibrant Dust");
-		addItem(ModItems.WET_CHALK::get, "Wet Chalk");
 		addItem(ModItems.PESTLE::get, "Pestle");
 		addItem(ModItems.WOOD_SAW::get, "Wood Saw");
 		addItem(ModItems.SLEDGE_HAMMER::get, "Sledge Hammer");
@@ -44,7 +44,25 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.WEAK_ENERGY_CRYSTAL::get, "Weak Energy Crystal");
 		addItem(ModItems.LIGHTNING_ROD::get, "Lightning Rod");
 		addItem(ModItems.BOTTOMLESS_BAG::get, "Bottomless Bag");
-		addItem(ModItems.NATURE_WAND::get, "Nature Wand");
+		addItem(ModItems.ETERNAL_BAG_OF_BONEMEAL::get, "Eternal Bag of Bonemeal");
+		addItem(ModItems.LINKING_WAND::get, "Linking Wand");
+		addItem(ModItems.GUIDE_BOOK::get, "Guide Book");
+		addItem(ModItems.EMPTY_PHIAL::get, "Empty Phial");
+		addItem(ModItems.BLOOD_PHIAL::get, "Blood Phial");
+		addItem(ModItems.SILVER_BOOTS::get, "Silver Boots");
+		addItem(ModItems.SILVER_CHESTPLATE::get, "Silver Chestplate");
+		addItem(ModItems.SILVER_LEGGINS::get, "Silver Leggins");
+		addItem(ModItems.SILVER_HELMET::get, "Silver Helmet");
+		addItem(ModItems.SILVER_INGOT::get, "Silver Ingot");
+		addItem(ModItems.RITUAL_ACTIVATOR::get, "Creative Ritual Activator");
+		addItem(ModItems.WITCH_HAT::get, "Witch Hat");
+		addItem(ModItems.THUNDER_STAFF::get, "Thunder Staff");
+		addItem(ModItems.MANASPECS::get, "Manaspecs");
+		addItem(ModItems.MAGNET_TALISMAN::get, "Magnet Talisman");
+		addItem(ModItems.SUPREME_ENERGY_CRYSTAL::get, "Supreme Energy Crystal");
+		addItem(ModItems.PLANT_OIL::get, "Plant Oil");
+		addItem(ModItems.FIRE_WAND::get, "Fire Wand");
+		addItem(ModItems.WATER_WALKING_TALISMAN::get, "Water Walking Talisman");
 
 	}
 
@@ -69,10 +87,23 @@ public class LanguagesDataGen extends LanguageProvider {
 		addBlock(ModBlocks.TABLE::get, "Table");
 		addBlock(ModBlocks.TOOL_TABLE::get, "Tool Table");
 		addBlock(ModBlocks.CRYSTAL_RECHARGER::get, "Crystal Recharger");
+		addBlock(ModBlocks.RED_TOTEM::get, "Red Totem");
+		addBlock(ModBlocks.PURPLE_TOTEM::get, "Purple Totem");
+		addBlock(ModBlocks.GREEN_TOTEM::get, "Green Totem");
+		addBlock(ModBlocks.SHALE_BRICKS::get, "Shale Bricks");
+		addBlock(ModBlocks.SHALE::get, "Shale");
+		addBlock(ModBlocks.CHISELED_SHALE::get, "Chiseled Shale");
+		addBlock(ModBlocks.POISON_IVY::get, "Poison Ivy");
+		addBlock(ModBlocks.ONYX_ORE::get, "Onyx Ore");
+		addBlock(ModBlocks.POLISHED_WOOD::get, "Polished Wood");
+		addBlock(ModBlocks.FIRE_BOWL::get, "Fire Bowl");
+		addBlock(ModBlocks.ENERGY_RELAY::get, "Energy Relay");
+		addBlock(ModBlocks.SWIRLY_PLANT::get, "Swirly Plant");
+		addBlock(ModBlocks.CAVE_FLOWER::get, "Cave Flower");
 	}
 
 	@Override
 	public String getName() {
-		return "Translation generator";
+		return "Witchcraft Languagegen";
 	}
 }

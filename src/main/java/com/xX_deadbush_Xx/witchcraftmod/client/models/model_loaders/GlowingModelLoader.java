@@ -21,7 +21,6 @@ public class GlowingModelLoader implements IModelLoader<GlowingModel> {
         JsonObject glowingObj = JSONUtils.getJsonObject(modelContents, "render-glowing");
         int lightlevel = 15;
         if(glowingObj.has("brightness")) lightlevel =  JSONUtils.getInt(glowingObj, "brightness");
-        System.out.println(lightlevel);
         builder.add((IUnbakedModel)deserializationContext.deserialize(glowingObj, BlockModel.class));
         return new GlowingModel(builder.build(), lightlevel);
 	}
