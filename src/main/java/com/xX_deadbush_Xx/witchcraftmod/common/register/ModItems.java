@@ -75,6 +75,7 @@ public class ModItems {
 	public static final RegistryObject<Item> SILVER_BOOTS = ITEMS.register("silver_boots", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.FEET, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> MANASPECS = ITEMS.register("manaspecs", () -> new ArmorItem(ModArmorMaterials.MANA_GOGGLES, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> ETERNAL_BAG_OF_BONEMEAL = ITEMS.register("eternal_bag_of_bonemeal", () -> new EternalBagOfBonemeal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
+
 	
 	public enum ModArmorMaterial implements IArmorMaterial{
 		WITCH_HAT_MATERIAL(WitchcraftMod.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> {
