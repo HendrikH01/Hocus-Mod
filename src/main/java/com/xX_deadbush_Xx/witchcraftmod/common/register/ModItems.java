@@ -14,12 +14,11 @@ import com.xX_deadbush_Xx.witchcraftmod.common.items.LinkingWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagicChalk;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.MagnetTalisman;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ModArmorMaterials;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.NatureWand;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.EternalBagOfBonemeal;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ParticleDebugger;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.SacrificeKnife;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.ThunderStaff;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.WaterWalkingTalisman;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.WitchHat;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.WitchHatItem;
 
 import net.minecraft.inventory.EquipmentSlotType;
@@ -36,9 +35,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItems {
-	static {
-		System.out.println("WHAT THE HECKKK");
-	}
 	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WitchcraftMod.MOD_ID);
 	
 	public static final RegistryObject<Item> VIBRANT_CRYSTAL = ITEMS.register("vibrant_crystal", () -> new Item(new Item.Properties().group(WitchcraftItemGroup.instance)));
@@ -71,17 +67,14 @@ public class ModItems {
 	public static final RegistryObject<Item> GUIDE_BOOK = ITEMS.register("guide_book", () -> new GuideBook(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> LINKING_WAND = ITEMS.register("linking_wand", () -> new LinkingWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_INGOT = ITEMS.register("silver_ingot", () -> new Item(new Item.Properties().maxStackSize(64).group(WitchcraftItemGroup.instance)));
-	public static final RegistryObject<Item> WITCHES_HAT = ITEMS.register("witches_hat", () -> new WitchHatItem(ModArmorMaterials.MAGIC_LEATHER, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
+	public static final RegistryObject<Item> WITCH_HAT = ITEMS.register("witch_hat", () -> new WitchHatItem(ModArmorMaterials.MAGIC_LEATHER, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	
 	public static final RegistryObject<Item> SILVER_HELMET = ITEMS.register("silver_helmet", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_CHESTPLATE = ITEMS.register("silver_chestplate", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.CHEST, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_LEGGINS = ITEMS.register("silver_leggins", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.LEGS, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> SILVER_BOOTS = ITEMS.register("silver_boots", () -> new ArmorItem(ModArmorMaterials.SILVER, EquipmentSlotType.FEET, new Item.Properties().group(WitchcraftItemGroup.instance)));
 	public static final RegistryObject<Item> MANASPECS = ITEMS.register("manaspecs", () -> new ArmorItem(ModArmorMaterials.MANA_GOGGLES, EquipmentSlotType.HEAD, new Item.Properties().group(WitchcraftItemGroup.instance)));
-	public static final RegistryObject<Item> NATURE_WAND = ITEMS.register("nature_wand", () -> new NatureWand(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
-
-	public static final RegistryObject<Item> WITCH_HAT = ITEMS.register("witch_hat", () -> new WitchHat(ModArmorMaterial.WITCH_HAT_MATERIAL, EquipmentSlotType.HEAD, new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
-
+	public static final RegistryObject<Item> ETERNAL_BAG_OF_BONEMEAL = ITEMS.register("eternal_bag_of_bonemeal", () -> new EternalBagOfBonemeal(new Item.Properties().maxStackSize(1).group(WitchcraftItemGroup.instance)));
 	
 	public enum ModArmorMaterial implements IArmorMaterial{
 		WITCH_HAT_MATERIAL(WitchcraftMod.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> {

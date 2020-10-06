@@ -3,21 +3,20 @@ package com.xX_deadbush_Xx.witchcraftmod.client.models.armor;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ArmorStandEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 
-public class WitchHatModel extends BipedModel<LivingEntity>{
+public class WitchHatModel extends ArmorModelBase {
 
-	
-	
 	public WitchHatModel() {
-		super(0);
-		textureWidth = 64;
+		super(EquipmentSlotType.HEAD);
+		this.textureWidth = 64;
         textureHeight = 64;
 
         bipedHead = new ModelRenderer(this);
-        bipedHead.setRotationPoint(0.0F, 24.0F, 0.0F);
+        bipedHead.setRotationPoint(0.0F, 22.0F, 0.0F);
         bipedHead.setTextureOffset(0, 0).addBox(-6.0F, -1.0F - 8, -6.0F, 12.0F, 1.0F, 12.0F, 0.0F, false);
         bipedHead.setTextureOffset(0, 13).addBox(-3.0F, -4.0F - 8, -3.0F, 6.0F, 3.0F, 6.0F, 0.0F, false);
         bipedHead.setTextureOffset(24, 13).addBox(-2.0F, -8.0F - 8, -2.0F, 4.0F, 4.0F, 4.0F, 0.0F, false);
@@ -29,4 +28,10 @@ public class WitchHatModel extends BipedModel<LivingEntity>{
 		bipedHead.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn);
 	}
 	
+	@Override
+	public void setRotationAngles(LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+		if(entity instanceof ArmorStandEntity) this.bipedHead.setRotationPoint(0.0F, 3.5F, -1.0F);
+		this.bipedHead.rotateAngleX -= 0.15;
+	}
 }

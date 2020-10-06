@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.items;
 import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
+import com.xX_deadbush_Xx.witchcraftmod.client.models.armor.WitchHatModel;
 
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.util.ITooltipFlag;
@@ -32,11 +33,10 @@ public class WitchHatItem extends ArmorItem {
 		tooltip.add(new StringTextComponent("+ Magic resistance"));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack,
-			EquipmentSlotType armorSlot, A _default) {
-		// TODO Auto-generated method stub
-		return super.getArmorModel(entityLiving, itemStack, armorSlot, _default);
+	public <A extends BipedModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlotType armorSlot, A _default) {
+		return (A) new WitchHatModel();
 	}
 	
 	@Override

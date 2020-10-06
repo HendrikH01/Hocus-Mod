@@ -21,7 +21,7 @@ public class FireWand extends WandItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 		ItemStack wand = player.getHeldItem(hand);
-		if(player.areEyesInFluid(FluidTags.WATER) || !this.onWandUse(player, wand)) 
+		if(player.areEyesInFluid(FluidTags.WATER) || !this.attemptWandUse(player, wand)) 
 			return ActionResult.resultPass(wand);
 	
 		Vec3d look = player.getLookVec();
