@@ -11,7 +11,7 @@ public class ModItemGroups {
 	public static final ItemGroup ITEMS = new ItemGroup(ItemGroup.GROUPS.length, WitchcraftMod.MOD_ID + "_items") {
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(ModItems.WITCHES_HAT.get());
+			return new ItemStack(ModItems.WITCH_HAT.get());
 		}
 	};
 	

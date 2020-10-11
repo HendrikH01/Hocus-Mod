@@ -1,17 +1,14 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import com.google.common.base.Predicate;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.LightningParticle;
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ModParticles;
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -22,7 +19,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
@@ -65,21 +61,25 @@ public class LightningRod extends WandItem {
 	}
 
 	@Override
-	protected ActionResult<ItemStack> onWandUse(World worldIn, PlayerEntity player, Hand handIn, ItemStack wand) {
-		if(player.areEyesInFluid(FluidTags.WATER)) return ActionResult.resultPass(wand);
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+		ItemStack wand = player.getHeldItem(hand);
+		if(player.areEyesInFluid(FluidTags.WATER) || !this.attemptWandUse(player, wand)) 
+			return ActionResult.resultPass(wand);
 
-		performAttack(worldIn, wand, player);
-		if(worldIn.isRemote) {
+		performAttack(world, wand, player);
+		
+		if(world.isRemote) {
 			Vec3d look = player.getLookVec();
 			Vec3d eyes = player.getPositionVec().add(0, player.getEyeHeight(), 0);
-			Vec3d startpos = handIn == Hand.MAIN_HAND ? eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), -20)) : eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), 20));
-			worldIn.addParticle(LightningParticle.getData(true, 0xAFC6FF, 1), startpos.x, startpos.y- 0.3, startpos.z, look.x, look.y, look.z);
+			Vec3d startpos = hand == Hand.MAIN_HAND ? eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), -20)) : eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), 20));
+			world.addParticle(LightningParticle.getData(true, 0xAFC6FF, 1), startpos.x, startpos.y- 0.3, startpos.z, look.x, look.y, look.z);
  		}
+		
 		return ActionResult.resultSuccess(wand);
 	}
-
+	
 	@Override
-	public int getEnergyPerUse(ItemStack wand) {
+	public int getEnergyPerUse() {
 		return 50;
 	}
 

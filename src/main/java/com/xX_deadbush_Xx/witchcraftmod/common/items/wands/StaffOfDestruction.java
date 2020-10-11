@@ -18,22 +18,9 @@ public class StaffOfDestruction extends WandItem {
 		super(properties);
 	}
 	
-	
-	@Override
-	protected ActionResult<ItemStack> onWandUse(World worldIn, PlayerEntity player, Hand handIn, ItemStack wand) {
-		if(player.areEyesInFluid(FluidTags.WATER)) return ActionResult.resultPass(wand);
-		Vec3d look = player.getLookVec();
-		Vec3d pos = player.getPositionVec();
-		FireballEntity fireball = new FireballEntity(worldIn, pos.x + look.x, pos.y + 0.6, pos.z + look.z, look.x, look.y, look.z);
-		fireball.explosionPower = 2;
-		worldIn.addEntity(fireball);
-		if(!worldIn.isRemote) WitchcraftPacketHandler.sendToNearby(worldIn, player, 
-				new WitchcraftParticlePacket(EffectType.FIRE_WAND, pos.x + look.x, pos.y + 0.6, pos.z + look.z, (float)look.x, (float)look.y, (float)look.z));
-		return ActionResult.resultSuccess(wand);
-	}
 
 	@Override
-	public int getEnergyPerUse(ItemStack wand) {
+	public int getEnergyPerUse() {
 		return 150;
 	}
 

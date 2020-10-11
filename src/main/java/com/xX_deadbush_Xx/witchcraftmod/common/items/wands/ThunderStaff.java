@@ -18,7 +18,7 @@ public class ThunderStaff extends ChargingWanditem {
 	}
 	
 	@Override
-	public int getEnergyPerUse(ItemStack wand) {
+	public int getEnergyPerUse() {
 		return 500;
 	}
 

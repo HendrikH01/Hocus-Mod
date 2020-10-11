@@ -18,28 +18,30 @@ public class FireWand extends WandItem {
 		super(properties);
 	}
 	
-	
 	@Override
-	protected ActionResult<ItemStack> onWandUse(World worldIn, PlayerEntity player, Hand handIn, ItemStack wand) {
-		if(player.areEyesInFluid(FluidTags.WATER)) return ActionResult.resultPass(wand);
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+		ItemStack wand = player.getHeldItem(hand);
+		if(player.areEyesInFluid(FluidTags.WATER) || !this.attemptWandUse(player, wand)) 
+			return ActionResult.resultPass(wand);
+	
 		Vec3d look = player.getLookVec();
 		Vec3d pos = player.getPositionVec();
-		FireballEntity fireball = new FireballEntity(worldIn, pos.x + look.x, pos.y + 0.6, pos.z + look.z, look.x, look.y, look.z);
+		FireballEntity fireball = new FireballEntity(world, pos.x + look.x, pos.y + 0.6, pos.z + look.z, look.x, look.y, look.z);
 		fireball.explosionPower = 2;
-		worldIn.addEntity(fireball);
-		if(!worldIn.isRemote) WitchcraftPacketHandler.sendToNearby(worldIn, player, 
-				new WitchcraftParticlePacket(EffectType.FIRE_WAND, pos.x + look.x, pos.y + 0.6, pos.z + look.z, (float)look.x, (float)look.y, (float)look.z));
+		world.addEntity(fireball);
+		
+		if(!world.isRemote) WitchcraftPacketHandler.sendToNearby(world, player, new WitchcraftParticlePacket(EffectType.FIRE_WAND, pos.x + look.x, pos.y + 0.6, pos.z + look.z, (float)look.x, (float)look.y, (float)look.z));
 		return ActionResult.resultSuccess(wand);
 	}
 
 	@Override
-	public int getEnergyPerUse(ItemStack wand) {
-		return 650;
+	public int getEnergyPerUse() {
+		return 150;
 	}
 
 
 	@Override
 	public int getCooldown() {
-		return 15;
+		return 10;
 	}
  }

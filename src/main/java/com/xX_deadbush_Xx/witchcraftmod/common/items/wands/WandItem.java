@@ -11,34 +11,36 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public abstract class WandItem extends Item implements IWandItem {
+public abstract class WandItem extends Item {
 
 	public WandItem(Properties properties) {
 		super(properties);
 	}
+	
+	public abstract int getEnergyPerUse();
+	
+	public abstract int getCooldown();
 
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack wand = playerIn.getHeldItem(handIn);
-			
-		int energyneeded = getEnergyPerUse(wand);
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
+	/**
+	 * Removes energy from player and sets the cooldown, returns true if successful
+	 * @param player
+	 * @param wand
+	 * @return success
+	 */
+	protected boolean attemptWandUse(PlayerEntity player, ItemStack wand) {		
+		int energyneeded = getEnergyPerUse();
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
 
 		if (storage == null)
-			return ActionResult.resultPass(wand);
-		if (storage.getEnergy() <= energyneeded)
-			return ActionResult.resultPass(wand);
-
-		ActionResult<ItemStack> result = onWandUse(worldIn, playerIn, handIn, wand);
-		if (result.getType() == ActionResultType.SUCCESS)
+			return false;
+		else if (storage.getEnergy() > energyneeded) {
 			storage.removeEnergy(energyneeded);
-			playerIn.getCooldownTracker().setCooldown(this, getCooldown());
-
-		return result;
+			player.getCooldownTracker().setCooldown(this, getCooldown());
+			
+			//TODO: add stat
+			return true;
+		}
+		
+		return false;
 	}
-
-	protected abstract ActionResult<ItemStack> onWandUse(World worldIn, PlayerEntity player, Hand handIn,
-			ItemStack wand);
-
-
 }

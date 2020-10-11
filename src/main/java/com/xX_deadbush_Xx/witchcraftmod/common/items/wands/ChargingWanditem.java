@@ -1,20 +1,17 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
 import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
-public abstract class ChargingWanditem extends Item implements IWandItem {
+public abstract class ChargingWanditem extends WandItem {
 
 	public ChargingWanditem(Properties properties) {
 		super(properties);
@@ -25,7 +22,7 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 		if(!(entity instanceof PlayerEntity)) return;
 		PlayerEntity player = (PlayerEntity)entity;
 			
-		int energyneeded = getEnergyPerUse(wand);
+		int energyneeded = getEnergyPerUse();
 		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
 
 		if (storage == null)
@@ -53,7 +50,7 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 		if(!(entity instanceof PlayerEntity)) return;
 		PlayerEntity player = (PlayerEntity)entity;
 		
-		int energyneeded = getEnergyPerUse(wand);
+		int energyneeded = getEnergyPerUse();
 		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
 
 		if (storage == null)
@@ -73,7 +70,7 @@ public abstract class ChargingWanditem extends Item implements IWandItem {
 	protected abstract boolean onFinishWandUse(World worldIn, PlayerEntity player, ItemStack wand, int timeLeft);
 
 	protected boolean canUse(PlayerEntity playerIn, ItemStack wand) {
-		int energyneeded = getEnergyPerUse(wand);
+		int energyneeded = getEnergyPerUse();
 		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
 
 		if (storage == null)
