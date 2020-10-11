@@ -26,19 +26,18 @@ public class LinkingWand extends Item {
 	@SuppressWarnings("resource")
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		System.out.println(context.getWorld().isRemote);
 		BlockPos pos = context.getPos();
 		CompoundNBT nbt = context.getItem().getOrCreateTag();
+		//First position saved as "first"
 		if (nbt.contains("first")) {
-			System.out.println(context.getWorld().isRemote);
 			BlockPos pos2 = NBTUtil.readBlockPos(nbt.getCompound("first"));
 			EnergyRelayTile tile = (EnergyRelayTile)context.getWorld().getTileEntity(pos2);
 			if (tile != null && tile.attemptLink(pos)) {
 				if (context.getWorld().isRemote)
-					context.getPlayer().sendMessage(new StringTextComponent(String.format("\u00A77" + "Linked %d, %d, %d with %d, %d, %d.", pos.getX(), pos.getY(), pos.getZ(), pos2.getX(), pos2.getY(), pos2.getZ())));
+					context.getPlayer().sendStatusMessage(new StringTextComponent(String.format("\u00A77" + "Linked %d, %d, %d with %d, %d, %d.", pos.getX(), pos.getY(), pos.getZ(), pos2.getX(), pos2.getY(), pos2.getZ())), true);
 			} else {
 				if (context.getWorld().isRemote)
-					context.getPlayer().sendMessage(new StringTextComponent(String.format("\u00A77" + "Failed to link %d, %d, %d with %d, %d, %d.", pos.getX(), pos.getY(), pos.getZ(), pos2.getX(), pos2.getY(), pos2.getZ())));
+					context.getPlayer().sendStatusMessage(new StringTextComponent(String.format("\u00A77" + "Failed to link %d, %d, %d with %d, %d, %d.", pos.getX(), pos.getY(), pos.getZ(), pos2.getX(), pos2.getY(), pos2.getZ())), true);
 
 			}
 
@@ -47,11 +46,11 @@ public class LinkingWand extends Item {
 			EnergyRelayTile tile = (EnergyRelayTile)context.getWorld().getTileEntity(pos);
 			
 			if(tile.isLinked()) {
-				tile.attemptLink(BlockPos.ZERO); //unlink
+				tile.unlink();
 			} else {
 				nbt.put("first", NBTUtil.writeBlockPos(pos));
 				if (context.getWorld().isRemote)
-					context.getPlayer().sendMessage(new StringTextComponent(String.format("\u00A77" + "First position: %d, %d, %d", pos.getX(), pos.getY(), pos.getZ())));
+					context.getPlayer().sendStatusMessage(new StringTextComponent(String.format("\u00A77" + "First position: %d, %d, %d", pos.getX(), pos.getY(), pos.getZ())), true);
 			}
 			
 			return ActionResultType.SUCCESS;

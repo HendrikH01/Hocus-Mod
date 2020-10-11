@@ -54,8 +54,8 @@ public class RitualConfig {
 	
 	public RitualConfig build() {
 		if(this.anchorblocks.size() != this.type.getAnchorblockCount())
-			WitchcraftMod.LOGGER.warning("MediumRitualConfig did not receive " + this.type.getAnchorblockCount() + " anchor blocks!");
+			WitchcraftMod.LOGGER.warn("MediumRitualConfig did not receive {} anchor blocks!", this.type.getAnchorblockCount());
 		if(this.totems.size() != this.type.getTotemCount())
-			WitchcraftMod.LOGGER.warning("MediumRitualConfig did not receive " + this.type.getTotemCount() + " totems!");
+			WitchcraftMod.LOGGER.warn("MediumRitualConfig did not receive {} totems!", this.type.getTotemCount());
 		return this;
 	}}

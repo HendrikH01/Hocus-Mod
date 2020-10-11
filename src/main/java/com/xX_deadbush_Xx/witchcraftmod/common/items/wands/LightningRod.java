@@ -39,7 +39,6 @@ public class LightningRod extends WandItem {
 	private void performAttack(World world, ItemStack stack, PlayerEntity player) {
 		Vec3d look = player.getLookVec();
 		Vec3d eyes = player.getEyePosition(0);
-		BlockRayTraceResult raytrace = world.rayTraceBlocks(new RayTraceContext(eyes, look.add(eyes), BlockMode.COLLIDER, FluidMode.NONE, player));
 		List<LivingEntity> entities = getEntities(eyes, look,4, world, player);
 		for(LivingEntity entity : entities) {
 			entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(player, null), 2.5f);

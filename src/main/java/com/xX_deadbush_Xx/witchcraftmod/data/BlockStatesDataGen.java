@@ -44,6 +44,7 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.SHALE_BRICKS.get(), models().getExistingFile(getModelPath(ModBlocks.SHALE_BRICKS)));
 		simpleBlock(ModBlocks.CHISELED_SHALE.get(), models().getExistingFile(getModelPath(ModBlocks.CHISELED_SHALE)));
 		simpleBlock(ModBlocks.POLISHED_WOOD.get(), models().getExistingFile(getModelPath(ModBlocks.POLISHED_WOOD)));
+
 		tallBlock(ModBlocks.SWIRLY_PLANT);
 		
 		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));

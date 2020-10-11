@@ -16,6 +16,7 @@ import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.FireWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.LightningRod;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.LinkingWand;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.ParticleDebugger;
+import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.StaffOfDestruction;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.ThunderStaff;
 
 import net.minecraft.inventory.EquipmentSlotType;
@@ -63,9 +64,9 @@ public class ModItems {
 	public static final RegistryObject<Item> LIGHTNING_ROD = ITEMS.register("lightning_rod", () -> new LightningRod(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> FIRE_STAFF = ITEMS.register("fire_staff", () -> new FireWand(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> THUNDER_STAFF = ITEMS.register("thunder_staff", () -> new ThunderStaff(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
-	public static final RegistryObject<Item> STAFF_OF_DESTRUCTION = ITEMS.register("staff_of_destruction", () -> new LinkingWand(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
+	public static final RegistryObject<Item> STAFF_OF_DESTRUCTION = ITEMS.register("staff_of_destruction", () -> new StaffOfDestruction(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> STAFF_OF_CREATION = ITEMS.register("staff_of_creation", () -> new LinkingWand(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
-
+	
 	//MISC MAGIC
 	public static final RegistryObject<Item> WEAK_ENERGY_CRYSTAL = ITEMS.register("weak_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS), 500));
 	public static final RegistryObject<Item> ADVANCED_ENERGY_CRYSTAL = ITEMS.register("advanced_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS), 50000));

@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.witchcraftmod.common.event;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RenderHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.ModColorHandler;
+import com.xX_deadbush_Xx.witchcraftmod.client.ModRenderTypes;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.BottomLessBagScreen;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.CrystalRechargerScreen;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.ToolTableScreen;

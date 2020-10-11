@@ -1,5 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.client.effect.particles;
 
+import com.xX_deadbush_Xx.witchcraftmod.client.ModRenderTypes;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
 
 import net.minecraft.client.particle.IAnimatedSprite;
@@ -35,7 +36,7 @@ public ShimmerParticle(World worldIn, double xCoordIn, double yCoordIn, double z
    
    @Override
    public IParticleRenderType getRenderType() {
-      return ModParticleRenderTypes.SHIMMER_PARTICLE_TYPE;
+      return ModRenderTypes.SHIMMER_PARTICLE_TYPE;
    }
    
    @Override
