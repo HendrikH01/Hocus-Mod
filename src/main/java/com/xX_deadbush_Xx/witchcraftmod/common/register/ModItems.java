@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.register;
 
+import java.util.function.Supplier;
+
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.client.ModItemGroups;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.BloodPhial;
@@ -22,7 +24,13 @@ import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.ThunderStaff;
 
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.LazyValue;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,7 +50,7 @@ public class ModItems {
 	public static final RegistryObject<Item> DUST_OF_CHAOS = ITEMS.register("dust_of_chaos", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DUST_OF_CREATION = ITEMS.register("dust_of_creation", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DUST_OF_DESTRUCTION = ITEMS.register("dust_of_destruction", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
-	
+
 	//PLANTS
 	public static final RegistryObject<Item> ADONIS_SEED_POD = ITEMS.register("adonis_seed_pod", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> BELLADONNA_BERRY = ITEMS.register("belladonna_berry", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
@@ -94,4 +102,64 @@ public class ModItems {
 
 	//NO GROUP
 	public static final RegistryObject<Item> BLOOD_PHIAL = ITEMS.register("blood_sample", () -> new BloodPhial(new Item.Properties().maxStackSize(1)));
+	
+	public enum ModArmorMaterial implements IArmorMaterial{
+		WITCH_HAT_MATERIAL(WitchcraftMod.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> {
+			return Ingredient.fromItems(Items.LEATHER);
+		});	
+		
+		private static final int[] MAX_DAMAGE_ARRAY = new int[] {16, 16, 16, 16};
+		private final String name;
+		private final int maxDamageFactor;
+		private final int[] damageReductionAmountArray;
+		private final int enchantability;
+		private final SoundEvent soundEvent;
+		private final float toughness;
+		private final LazyValue<Ingredient> repairMaterial;
+		
+		private ModArmorMaterial(String nameIn, int maxDamageFactor, int[] damageReductionAmountIn, int enchantabilityIn, SoundEvent soundEventIn, float toughnessIn, Supplier<Ingredient> repairMaterialIn) {
+			this.name = nameIn;
+			this.maxDamageFactor = maxDamageFactor;
+			this.damageReductionAmountArray = damageReductionAmountIn;
+			this.enchantability = enchantabilityIn;
+			this.soundEvent = soundEventIn;
+			this.toughness = toughnessIn;
+			this.repairMaterial = new LazyValue<>(repairMaterialIn);
+		}
+
+		@Override
+		public int getDurability(EquipmentSlotType slotIn) {
+			return MAX_DAMAGE_ARRAY[slotIn.getIndex()] * this.maxDamageFactor;
+		}
+
+		@Override
+		public int getDamageReductionAmount(EquipmentSlotType slotIn) {
+			return this.damageReductionAmountArray[slotIn.getIndex()];
+		}
+
+		@Override
+		public int getEnchantability() {
+			return this.enchantability;
+		}
+
+		@Override
+		public SoundEvent getSoundEvent() {
+			return this.soundEvent;
+		}
+
+		@Override
+		public Ingredient getRepairMaterial() {
+			return this.repairMaterial.getValue();
+		}
+
+		@Override
+		public String getName() {
+			return this.name;
+		}
+
+		@Override
+		public float getToughness() {
+			return this.toughness;
+		}		
+	}
 }
