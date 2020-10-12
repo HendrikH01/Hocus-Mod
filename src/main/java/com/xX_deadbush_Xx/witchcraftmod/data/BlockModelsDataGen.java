@@ -90,7 +90,6 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cubeAll(ModBlocks.ONYX_ORE);
 		cubeAll(ModBlocks.SHALE_BRICKS);
 		cubeAll(ModBlocks.CHISELED_SHALE);
-
 	}
 	
 	private void cubeAll(RegistryObject<Block> r) {

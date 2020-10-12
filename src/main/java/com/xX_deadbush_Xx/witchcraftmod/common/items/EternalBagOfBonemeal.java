@@ -1,5 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
+import com.xX_deadbush_Xx.witchcraftmod.common.items.wands.WandItem;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
 import net.minecraft.entity.player.PlayerEntity;

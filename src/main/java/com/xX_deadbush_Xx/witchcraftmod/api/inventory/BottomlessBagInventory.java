@@ -35,12 +35,10 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
             ItemStackHelper.loadAllItems(nbt, list);
             this.currentStack = list.get(0);
             setAmount(nbt.getInt("totalAmount"));
-            System.out.println(this.getAmount() + " " + this.currentStack);
         }
     }
 
     public void saveData() {
-        System.out.println(this.getAmount() + " " + this.currentStack);
         CompoundNBT nbt = this.bagitem.getOrCreateTag();
         ItemStackHelper.saveAllItems(nbt, NonNullList.withSize(1, this.currentStack));
         nbt.putInt("totalAmount", this.getAmount());
@@ -51,7 +49,6 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
     	setAmount(stack.getCount());
         this.currentStack = stack;
         this.currentStack.setCount(1);
-        System.out.println(stack + " " + amount);
     }
     
     
@@ -59,11 +56,12 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
      * This method ADDS the stack to the slot! 
      * I wanted to save myself the 3 ATs needed to get around problems created by vanilla methods calling this all the time. 
      * To set the stack and amount of the slot use setCurrentStack()
+     * 
+     * I know, weird code but there is no better alternative
      */
     @Deprecated
     @Override
     public void setStackInSlot(int slot, @Nonnull ItemStack stack) { 	
-        System.out.println(this.getAmount() + " " + this.currentStack + " " + stack);
         this.currentStack = stack;
         this.currentStack.setCount(1);   
         setAmount(this.getAmount() + stack.getCount());
@@ -138,5 +136,13 @@ public class BottomlessBagInventory implements IItemHandlerModifiable {
 	public void setAmount(int count) {
 		this.amount[0] = count;
 		if(count == 0) this.currentStack = ItemStack.EMPTY;
+	}
+
+	public void increaseAmount(int i) {
+		this.amount[0] += i;
+		if(amount[0] <= 0) {
+			this.currentStack = ItemStack.EMPTY;
+			amount[0] = 0;
+		}
 	}
 }

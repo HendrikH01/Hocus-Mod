@@ -26,7 +26,8 @@ public class ModParticles {
     public static final RegistryObject<BasicParticleType> SMALL_FLAME = PARTICLES.register("small_flame", () -> new BasicParticleType(true));
     public static final RegistryObject<ScaledColoredParticleData> LIGHTNING = PARTICLES.register("lightning", () -> LightningParticle.getData(true, Color.WHITE.getRGB(), 1));
     public static final RegistryObject<ManawaveParticleData> MANAWAVE = PARTICLES.register("manawave", () -> ManawaveParticle.getData(true, Color.WHITE.getRGB(), 1, 0.15));
-	
+    public static final RegistryObject<ScaledColoredParticleData> WAVE_SHIMMER = PARTICLES.register("mana_shimmer", () -> ShimmerParticle.getData(true, Color.WHITE.getRGB(), 1));
+
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void registerFactories(ParticleFactoryRegisterEvent evt) {
@@ -34,5 +35,6 @@ public class ModParticles {
 		Minecraft.getInstance().particles.registerFactory(SHIMMER.get(), ShimmerParticle.Factory::new);
 		Minecraft.getInstance().particles.registerFactory(LIGHTNING.get(), LightningParticle.Factory::new);
 		Minecraft.getInstance().particles.registerFactory(MANAWAVE.get(), ManawaveParticle.Factory::new);
+		Minecraft.getInstance().particles.registerFactory(WAVE_SHIMMER.get(), WaveShimmerParticle.Factory::new);
 	}
 }

@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.inventory.ExtraItemSlot;
+import com.xX_deadbush_Xx.witchcraftmod.api.inventory.FilteredSlot;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ContainerHelper;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
@@ -36,8 +36,8 @@ public class CrystalRechargerContainer extends Container {
         this.tile = tile;
         this.canInteractWithCallable = IWorldPosCallable.of(tile.getWorld(), tile.getPos());
 
-        this.addSlot(new ExtraItemSlot(this.inventory, 0, 60, 26, 64, ItemStackHelper::isFuel));
-        this.addSlot(new ExtraItemSlot(this.inventory, 1, 99, 35, 1, (stack) -> stack.getItem() instanceof EnergyCrystal));
+        this.addSlot(new FilteredSlot(this.inventory, 0, 60, 26, 64, ItemStackHelper::isFuel));
+        this.addSlot(new FilteredSlot(this.inventory, 1, 99, 35, 1, (stack) -> stack.getItem() instanceof EnergyCrystal));
 
         for (int k = 0; k < 3; ++k) {
             for (int i1 = 0; i1 < 9; ++i1) {
@@ -63,45 +63,54 @@ public class CrystalRechargerContainer extends Container {
         return tile;
     }
 
-    @Override
+    /**
+     * Handle when the stack in slot {@code index} is shift-clicked. Normally this moves the stack between the player
+     * inventory and the other inventory(s).
+     */
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
-
-            if (index == 1) {
-                if (!this.mergeItemStack(itemstack1, 2, 38, true)) {
-                    return ItemStack.EMPTY;
-                }
-                slot.onSlotChange(itemstack1, ItemStack.EMPTY);
-            } else if (index != 0) {
-                if (ItemStackHelper.isFuel(itemstack1)) {
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-                        this.inventory.setStackInSlot(0, itemstack);
-                        return ItemStack.EMPTY;
-                    }
-                } else if (index < 39 && EnergyCrystal.isStackEnergyCrystal(itemstack1)) {
-                    if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
-                        return ItemStack.EMPTY;
-                    }
-                }
-            } else if (!this.mergeItemStack(itemstack1, 2, 38, false)) {
+       ItemStack itemstack = ItemStack.EMPTY;
+       Slot slot = this.inventorySlots.get(index);
+       if (slot != null && slot.getHasStack()) {
+          ItemStack itemstack1 = slot.getStack();
+          itemstack = itemstack1.copy();
+          if (index < 2) {
+             if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
                 return ItemStack.EMPTY;
-            }
-            if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
-            } else {
-                slot.onSlotChanged();
-            }
+             }
 
-            if (itemstack1.getCount() == itemstack.getCount()) {
+             slot.onSlotChange(itemstack1, itemstack);
+          } else {
+             if (itemstack1.getItem() instanceof EnergyCrystal) {
+                if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+                   return ItemStack.EMPTY;
+                }
+             } else if (ItemStackHelper.isFuel(itemstack1)) {
+                if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+                   return ItemStack.EMPTY;
+                }
+             } else if (index < 29) {
+                if (!this.mergeItemStack(itemstack1, 29, 38, false)) {
+                   return ItemStack.EMPTY;
+                }
+             } else if (index >= 29 && index < 38 && !this.mergeItemStack(itemstack1, 3, 29, false)) {
                 return ItemStack.EMPTY;
-            }
-        }
+             }
+          }
 
-        return itemstack;
+          if (itemstack1.isEmpty()) {
+             slot.putStack(ItemStack.EMPTY);
+          } else {
+             slot.onSlotChanged();
+          }
+
+          if (itemstack1.getCount() == itemstack.getCount()) {
+             return ItemStack.EMPTY;
+          }
+
+          slot.onTake(playerIn, itemstack1);
+       }
+
+       return itemstack;
     }
 
     @Override

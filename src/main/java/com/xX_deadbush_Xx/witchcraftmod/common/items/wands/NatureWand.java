@@ -1,4 +1,4 @@
-package com.xX_deadbush_Xx.witchcraftmod.common.items;
+package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;

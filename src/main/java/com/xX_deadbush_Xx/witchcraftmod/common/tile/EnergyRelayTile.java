@@ -64,16 +64,19 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
     }
     
     private TileEntity getTargetTile() {
-		return world.getTileEntity(targetPos.orElse(new BlockPos(0, -1, 0)));
+		return world.getTileEntity(targetPos.orElse(BlockPos.ZERO));
 	}
     
     public boolean attemptLink(BlockPos targetpos) {
     	if(targetpos.equals(pos)) return false;
     	if(!pos.withinDistance(targetpos, RANGE)) return false;
     	
-		TileEntity tile = world.getTileEntity(targetpos);
+		TileEntity targettile = world.getTileEntity(targetpos);
 		
-		if (tile != null) {
+		if (targettile != null) {
+			if(targettile instanceof EnergyRelayTile) {
+				if(((EnergyRelayTile)targettile).targetPos.orElse(BlockPos.ZERO).equals(pos)) return false;
+			}
 			this.targetPos = LazyOptional.of(() -> targetpos);
 			return true;
 		}
@@ -141,5 +144,9 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 
 	public boolean isLinked() {
 		return targetPos.isPresent();
+	}
+
+	public void unlink() {
+		this.targetPos.invalidate();
 	}
 }

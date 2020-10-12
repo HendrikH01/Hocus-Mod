@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod;
 
-import java.util.logging.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ModParticles;
@@ -14,19 +15,17 @@ import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod("witchcraftmod")
 @EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
 public class WitchcraftMod {
 	public static final String MOD_ID = "witchcraftmod";
-	public static final Logger LOGGER = Logger.getLogger(MOD_ID + ".logger");
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID + "_logger");
 
 	public WitchcraftMod() {
     	IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

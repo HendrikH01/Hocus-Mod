@@ -20,7 +20,6 @@ public class ModColorHandler {
 		
 		colors.register((state, light, pos, color) -> {
 			int power = state.get(RitualPedestal.POWER);
-			System.out.println(power);
 			GlowType type = power <= 1 ? GlowType.WHITE : state.get(RitualPedestal.GLOW_TYPE);
 			return type.getColor(power, 0x262629);
 		}, ModBlocks.RITUAL_PEDESTAL.get());

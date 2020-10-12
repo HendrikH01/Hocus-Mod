@@ -2,7 +2,6 @@ package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.BottomlessBagInventory;
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.BottomlessBagSlot;
-import com.xX_deadbush_Xx.witchcraftmod.common.items.BottomLessBagItem;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,8 +13,6 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.IntReferenceHolder;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.loading.FMLLoader;
 
 public class BottomLessBagContainer extends Container {
 
@@ -144,54 +141,56 @@ public class BottomLessBagContainer extends Container {
             int maxstacksize = bagStack.getMaxStackSize();
             PlayerInventory playerinventory = player.inventory;
             
+            //shift click
             if(clickType == ClickType.QUICK_MOVE) {
                 ItemStack extracted = bagInventory.extractItem(0, maxstacksize, false);
                 
                 if(!this.mergeItemStack(extracted, 1, this.inventorySlots.size(), true)) {
                     bagInventory.insertItem(0, extracted, false);
                 } else bagslot.onTake(player, extracted);
+            //regular click
             } else if (clickType == ClickType.PICKUP) {
             	if(areItemsAndTagsEqual(dragged, bagStack) || dragged.isEmpty() || bagEmpty) {
+            		//If stacks can merge
     				if (dragged.isEmpty()) {
+    					//pick up from bagslot
                         int amountToExtract = (int) (dragType == 0 ? Math.min(maxstacksize, bagInventory.getAmount()) : Math.ceil(Math.min((double)maxstacksize/2, (double)bagInventory.getAmount()/2))); //Calculating the amount to extract, if the player right click then dragType == 1 and its a right click otherwise a left click
                         ItemStack extracted = bagInventory.extractItem(0, amountToExtract, false);
     					bagslot.onTake(player, extracted);
     					player.inventory.setItemStack(extracted);
     				} else {
     					if(dragType == 1) {
-    						dragged.setCount(1);
     						player.inventory.getItemStack().shrink(1);
-    					} else 
+    						bagInventory.insertItem(0, new ItemStack(dragged.getItem(), 1), false);
+    					} else {
     						player.inventory.setItemStack(ItemStack.EMPTY);
-
-    					bagslot.getItemHandler().insertItem(0, dragged, false);
-
-    	
+							bagInventory.insertItem(0, dragged, false);
+    					}
     				}
-            	} else if(bagInventory.getAmount() <= bagStack.getMaxStackSize()){ //swap
+            	} else if(bagInventory.getAmount() <= bagStack.getMaxStackSize()) { 
+            		//swap stacks if possible
             		bagStack.setCount(bagInventory.getAmount());
 					bagslot.onTake(player, bagStack);
 					player.inventory.setItemStack(bagStack);
             		bagInventory.setCurrentStack(dragged, 0);
             	}
-                
+            //mouse wheel
             } else if (clickType == ClickType.CLONE && player.abilities.isCreativeMode && playerinventory.getItemStack().isEmpty()) {
                 if (!bagEmpty) {
                     bagStack.setCount(maxstacksize);
                     playerinventory.setItemStack(bagStack);
                  }
+            //Q
             } else if (clickType == ClickType.THROW && playerinventory.getItemStack().isEmpty()) {
                 if (bagslot != null && !bagEmpty && bagslot.canTakeStack(player)) {
                    ItemStack extracted = bagInventory.extractItem(0, dragType == 0 ? 1 : Math.min(this.bagInventory.getAmount(), bagStack.getMaxStackSize()), false);
                    bagslot.onTake(player, extracted);
                    player.dropItem(extracted, true);
                 }
-            } else if (clickType == ClickType.QUICK_CRAFT) {
-            	//TODO maybe
             }
-        }
-        else return super.slotClick(slotId, dragType, clickType, player);
-        if(player.world.isRemote) detectAndSendChanges();
+            
+            detectAndSendChanges();
+        } else return super.slotClick(slotId, dragType, clickType, player);
         return bagInventory.getShowStack();
     }
 

@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.RenderType;
 
 public class RenderHelper {
 	public static boolean isSolidOrTranslucent(RenderType layerToCheck) {
-	    return layerToCheck == RenderType.getSolid() || layerToCheck == RenderType.getTranslucent();
+		return layerToCheck == RenderType.getSolid() || layerToCheck == RenderType.getTranslucent();
 	}
 	
 	public static boolean isSolidOrCutout(RenderType layerToCheck) {

@@ -1,15 +1,11 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
-import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
 
 public abstract class WandItem extends Item {
 
@@ -22,7 +18,7 @@ public abstract class WandItem extends Item {
 	public abstract int getCooldown();
 
 	/**
-	 * Removes energy from player and sets the cooldown, returns true if successful
+	 * Removes energy from player and adds stat, returns true if successful
 	 * @param player
 	 * @param wand
 	 * @return success

@@ -43,8 +43,8 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.ADVANCED_ENERGY_CRYSTAL::get, "Advanced Energy Crystal");
 		addItem(ModItems.WEAK_ENERGY_CRYSTAL::get, "Weak Energy Crystal");
 		addItem(ModItems.LIGHTNING_ROD::get, "Lightning Rod");
-		addItem(ModItems.BOTTOMLESS_BAG::get, "Bottomless Bag");
 		addItem(ModItems.ETERNAL_BAG_OF_BONEMEAL::get, "Eternal Bag of Bonemeal");
+		addItem(ModItems.BOTTOMLESS_BAG::get, "Bottomless Bag");
 		addItem(ModItems.LINKING_WAND::get, "Linking Wand");
 		addItem(ModItems.GUIDE_BOOK::get, "Guide Book");
 		addItem(ModItems.EMPTY_PHIAL::get, "Empty Phial");
@@ -61,7 +61,7 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.MAGNET_TALISMAN::get, "Magnet Talisman");
 		addItem(ModItems.SUPREME_ENERGY_CRYSTAL::get, "Supreme Energy Crystal");
 		addItem(ModItems.PLANT_OIL::get, "Plant Oil");
-		addItem(ModItems.FIRE_WAND::get, "Fire Wand");
+		addItem(ModItems.FIRE_STAFF::get, "Fire Wand");
 		addItem(ModItems.WATER_WALKING_TALISMAN::get, "Water Walking Talisman");
 
 	}

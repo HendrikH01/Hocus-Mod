@@ -2,13 +2,15 @@ package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import com.google.common.base.Predicate;
 import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.LightningParticle;
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ModParticles;
+import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

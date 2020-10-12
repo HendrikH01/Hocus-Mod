@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.xX_deadbush_Xx.witchcraftmod.client.ModRenderTypes;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
 
 import net.minecraft.client.particle.IAnimatedSprite;
@@ -85,7 +86,7 @@ public int getBrightnessForRender(float partialTick) {
 
 @Override
 public IParticleRenderType getRenderType() {
-	return ModParticleRenderTypes.MANAWAVE_PARTICLE_TYPE;
+	return ModRenderTypes.MANAWAVE_PARTICLE_TYPE;
 }
 
 @Override
