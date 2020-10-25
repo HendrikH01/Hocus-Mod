@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.client.effect.particles;
 
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.ModRenderTypes;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
 

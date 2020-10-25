@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.api.ritual;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper.RitualPositionHolder;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.RitualHelper.RitualPositionHolder;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;

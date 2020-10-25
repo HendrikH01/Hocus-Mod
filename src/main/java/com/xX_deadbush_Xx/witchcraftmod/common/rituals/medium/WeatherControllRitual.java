@@ -11,7 +11,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;

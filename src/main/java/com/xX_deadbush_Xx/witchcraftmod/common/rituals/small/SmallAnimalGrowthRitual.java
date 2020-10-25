@@ -11,8 +11,8 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusPacketHandler;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusSParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Blocks;
@@ -66,7 +66,7 @@ public class SmallAnimalGrowthRitual extends SmallRitual implements IContinuousR
 		children.forEach(child -> {
 			if(Math.random() > 0.1) child.addGrowth(1);
 		});
-		WitchcraftPacketHandler.sendToNearby(this.world, pos, new WitchcraftParticlePacket(EffectType.GROWTH_RITUAL, pos.getX(), pos.getY(), pos.getZ(), 1));
+		HocusPacketHandler.sendToNearby(this.world, pos, new HocusSParticlePacket(EffectType.GROWTH_RITUAL, pos.getX(), pos.getY(), pos.getZ(), 1));
 	}
 
 	@Override

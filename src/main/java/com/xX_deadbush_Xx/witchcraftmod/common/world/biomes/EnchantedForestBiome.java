@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.world.biomes;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.BiomeHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.BiomeHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModFeatures;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.biomes.surface.ModSurfaces;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.gen.features.config.FlowerFeatureConfig;

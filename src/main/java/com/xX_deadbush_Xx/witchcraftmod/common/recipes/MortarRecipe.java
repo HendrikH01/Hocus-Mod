@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IMortarRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;

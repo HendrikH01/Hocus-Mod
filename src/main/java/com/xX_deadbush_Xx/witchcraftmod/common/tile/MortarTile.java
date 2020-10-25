@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
 import com.xX_deadbush_Xx.witchcraftmod.api.tile.BasicItemHolderTile;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MortarRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;

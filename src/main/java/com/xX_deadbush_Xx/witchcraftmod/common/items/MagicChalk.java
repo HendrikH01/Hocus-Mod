@@ -1,7 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
-import com.xX_deadbush_Xx.witchcraftmod.common.tile.MortarTile;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -11,7 +10,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;

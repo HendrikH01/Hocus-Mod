@@ -1,5 +1,9 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -9,10 +13,6 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.LogicalSide;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class EnergyCrystal extends Item {
 

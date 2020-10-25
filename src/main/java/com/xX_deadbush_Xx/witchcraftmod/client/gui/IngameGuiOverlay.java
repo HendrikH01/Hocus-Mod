@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.potion.ModPotions;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
@@ -112,7 +112,6 @@ public class IngameGuiOverlay extends AbstractGui {
            this.lastPlayerHealth = hearts;
            this.playerHealth = hearts;
            this.lastSystemTime = time;
-			System.out.println(flag + " " + lastPlayerHealth + " " + hearts);
         }
         
         this.playerHealth = hearts;

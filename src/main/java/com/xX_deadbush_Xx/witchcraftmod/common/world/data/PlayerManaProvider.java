@@ -6,19 +6,22 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.util.Direction;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class PlayerManaProvider implements ICapabilitySerializable<IntArrayNBT> {
-    private final LazyOptional<PlayerManaStorage> energy;
+public class PlayerManaProvider implements ICapabilitySerializable<INBT> {
+    private final LazyOptional<PlayerManaStorage> instance;
 
     public PlayerManaProvider() {
-        this.energy = LazyOptional.of(() -> new PlayerManaStorage());
+        this.instance = LazyOptional.of(() -> new PlayerManaStorage());
     }
     
+    @OnlyIn(Dist.CLIENT)
 	@SuppressWarnings("resource")
 	public static LazyOptional<PlayerManaStorage> getClientCapability() {
         return Optional.of(Minecraft.getInstance().player).map(p -> p.getCapability(PlayerManaStorage.getCap())).orElse(null);
@@ -34,18 +37,18 @@ public class PlayerManaProvider implements ICapabilitySerializable<IntArrayNBT> 
 	
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        return PlayerManaStorage.getCap().orEmpty(cap, this.energy);
+        return PlayerManaStorage.getCap().orEmpty(cap, this.instance);
 	}
 
 	@Override
-	public IntArrayNBT serializeNBT() {
-		return new IntArrayNBT(new int[] {this.energy.map(s -> (int)s.getEnergy()).orElse(0), this.energy.map(s -> (int)s.getMaxEnergy()).orElse(0)});
+	public INBT serializeNBT() {
+		PlayerManaStorage storage = this.instance.orElse(new PlayerManaStorage());
+		return PlayerManaStorage.getCap().writeNBT(storage, null);
 	}
 
 	@Override
-	public void deserializeNBT(IntArrayNBT nbt) {
-		PlayerManaStorage storage = this.energy.orElse(new PlayerManaStorage());
-		storage.setEnergy(nbt.get(0).getInt());
-		storage.setMaxEnergy(nbt.get(1).getInt());
+	public void deserializeNBT(INBT nbt) {
+		PlayerManaStorage storage = this.instance.orElse(new PlayerManaStorage());
+		PlayerManaStorage.getCap().readNBT(storage, null, nbt);
 	}
 }

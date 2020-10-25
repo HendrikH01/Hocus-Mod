@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.gui.guide_book.GuideBookScreen.Coords;
 
 import net.minecraft.client.Minecraft;

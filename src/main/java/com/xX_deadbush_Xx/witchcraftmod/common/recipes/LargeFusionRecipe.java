@@ -9,7 +9,7 @@ import javax.annotation.Nullable;
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.IFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;

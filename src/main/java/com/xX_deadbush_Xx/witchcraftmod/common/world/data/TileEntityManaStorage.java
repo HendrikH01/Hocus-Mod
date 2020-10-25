@@ -1,14 +1,14 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.world.data;
 
-import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
-import net.minecraftforge.common.util.LazyOptional;
 
 //mostly taken from net.minecraftforge.energy.EnergyStorage
 public class TileEntityManaStorage {
-
+	
+    @CapabilityInject(TileEntityManaStorage.class)
+    public static net.minecraftforge.common.capabilities.Capability<TileEntityManaStorage> CRYSTAL_ENERGY_CAP;
+    
 	protected double energy;
 	protected double maxenergy;
 	protected double maxinput;
@@ -65,22 +65,7 @@ public class TileEntityManaStorage {
 		this.energy = Math.min(amount, maxenergy);
 	}
 	
-	public static net.minecraftforge.common.capabilities.Capability<TileEntityManaStorage> getCap() {
-		return Capability.CRYSTAL_ENERGY_CAP;
-	}
-	
-	public static class Capability {
-		
-	    @CapabilityInject(TileEntityManaStorage.class)
-	    public static net.minecraftforge.common.capabilities.Capability<TileEntityManaStorage> CRYSTAL_ENERGY_CAP;
-
-	    public static LazyOptional<TileEntityManaStorage> getWorldPressure(final World world) {
-	        return world.getCapability(CRYSTAL_ENERGY_CAP, null);
-	    }
-	    
-	    public static net.minecraftforge.common.capabilities.Capability<TileEntityManaStorage> get() {
-	    	return CRYSTAL_ENERGY_CAP;
-	    }
-
+	public static Capability<TileEntityManaStorage> getCap() {
+		return CRYSTAL_ENERGY_CAP;
 	}
 }

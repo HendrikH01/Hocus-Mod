@@ -2,7 +2,6 @@ package com.xX_deadbush_Xx.witchcraftmod.common.tile;
 
 import javax.annotation.Nonnull;
 
-import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ManawaveParticle;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.EnergyRelayBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.TileEntityManaStorage;
@@ -27,7 +26,7 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 	public static final double CAPACITY = 20.0;
 	public final TileEntityManaStorage manastorage = new TileEntityManaStorage(CAPACITY, 20, 20, 0);
 	private LazyOptional<BlockPos> targetPos = LazyOptional.empty();
-	private int particleTick = 0; //only used on client
+	private int particleTick = 0; //For testing, will be moved to TESR
 	
     public EnergyRelayTile() {
         super(ModTileEntities.ENERGY_RELAY_TILE.get());
@@ -45,7 +44,7 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 			if(active) extractFromAttached();
 			TileEntity targetTile = getTargetTile();
 			if (targetTile != null) {
-				TileEntityManaStorage targetstorage = targetTile.getCapability(TileEntityManaStorage.Capability.CRYSTAL_ENERGY_CAP, null).orElse(null);
+				TileEntityManaStorage targetstorage = targetTile.getCapability(TileEntityManaStorage.getCap(), null).orElse(null);
 				if (targetstorage != null) {
 					double transferred = 0;
 					if(active) transferred = transferEnergyToTarget(targetstorage);
@@ -53,9 +52,7 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 				    	particleTick++;
 						BlockPos target = targetTile.getPos();
 						double yoffset = targetTile instanceof EnergyRelayTile ? 0.4 : 0.7;
-						world.addParticle(ManawaveParticle.getData(true, 0x91C1F2, particleTick, 0.05 + transferred/CAPACITY*0.15), 
-								pos.getX() + 0.5, pos.getY() + 0.35, pos.getZ() + 0.5, target.getX() + 0.5, target.getY() + yoffset, target.getZ() + 0.5);
-					}
+											}
 				} 
 			} else {
 				this.targetPos.invalidate();
@@ -117,7 +114,7 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 			BlockPos attachedpos = ((EnergyRelayBlock) block).getAttached(pos, state);
 			TileEntity tile = world.getTileEntity(attachedpos);
 			if (tile != null) {
-				LazyOptional<TileEntityManaStorage> other = tile.getCapability(TileEntityManaStorage.Capability.CRYSTAL_ENERGY_CAP, null);
+				LazyOptional<TileEntityManaStorage> other = tile.getCapability(TileEntityManaStorage.getCap(), null);
 				other.ifPresent((storage) -> {
 					double extracted = storage.extractEnergy(manastorage.getMaxEnergy() - manastorage.getEnergy(), false);
 					manastorage.receiveEnergy(extracted, false);

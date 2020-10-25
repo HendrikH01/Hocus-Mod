@@ -15,11 +15,11 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusPacketHandler;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusSParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.LargeFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.recipes.MediumFusionRecipe;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
@@ -118,7 +118,7 @@ public class LargeFusionRitual extends LargeRitual implements ICraftingRitual, I
 						BlockPos pos = tile.getPos();
 						for(RitualPedestalTile pedestal : getPedestals()) {
 							BlockPos pedestalpos = pedestal.getPos();
-							WitchcraftPacketHandler.sendToNearby(tile.getWorld(), pos, new WitchcraftParticlePacket(EffectType.PEDESTAL_DISAPPEAR, pedestalpos.getX() + 0.5, pedestalpos.getY() + 1.4, pedestalpos.getZ() + 0.5));
+							HocusPacketHandler.sendToNearby(tile.getWorld(), pos, new HocusSParticlePacket(EffectType.PEDESTAL_DISAPPEAR, pedestalpos.getX() + 0.5, pedestalpos.getY() + 1.4, pedestalpos.getZ() + 0.5));
 						}
 					} 
 				}, 10);
@@ -134,7 +134,7 @@ public class LargeFusionRitual extends LargeRitual implements ICraftingRitual, I
 						for(RitualPedestalTile pedestal : getPedestals()) {
 							pedestal.useForCrafting();
 						}
-						WitchcraftPacketHandler.sendToNearby(tile.getWorld(), pos, new WitchcraftParticlePacket(EffectType.RITUAL_ITEM_CREATE, pos.getX() + 0.5, pos.getY() + 1.4, pos.getZ() + 0.5));
+						HocusPacketHandler.sendToNearby(tile.getWorld(), pos, new HocusSParticlePacket(EffectType.RITUAL_ITEM_CREATE, pos.getX() + 0.5, pos.getY() + 1.4, pos.getZ() + 0.5));
 						tile.setItem(tile.lastRecipe.getRecipeOutput().copy());
 						tile.markDirty();
 						handler.stopEffect(true);

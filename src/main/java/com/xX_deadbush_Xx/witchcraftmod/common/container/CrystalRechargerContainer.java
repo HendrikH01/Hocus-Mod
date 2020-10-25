@@ -1,8 +1,8 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.container;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.inventory.FilteredSlot;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ContainerHelper;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ContainerHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.items.EnergyCrystal;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModContainers;

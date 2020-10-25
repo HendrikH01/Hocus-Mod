@@ -86,7 +86,7 @@ public int getBrightnessForRender(float partialTick) {
 
 @Override
 public IParticleRenderType getRenderType() {
-	return ModRenderTypes.MANAWAVE_PARTICLE_TYPE;
+	return ModRenderTypes.GLOWING_TRANSLUCENT_PARTICLE_TYPE;
 }
 
 @Override

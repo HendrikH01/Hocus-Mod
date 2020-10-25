@@ -10,7 +10,7 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.RitualTier;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.RitualRegistry;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 

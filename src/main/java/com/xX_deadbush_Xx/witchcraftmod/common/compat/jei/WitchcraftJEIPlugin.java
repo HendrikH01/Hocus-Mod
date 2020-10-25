@@ -1,7 +1,7 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.compat.jei;
 
 import com.xX_deadbush_Xx.witchcraftmod.api.crafting.recipes.ModRecipeTypes;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.categories.DryingRackCategory;
 import com.xX_deadbush_Xx.witchcraftmod.common.compat.jei.categories.SmallFusionCategory;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;

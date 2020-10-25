@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.xX_deadbush_Xx.witchcraftmod.WitchcraftMod;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.TotemPattern;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.CraftingHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.CraftingHelper;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.NonNullList;

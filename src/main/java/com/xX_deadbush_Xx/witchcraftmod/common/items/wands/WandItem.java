@@ -1,7 +1,9 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
+import com.xX_deadbush_Xx.witchcraftmod.client.renderers.wands.SpellRenderer;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaProvider;
 import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerManaStorage;
+import com.xX_deadbush_Xx.witchcraftmod.common.world.data.PlayerSpellCapability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -32,11 +34,21 @@ public abstract class WandItem extends Item {
 		else if (storage.getEnergy() > energyneeded) {
 			storage.removeEnergy(energyneeded);
 			player.getCooldownTracker().setCooldown(this, getCooldown());
-			
+					
 			//TODO: add stat
 			return true;
 		}
 		
 		return false;
+	}
+	
+	
+	/**
+	 * Override this method if the wand has a spell renderer. Otherwise particles should be used
+	 * 
+	 * @return SpellRenderer
+	 */
+	public SpellRenderer getSpellRenderer() {
+		return null;
 	}
 }

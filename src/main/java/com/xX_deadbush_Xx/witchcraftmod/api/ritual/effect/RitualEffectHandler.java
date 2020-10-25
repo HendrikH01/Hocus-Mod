@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;

@@ -2,7 +2,7 @@ package com.xX_deadbush_Xx.witchcraftmod.client.effect.effects;
 
 import java.util.Random;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler;
 
 import net.minecraft.particles.ParticleTypes;

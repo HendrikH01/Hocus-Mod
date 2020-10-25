@@ -39,8 +39,7 @@ public class EternalBagOfBonemeal extends WandItem {
 
 		for (int i = 0; i < GROW_RANGE; i++) {
 			for (int j = 0; j < GROW_RANGE; j++) {
-				BlockPos blockPos = new BlockPos(startingPos.getX() + i - (GROW_RANGE / 2), startingPos.getY(),
-						startingPos.getZ() + j - (GROW_RANGE / 2));
+				BlockPos blockPos = new BlockPos(startingPos.getX() + i - (GROW_RANGE / 2), startingPos.getY(), startingPos.getZ() + j - (GROW_RANGE / 2));
 				BlockState blockstate = worldIn.getBlockState(blockPos);
 
 				if (blockstate.getBlock() instanceof IGrowable) {

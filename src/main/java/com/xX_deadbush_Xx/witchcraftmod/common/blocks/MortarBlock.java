@@ -1,6 +1,6 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.blocks;
 
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ItemStackHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ItemStackHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.ModBlockStateProperties;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModItems;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModTileEntities;

@@ -10,8 +10,8 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.BasicEffect;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusPacketHandler;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusSParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.register.ModBlocks;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
@@ -54,8 +54,8 @@ public class BloodInfusionRitual extends MediumRitual implements IStaticRitual {
 					@Override
 					public void execute() {
 						BlockPos pos = tile.getPos();
-						WitchcraftPacketHandler.sendToNearby(tile.getWorld(), pos,
-								new WitchcraftParticlePacket(EffectType.PEDESTAL_DISAPPEAR, pos.getX() + 0.5,
+						HocusPacketHandler.sendToNearby(tile.getWorld(), pos,
+								new HocusSParticlePacket(EffectType.PEDESTAL_DISAPPEAR, pos.getX() + 0.5,
 										pos.getY() + 1.4, pos.getZ() + 0.5));
 
 						stopRitual(true);

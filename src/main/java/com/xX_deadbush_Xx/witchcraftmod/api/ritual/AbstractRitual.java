@@ -10,8 +10,8 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTa
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualTask;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.effect.RitualEffectHandler;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ListHelper;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ListHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;

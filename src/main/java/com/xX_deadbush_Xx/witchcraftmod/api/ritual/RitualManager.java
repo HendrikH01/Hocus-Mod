@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.AbstractRitual.Phase;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualTask;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.MiscUtil;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.MiscUtil;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.entity.player.PlayerEntity;

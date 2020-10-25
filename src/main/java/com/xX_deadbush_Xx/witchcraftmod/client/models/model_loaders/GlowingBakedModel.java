@@ -43,9 +43,7 @@ public class GlowingBakedModel implements IBakedModel {
         this.particle = particle;
         this.overrides = overrides;
         this.brightness = getBrightness(lightlevel);
-        
-        System.out.println("aaa " + this.models.size() + models + this.brightness);
-	}
+   	}
 
 	@Override
 	@Deprecated
@@ -108,7 +106,7 @@ public class GlowingBakedModel implements IBakedModel {
 	}
 	
     @Override
-    public boolean doesHandlePerspectives(){
+    public boolean doesHandlePerspectives() {
         return true;
     }
 

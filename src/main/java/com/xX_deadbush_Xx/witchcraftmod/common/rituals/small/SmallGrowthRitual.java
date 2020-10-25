@@ -9,11 +9,11 @@ import com.xX_deadbush_Xx.witchcraftmod.api.ritual.SmallRitual;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.activation.RitualActivationTaskHandler;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.witchcraftmod.api.ritual.config.RitualConfig;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.RitualHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.RitualHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
 import com.xX_deadbush_Xx.witchcraftmod.common.blocks.blockstate.GlowType;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusPacketHandler;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusSParticlePacket;
 import com.xX_deadbush_Xx.witchcraftmod.common.tile.RitualStoneTile;
 
 import net.minecraft.block.Block;
@@ -65,7 +65,7 @@ public class SmallGrowthRitual extends SmallRitual implements IContinuousRitual 
 			accelerateGrowth(postocheck);
 		}
 		
-		WitchcraftPacketHandler.sendToNearby(this.world, pos, new WitchcraftParticlePacket(EffectType.GROWTH_RITUAL, pos.getX(), pos.getY(), pos.getZ(), 1));
+		HocusPacketHandler.sendToNearby(this.world, pos, new HocusSParticlePacket(EffectType.GROWTH_RITUAL, pos.getX(), pos.getY(), pos.getZ(), 1));
 	}
 	
 	private void accelerateGrowth(BlockPos pos) {

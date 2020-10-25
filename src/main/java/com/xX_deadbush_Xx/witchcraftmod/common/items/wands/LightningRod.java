@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
-import com.xX_deadbush_Xx.witchcraftmod.api.util.helpers.ModMathHelper;
+import com.xX_deadbush_Xx.witchcraftmod.api.util.ModMathHelper;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.LightningParticle;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.ModParticles;
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.particles.data.ScaledColoredParticleData;
@@ -49,9 +49,9 @@ public class LightningRod extends WandItem {
 		List<LivingEntity> entities = new ArrayList<>();
 		Vec3d vec1 = pos.add(direction.scale(range/5));
 		AxisAlignedBB aabb1 = new AxisAlignedBB(vec1.add(range/5, range/5, range/5), vec1.subtract(range/5, range/5, range/5));
+		
 		Vec3d vec2 = pos.add(direction.scale(3*range/5));
 		AxisAlignedBB aabb2 = new AxisAlignedBB(vec2.add(2*range/5, 2*range/5, 2*range/5), vec2.subtract(2*range/5, 2*range/5, 2*range/5));
-		
 		Predicate<Entity> filter = entity -> {
 			return entity != null && entity.canBeCollidedWith() && entity.isAlive() && !entity.isSpectator() && entity instanceof LivingEntity && entity.getUniqueID() != player.getUniqueID();
 		};

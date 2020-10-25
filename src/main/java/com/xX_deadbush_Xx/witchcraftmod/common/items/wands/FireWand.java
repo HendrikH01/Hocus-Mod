@@ -1,8 +1,8 @@
 package com.xX_deadbush_Xx.witchcraftmod.common.items.wands;
 
 import com.xX_deadbush_Xx.witchcraftmod.client.effect.ClientParticleHandler.EffectType;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.WitchcraftPacketHandler;
-import com.xX_deadbush_Xx.witchcraftmod.common.network.packets.client.WitchcraftParticlePacket;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusPacketHandler;
+import com.xX_deadbush_Xx.witchcraftmod.common.network.HocusSParticlePacket;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -30,7 +30,7 @@ public class FireWand extends WandItem {
 		fireball.explosionPower = 2;
 		world.addEntity(fireball);
 		
-		if(!world.isRemote) WitchcraftPacketHandler.sendToNearby(world, player, new WitchcraftParticlePacket(EffectType.FIRE_WAND, pos.x + look.x, pos.y + 0.6, pos.z + look.z, (float)look.x, (float)look.y, (float)look.z));
+		if(!world.isRemote) HocusPacketHandler.sendToNearby(world, player, new HocusSParticlePacket(EffectType.FIRE_WAND, pos.x + look.x, pos.y + 0.6, pos.z + look.z, (float)look.x, (float)look.y, (float)look.z));
 		return ActionResult.resultSuccess(wand);
 	}
 
