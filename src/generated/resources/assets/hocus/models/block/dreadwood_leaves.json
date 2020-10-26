@@ -1,0 +1,6 @@
+{
+  "parent": "block/leaves",
+  "textures": {
+    "all": "hocus:blocks/dreadwood_leaves"
+  }
+}

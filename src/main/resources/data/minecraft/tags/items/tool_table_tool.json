@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "witchcraftmod:wood_saw",
-    "witchcraftmod:sacrifice_knife",
-    "witchcraftmod:sledge_hammer"
+    "hocus:wood_saw",
+    "hocus:sacrifice_knife",
+    "hocus:sledge_hammer"
   ]
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "hocus:items/dust_of_corruption"
+  }
+}

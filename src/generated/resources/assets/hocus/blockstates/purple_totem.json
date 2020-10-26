@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "hocus:block/purple_totem"
+    },
+    "facing=south": {
+      "model": "hocus:block/purple_totem",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hocus:block/purple_totem",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "hocus:block/purple_totem",
+      "y": 90
+    }
+  }
+}

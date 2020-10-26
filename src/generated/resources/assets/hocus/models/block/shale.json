@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "hocus:blocks/shale_side",
+    "end": "hocus:blocks/shale_top"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "hocus:block/tool_table"
+    },
+    "facing=south": {
+      "model": "hocus:block/tool_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "hocus:block/tool_table",
+      "y": 270
+    },
+    "facing=east": {
+      "model": "hocus:block/tool_table",
+      "y": 90
+    }
+  }
+}

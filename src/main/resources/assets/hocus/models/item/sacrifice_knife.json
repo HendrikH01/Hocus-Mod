@@ -1,0 +1,10 @@
+ {
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "hocus:items/sacrifice_knife"
+  },
+  "overrides": [
+  	{"predicate": {"hocus:bloody": 0.0}, "model": "hocus:item/sacrifice_knife1"}, 
+  	{"predicate": {"hocus:bloody": 1.0}, "model": "hocus:item/sacrifice_knife2"}
+  ]
+}

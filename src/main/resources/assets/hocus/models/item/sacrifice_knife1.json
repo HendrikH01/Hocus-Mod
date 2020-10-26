@@ -1,0 +1,6 @@
+{
+  "parent": "hocus:item/dagger",
+  "textures": {
+    "layer0": "hocus:items/sacrifice_knife"
+  }
+}

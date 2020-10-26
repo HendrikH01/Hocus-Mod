@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "hocus:blocks/dreadwood_sapling"
+  }
+}

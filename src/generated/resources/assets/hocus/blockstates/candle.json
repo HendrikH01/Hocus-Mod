@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "candlecount=1": {
+      "model": "hocus:block/one_candle"
+    },
+    "candlecount=2": {
+      "model": "hocus:block/two_candles"
+    },
+    "candlecount=3": {
+      "model": "hocus:block/three_candles"
+    }
+  }
+}

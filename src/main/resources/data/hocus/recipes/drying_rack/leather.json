@@ -1,0 +1,9 @@
+{
+  	"type": "hocus:drying_rack",
+  	"output": {
+		"item": "minecraft:leather"
+  	},
+  	"input": {
+    	"item": "minecraft:rotten_flesh"
+  	}
+}

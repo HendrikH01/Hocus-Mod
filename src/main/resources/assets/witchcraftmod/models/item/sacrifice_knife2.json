@@ -1,6 +1,0 @@
-{
-  "parent": "witchcraftmod:item/dagger",
-  "textures": {
-    "layer0": "witchcraftmod:items/bloody_sacrifice_knife"
-  }
-}

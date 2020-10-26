@@ -1,0 +1,10 @@
+{
+  	"type": "hocus:mortar",
+  	"output": {
+		"item": "hocus:vibrant_dust"
+  	},
+  	"ingredients": [{
+    	"item":"hocus:vibrant_crystal"
+  		}
+  	]
+}

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "oil_filllevel=0": {
+      "model": "hocus:block/stone_mortar"
+    },
+    "oil_filllevel=1": {
+      "model": "hocus:block/level_1_stone_mortar"
+    },
+    "oil_filllevel=2": {
+      "model": "hocus:block/level_2_stone_mortar"
+    },
+    "oil_filllevel=3": {
+      "model": "hocus:block/level_3_stone_mortar"
+    }
+  }
+}

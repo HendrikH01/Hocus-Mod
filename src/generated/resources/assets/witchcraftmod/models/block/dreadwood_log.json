@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_column",
-  "textures": {
-    "side": "witchcraftmod:blocks/dreadwood_log0",
-    "end": "witchcraftmod:blocks/dreadwood_log_top"
-  }
-}

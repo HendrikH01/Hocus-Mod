@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=upper": {
+      "model": "hocus:block/swirly_plant_top"
+    },
+    "half=lower": {
+      "model": "hocus:block/swirly_plant_bottom"
+    }
+  }
+}

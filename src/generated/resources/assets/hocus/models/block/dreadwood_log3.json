@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "side": "hocus:blocks/dreadwood_log3",
+    "end": "hocus:blocks/dreadwood_log_top"
+  }
+}

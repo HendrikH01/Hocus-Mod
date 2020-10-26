@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "hocus:block/fire_bowl_unlit"
+    },
+    "lit=true": {
+      "model": "hocus:block/fire_bowl_lit"
+    }
+  }
+}

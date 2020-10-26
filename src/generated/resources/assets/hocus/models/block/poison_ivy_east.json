@@ -1,0 +1,30 @@
+{
+  "ambientocclusion": false,
+  "textures": {
+    "texture": "hocus:blocks/poison_ivy",
+    "particle": "hocus:blocks/poison_ivy"
+  },
+  "elements": [
+    {
+      "from": [
+        15.5,
+        0,
+        0
+      ],
+      "to": [
+        15.5,
+        16,
+        16
+      ],
+      "shade": false,
+      "faces": {
+        "west": {
+          "texture": "#texture"
+        },
+        "east": {
+          "texture": "#texture"
+        }
+      }
+    }
+  ]
+}
