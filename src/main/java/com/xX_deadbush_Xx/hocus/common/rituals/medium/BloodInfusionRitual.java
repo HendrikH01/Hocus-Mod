@@ -3,7 +3,7 @@ package com.xX_deadbush_Xx.hocus.common.rituals.medium;
 import com.xX_deadbush_Xx.hocus.api.ritual.IStaticRitual;
 import com.xX_deadbush_Xx.hocus.api.ritual.MediumRitual;
 import com.xX_deadbush_Xx.hocus.api.ritual.activation.RitualActivationTaskHandler;
-import com.xX_deadbush_Xx.hocus.api.ritual.activation.SacrificeTask;
+import com.xX_deadbush_Xx.hocus.api.ritual.activation.KillMobTask;
 import com.xX_deadbush_Xx.hocus.api.ritual.config.ConfigType;
 import com.xX_deadbush_Xx.hocus.api.ritual.config.RitualConfig;
 import com.xX_deadbush_Xx.hocus.api.ritual.effect.BasicEffect;
@@ -81,7 +81,7 @@ public class BloodInfusionRitual extends MediumRitual implements IStaticRitual {
 				System.out.println("ACTIVATION ENDED! " + kills + " KILLS!");
 			}
 			
-			class InfusionSacrificeTask extends SacrificeTask {
+			class InfusionSacrificeTask extends KillMobTask {
 
 				public InfusionSacrificeTask() {
 					super(72000, false);

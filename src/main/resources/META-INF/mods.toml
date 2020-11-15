@@ -18,7 +18,7 @@ modId="hocus" #mandatory
 
 version="${file.jarVersion}" #mandatory
 
-displayName="Witchcraft" #mandatory
+displayName="Hocus" #mandatory
 
 updateJSONURL="http://myurl.me/" #optional
 

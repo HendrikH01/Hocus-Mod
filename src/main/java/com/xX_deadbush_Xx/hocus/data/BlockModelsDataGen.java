@@ -26,18 +26,32 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		totem(ModBlocks.RED_TOTEM);
 		totem(ModBlocks.GREEN_TOTEM);
 		totem(ModBlocks.PURPLE_TOTEM);
+		
 		leaves(ModBlocks.DREADWOOD_LEAVES);
+		
+		slabAndStairs(ModBlocks.SHALE_BRICKS, ModBlocks.SHALE_BRICKS_STAIRS, ModBlocks.SHALE_BRICKS_SLAB);
+		slabAndStairs(ModBlocks.POLISHED_WOOD, ModBlocks.POLISHED_WOOD_STAIRS, ModBlocks.POLISHED_WOOD_SLAB);
+		slabAndStairs(ModBlocks.DREADWOOD_PLANKS, ModBlocks.DREADWOOD_STAIRS, ModBlocks.DREADWOOD_SLAB);		
+		
+		ResourceLocation brickTex = getTextureRL(getBlockName(ModBlocks.SHALE_BRICKS));
+		wallSide(getBlockName(ModBlocks.SHALE_BRICKS_WALL), brickTex);
+		wallPost(getBlockName(ModBlocks.SHALE_BRICKS_WALL), brickTex);
+		
+		ResourceLocation woodTex = getTextureRL(getBlockName(ModBlocks.DREADWOOD_PLANKS));
+		stairs(getBlockName(ModBlocks.DREADWOOD_STAIRS), woodTex, woodTex, woodTex);
+		slab(getBlockName(ModBlocks.DREADWOOD_SLAB), woodTex, woodTex, woodTex);
+		
 		cross(getBlockName(ModBlocks.ADONIS), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.ADONIS)));
 		cross(getBlockName(ModBlocks.BELLADONNA), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.BELLADONNA)));
 		cross(getBlockName(ModBlocks.DREADWOOD_SAPLING), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.DREADWOOD_SAPLING)));
-		cross(getBlockName(ModBlocks.HELLSHROOM), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.HELLSHROOM)));
+		cross(getBlockName(ModBlocks.FUNKY_MUSHROOM), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.FUNKY_MUSHROOM)));
 		cross(getBlockName(ModBlocks.CAVE_FLOWER), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.CAVE_FLOWER)));
 
 		cross(getBlockName(ModBlocks.SWIRLY_PLANT) + "_top", new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.SWIRLY_PLANT) + "_top"));
 		cross(getBlockName(ModBlocks.SWIRLY_PLANT) + "_bottom", new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.SWIRLY_PLANT) + "_bottom"));
 
-		String hellshroomblockname = getBlockName(ModBlocks.HELLSHROOM_BLOCK);
-		String hellshroomstemname = getBlockName(ModBlocks.HELLSHROOM_STEM);
+		String hellshroomblockname = getBlockName(ModBlocks.FUNKY_MUSHROOM_BLOCK);
+		String hellshroomstemname = getBlockName(ModBlocks.FUNKY_MUSHROOM_STEM);
 		cubeFace(hellshroomblockname, getTextureRL(hellshroomblockname));
 		cubeFace(hellshroomstemname, getTextureRL(hellshroomstemname));
 		cubeFace(hellshroomblockname + "_inside", getTextureRL(hellshroomblockname + "_inside"));
@@ -74,21 +88,26 @@ public class BlockModelsDataGen extends BlockModelProvider {
 			.element().shade(false).from(0, 0.5f, 0).to(16, 0.5f, 16)
 			.face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
 			.face(Direction.DOWN).texture("#texture").uvs(0, 0, 16, 16).end().end();
+    	
+    	getBuilder(getBlockName(ModBlocks.SHIMMER_BLOCK));
 	}
 	
 	private void registerCubeAll() {
 		cubeAll(ModBlocks.VIBRANT_BLOCK);
 		cubeAll(ModBlocks.VIBRANT_CRYSTAL_ORE);
-		cubeAll(ModBlocks.HARDENED_NETHERRACK);
 		cubeAll(ModBlocks.DREADWOOD_PLANKS);
 		cubeAll(ModBlocks.POLISHED_WOOD);
-		cubeAll(getBlockName(ModBlocks.HELLSHROOM_BLOCK) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_BLOCK)));
-		cubeAll(getBlockName(ModBlocks.HELLSHROOM_STEM) + "_inventory", getTextureRL(getBlockName(ModBlocks.HELLSHROOM_STEM)));
+		cubeAll(getBlockName(ModBlocks.FUNKY_MUSHROOM_BLOCK) + "_inventory", getTextureRL(getBlockName(ModBlocks.FUNKY_MUSHROOM_BLOCK)));
+		cubeAll(getBlockName(ModBlocks.FUNKY_MUSHROOM_STEM) + "_inventory", getTextureRL(getBlockName(ModBlocks.FUNKY_MUSHROOM_STEM)));
 		cubeAll(ModBlocks.CRYSTAL_RECHARGER);
 		cubeAll(ModBlocks.CREATIVE_MANA_SOURCE);
 		cubeAll(ModBlocks.ONYX_ORE);
 		cubeAll(ModBlocks.SHALE_BRICKS);
 		cubeAll(ModBlocks.CHISELED_SHALE);
+		cubeAll(ModBlocks.ONYX_CRYSTAL_BLOCK);
+		cubeAll(ModBlocks.MUD);
+		cubeAll(ModBlocks.MOSSY_SHALE_BRICKS);
+
 	}
 	
 	private void cubeAll(RegistryObject<Block> r) {
@@ -102,6 +121,11 @@ public class BlockModelsDataGen extends BlockModelProvider {
         		.texture("all", "blocks/" + name);
     }
     
+    private void slabAndStairs(RegistryObject<Block> base, RegistryObject<Block> stair, RegistryObject<Block> slab) {
+		ResourceLocation brickTex = getTextureRL(getBlockName(base));
+		stairs(getBlockName(stair), brickTex, brickTex, brickTex);
+		slab(getBlockName(slab), brickTex, brickTex, brickTex);
+    }
 
     private void totem(RegistryObject<Block> r) {
 		String name = getBlockName(r);

@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "hocus:block/dreadwood_sapling",
   "textures": {
     "layer0": "hocus:blocks/dreadwood_sapling"
   }

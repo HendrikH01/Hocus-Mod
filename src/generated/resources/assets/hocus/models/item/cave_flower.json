@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "hocus:block/cave_flower",
   "textures": {
     "layer0": "hocus:blocks/cave_flower"
   }

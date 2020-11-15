@@ -1,6 +1,6 @@
 {
-  "block.hocus.adonis": "Adonis",
-  "block.hocus.belladonna": "Belladonna",
+  "block.hocus.adonis": "Adonis Seed Pod",
+  "block.hocus.belladonna": "Belladonna Berry",
   "block.hocus.candle": "Candle",
   "block.hocus.cave_flower": "Cave Flower",
   "block.hocus.chiseled_shale": "Chiseled Shale",
@@ -13,7 +13,6 @@
   "block.hocus.energy_relay": "Energy Relay",
   "block.hocus.fire_bowl": "Fire Bowl",
   "block.hocus.green_totem": "Green Totem",
-  "block.hocus.hardened_netherrack": "Hardened Netherrack",
   "block.hocus.hellshroom": "Hellshroom",
   "block.hocus.hellshroom_block": "Hellshroom Block",
   "block.hocus.hellshroom_stem": "Hellshroom Stem",
@@ -33,9 +32,12 @@
   "block.hocus.vibrant_block": "Vibrant Block",
   "block.hocus.vibrant_crystal_ore": "Vibrant Crystal Ore",
   "effect.hocus.belladonna_poison": "Belladonna Poison",
-  "item.hocus.adonis_seed_pod": "Adonis Seed Pod",
+  "effect.hocus.curse_of_the_fallen_angel": "Curse of the Fallen Angel",
+  "hocus.options.hidden": "Hidden",
+  "hocus.options.manabar_mode": "Manabar Mode",
+  "hocus.options.no_number": "Numbers Hidden",
+  "hocus.options.shown": "Shown",
   "item.hocus.advanced_energy_crystal": "Advanced Energy Crystal",
-  "item.hocus.belladonna_berry": "Belladonna Berry",
   "item.hocus.blood_sample": "Blood Phial",
   "item.hocus.bottomless_bag": "Bottomless Bag",
   "item.hocus.dreadwood_stick": "Dreadwood Stick",
@@ -69,6 +71,9 @@
   "item.hocus.witch_hat": "Witch Hat",
   "item.hocus.wood_saw": "Wood Saw",
   "item.minecraft.lingering_potion.effect.belladonna_poison_potion": "Lingering Belladonna Poison Potion",
+  "item.minecraft.lingering_potion.effect.curse_of_the_fallen_angel": "Lingering Curse of the Fallen Angel Potion",
   "item.minecraft.potion.effect.belladonna_poison_potion": "Belladonna Poison Potion",
-  "item.minecraft.splash_potion.effect.belladonna_poison_potion": "Splash Belladonna Poison Potion"
+  "item.minecraft.potion.effect.curse_of_the_fallen_angel": "Curse of the Fallen Angel Potion",
+  "item.minecraft.splash_potion.effect.belladonna_poison_potion": "Splash Belladonna Poison Potion",
+  "item.minecraft.splash_potion.effect.curse_of_the_fallen_angel": "Splash Curse of the Fallen Angel Potion"
 }

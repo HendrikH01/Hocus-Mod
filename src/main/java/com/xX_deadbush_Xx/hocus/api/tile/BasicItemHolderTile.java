@@ -73,8 +73,11 @@ public abstract class BasicItemHolderTile extends TileEntity {
 	
 	@Override
 	public void markDirty() {
-		this.world.markBlockRangeForRenderUpdate(this.pos, this.getBlockState(), this.getBlockState());
-		this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		if(this.world != null) { //prevents crash on structure generation
+			this.world.markBlockRangeForRenderUpdate(this.pos, this.getBlockState(), this.getBlockState());
+			this.world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+		}
+		
 		super.markDirty();
 	}
 	

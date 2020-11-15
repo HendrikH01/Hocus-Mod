@@ -9,6 +9,8 @@ import com.xX_deadbush_Xx.hocus.common.register.ModBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
+import net.minecraft.world.FoliageColors;
+import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,7 +32,9 @@ public class ModColorHandler {
 			return type.getColor(power, 0x262629);
 		}, ModBlocks.RITUAL_STONE.get());
 		
-		colors.register((state, light, pos, color) ->  0x3C8455, ModBlocks.DREADWOOD_LEAVES.get());
+		colors.register((state, light, pos, color) ->  {
+	         return 0x22721D;
+		}, ModBlocks.DREADWOOD_LEAVES.get());
 	}
 	
 	public static void registerItems() {

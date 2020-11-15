@@ -1,16 +1,15 @@
 package com.xX_deadbush_Xx.hocus.common.items.wands;
 
+import com.xX_deadbush_Xx.hocus.api.spell.SpellCast;
 import com.xX_deadbush_Xx.hocus.common.items.IManaTickingItem;
 import com.xX_deadbush_Xx.hocus.common.world.data.PlayerManaProvider;
-import com.xX_deadbush_Xx.hocus.common.world.data.PlayerManaStorage;
 import com.xX_deadbush_Xx.hocus.common.world.data.PlayerSpellCapability;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraftforge.fml.LogicalSide;
 
-public abstract class ContinuousWandItem extends WandItem implements IManaTickingItem {
+public abstract class ContinuousWandItem<S extends SpellCast> extends WandItem<S> implements IManaTickingItem {
 
 	public ContinuousWandItem(Properties properties) {
 		super(properties);
@@ -18,6 +17,10 @@ public abstract class ContinuousWandItem extends WandItem implements IManaTickin
 	
 	@Override
 	public int tick(ItemStack stack, PlayerEntity player, LogicalSide side) {
+		SpellCast spell = PlayerSpellCapability.getSpellCap(player).getSpell();
+		if(spell != null || !getSpellClass().isInstance(spell))
+			return 0;
+		
 		if(!canUseWand(stack, player, side)) {
 			stopUse(stack, player);
 			return 0;
@@ -28,16 +31,15 @@ public abstract class ContinuousWandItem extends WandItem implements IManaTickin
 	@Override
 	protected boolean attemptWandUse(PlayerEntity player, ItemStack wand) {
 		if(super.attemptWandUse(player, wand)) {
-			return PlayerManaProvider.getPlayerCapability(player).orElse(new PlayerManaStorage()).getEnergy() > this.getManaCostPerTick();
+			return PlayerManaProvider.getPlayerCapability(player).getEnergy() > this.getManaCostPerTick();
 		} else return false;
 	}
 		
 	protected abstract boolean canUseWand(ItemStack stack, PlayerEntity player, LogicalSide side);
 
+	protected abstract Class<S> getSpellClass();
+	
 	protected void stopUse(ItemStack wand, PlayerEntity player) {
-		CompoundNBT tag = wand.getTag();
-		tag.remove("progress");
-		tag.remove("target");
 		PlayerSpellCapability.getSpellCap(player).stopSpell();
 	}
 }

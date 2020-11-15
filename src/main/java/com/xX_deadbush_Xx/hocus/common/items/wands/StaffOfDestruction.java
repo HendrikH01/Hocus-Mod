@@ -4,10 +4,9 @@ import javax.annotation.Nullable;
 
 import com.xX_deadbush_Xx.hocus.api.util.ModMathHelper;
 import com.xX_deadbush_Xx.hocus.api.util.ModNBTUtil;
-import com.xX_deadbush_Xx.hocus.client.renderers.wands.ManawaveSpellRenderer;
-import com.xX_deadbush_Xx.hocus.client.renderers.wands.SpellRenderer;
 import com.xX_deadbush_Xx.hocus.common.network.HocusPacketHandler;
 import com.xX_deadbush_Xx.hocus.common.network.HocusSBlockBreakPacket;
+import com.xX_deadbush_Xx.hocus.common.spell.DestructionSpell;
 import com.xX_deadbush_Xx.hocus.common.world.data.PlayerSpellCapability;
 
 import net.minecraft.block.Block;
@@ -15,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -33,7 +33,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.LogicalSide;
 
-public class StaffOfDestruction extends ContinuousWandItem {
+public class StaffOfDestruction extends ContinuousWandItem<DestructionSpell> {
 
 	private static final int RANGE_SQUARED = 16 * 16;
 
@@ -43,7 +43,6 @@ public class StaffOfDestruction extends ContinuousWandItem {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-
 		ItemStack wand = player.getHeldItem(hand);
 		CompoundNBT nbt = wand.getOrCreateTag();
 
@@ -83,7 +82,7 @@ public class StaffOfDestruction extends ContinuousWandItem {
 		if (target.distanceSq(player.getPosition()) > RANGE_SQUARED)
 			return ActionResult.resultPass(wand);
 		if (this.attemptWandUse(player, wand)) {
-			PlayerSpellCapability.getSpellCap(player).setActiveWand(wand, target.getX(), target.getY(), target.getZ());
+			PlayerSpellCapability.getSpellCap(player).setActiveWand(player, wand, target.getX(), target.getY(), target.getZ());
 			nbt.putFloat("progress", 0.0F);
 		}
 
@@ -159,8 +158,8 @@ public class StaffOfDestruction extends ContinuousWandItem {
 				return false;
 			
 			PlayerSpellCapability cap = PlayerSpellCapability.getSpellCap(player);
-			cap.args = new int[] {target.getX(), target.getY(), target.getZ()};
-			cap.sendToClient(player, world);
+			cap.getSpell().args = new int[] {target.getX(), target.getY(), target.getZ()};
+			PlayerSpellCapability.sendToClient((ServerPlayerEntity)player, world);
 			
 			destroyAndUpdateClient(world, target, player, false);
 			return true;
@@ -223,8 +222,8 @@ public class StaffOfDestruction extends ContinuousWandItem {
 	}
 
 	@Override
-	public SpellRenderer getSpellRenderer() {
-		return ManawaveSpellRenderer.INSTANCE;
+	public DestructionSpell getSpell(PlayerEntity caster, ItemStack wand, int... args) {
+		return new DestructionSpell(caster, wand, args);
 	}
 
 	@Override
@@ -235,5 +234,10 @@ public class StaffOfDestruction extends ContinuousWandItem {
 	@Override
 	public int getManaCostPerTick() {
 		return 3;
+	}
+
+	@Override
+	protected Class<DestructionSpell> getSpellClass() {
+		return DestructionSpell.class;
 	}
 }

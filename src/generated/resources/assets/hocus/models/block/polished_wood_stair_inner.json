@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "side": "hocus:blocks/polished_wood",
+    "bottom": "hocus:blocks/polished_wood",
+    "top": "hocus:blocks/polished_wood"
+  }
+}

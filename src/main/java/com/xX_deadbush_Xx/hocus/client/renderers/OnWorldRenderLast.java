@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(modid = Hocus.MOD_ID, bus=Bus.FORGE)
 public class OnWorldRenderLast {
+	
 	@SuppressWarnings("resource")
 	@SubscribeEvent
 	public static void onHighlightBlock(RenderWorldLastEvent event) {

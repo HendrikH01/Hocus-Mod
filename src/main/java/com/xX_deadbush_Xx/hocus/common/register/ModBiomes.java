@@ -8,10 +8,12 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeDictionary.Type;
 import net.minecraftforge.common.BiomeManager;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModBiomes {
+	
     public static final DeferredRegister<Biome> BIOMES = new DeferredRegister<>(ForgeRegistries.BIOMES, Hocus.MOD_ID);
 
     public static final RegistryObject<Biome> ENCHANTED_FOREST = BIOMES.register("enchanted_forest", EnchantedForestBiome::new);
@@ -21,10 +23,7 @@ public class ModBiomes {
     }
 
     private static void registerBiome(Biome biome, Type... types) {
-
-        BiomeManager.addBiome(BiomeManager.BiomeType.COOL, new BiomeManager.BiomeEntry(biome, 10)); // <---- weight=Chance das dass Biom spawnt
-        BiomeDictionary.addTypes(biome, types);
+        BiomeManager.addBiome(BiomeManager.BiomeType.WARM, new BiomeManager.BiomeEntry(biome, 30));
         BiomeManager.addSpawnBiome(biome);
-        System.out.println("registered: " + biome.getRegistryName());
     }
 }

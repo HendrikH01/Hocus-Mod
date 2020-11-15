@@ -1,5 +1,5 @@
 {
-  "parent": "item/generated",
+  "parent": "hocus:block/hellshroom",
   "textures": {
     "layer0": "hocus:blocks/hellshroom"
   }

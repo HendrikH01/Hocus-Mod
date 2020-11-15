@@ -2,7 +2,6 @@ package com.xX_deadbush_Xx.hocus.client.renderers.tileEntities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.xX_deadbush_Xx.hocus.common.blocks.DryingRackBlock;
-import com.xX_deadbush_Xx.hocus.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.hocus.common.tile.DryingRackTile;
 
 import net.minecraft.client.Minecraft;
@@ -17,7 +16,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
@@ -46,9 +44,4 @@ public class DryingRackRenderer extends TileEntityRenderer<DryingRackTile>{
 	        matrixStackIn.pop();
 	    }
 	}
-	
-	public static void register() {
-		ClientRegistry.bindTileEntityRenderer(ModTileEntities.DRYING_RACK.get(), DryingRackRenderer::new);
-	}
-
 }

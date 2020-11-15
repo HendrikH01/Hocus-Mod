@@ -4,7 +4,7 @@ import java.util.Random;
 
 import com.xX_deadbush_Xx.hocus.common.register.ModBlocks;
 import com.xX_deadbush_Xx.hocus.common.register.ModFeatures;
-import com.xX_deadbush_Xx.hocus.common.world.gen.features.FeatureConfigs;
+import com.xX_deadbush_Xx.hocus.common.world.gen.features.config.ModFeatureConfigs;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -30,8 +30,8 @@ public class ModMushroomBlock extends MushroomBlock implements IGrowable {
 		worldIn.removeBlock(blockpos, false);
 	    ConfiguredFeature<BigMushroomFeatureConfig, ?> configuredfeature;
 	    
-	    if (this == ModBlocks.HELLSHROOM.get()) {
-	    	configuredfeature = ModFeatures.HUGE_HELLSHROOM.withConfiguration(FeatureConfigs.BIG_HELLSHROOM);
+	    if (this == ModBlocks.FUNKY_MUSHROOM.get()) {
+	    	configuredfeature = ModFeatures.BIG_HELLSHROOM.get().withConfiguration(ModFeatureConfigs.HUGE_FUNKY_MUSHROOM);
 	    } else {
     		worldIn.setBlockState(blockpos, blockstate, 3);
     		return false;
@@ -56,16 +56,4 @@ public class ModMushroomBlock extends MushroomBlock implements IGrowable {
 	public void grow(ServerWorld worldIn, Random rand, BlockPos blockpos, BlockState blockstate) {
 		this.growHugeMushroom(worldIn, blockpos, blockstate, rand);
 	}
-	
-	@Override
-    public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-	   	BlockPos blockpos = pos.down();
-	   	BlockState blockstate = worldIn.getBlockState(blockpos);
-	   	Block block = blockstate.getBlock();
-       	if (block != Blocks.NETHERRACK && block != ModBlocks.HARDENED_NETHERRACK.get()) {
-    	   	return worldIn.getLightSubtracted(pos, 0) < 13 && blockstate.canSustainPlant(worldIn, blockpos, net.minecraft.util.Direction.UP, this);
-       	} else {
-       		return true;
-       	}
-    }
 }

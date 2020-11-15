@@ -36,7 +36,7 @@ public class PlayerSpellProvider implements ICapabilitySerializable<INBT> {
 		PlayerSpellCapability storage = this.instance.orElse(new PlayerSpellCapability());
 
 		if(player.getHeldItemMainhand().getItem() instanceof WandItem) {
-			storage.setActiveWand(player.getHeldItemMainhand());
+			storage.setActiveWand(player, player.getHeldItemMainhand());
 		}
 		
 		PlayerSpellCapability.getCap().readNBT(storage, null, nbt);

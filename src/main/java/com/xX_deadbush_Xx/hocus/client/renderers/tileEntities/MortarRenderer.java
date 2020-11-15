@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.xX_deadbush_Xx.hocus.common.register.ModItems;
-import com.xX_deadbush_Xx.hocus.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.hocus.common.tile.MortarTile;
 
 import net.minecraft.client.Minecraft;
@@ -20,7 +19,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
@@ -52,10 +50,6 @@ public class MortarRenderer extends TileEntityRenderer<MortarTile>{
 	        itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, true, matrixStackIn, bufferIn, combinedLightIn, combinedOverlayIn, model);
 	        matrixStackIn.pop(); 
 		}
-	}
-	
-	public static void register() {
-		ClientRegistry.bindTileEntityRenderer(ModTileEntities.MORTAR_TILE.get(), MortarRenderer::new);
 	}
 	
 	private void setPos(MatrixStack matrixstack, ItemStack itemstack) {

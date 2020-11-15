@@ -26,7 +26,7 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 	public static final double CAPACITY = 20.0;
 	public final TileEntityManaStorage manastorage = new TileEntityManaStorage(CAPACITY, 20, 20, 0);
 	private LazyOptional<BlockPos> targetPos = LazyOptional.empty();
-	private int particleTick = 0; //For testing, will be moved to TESR
+	public int ticks = 0;
 	
     public EnergyRelayTile() {
         super(ModTileEntities.ENERGY_RELAY_TILE.get());
@@ -48,19 +48,16 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
 				if (targetstorage != null) {
 					double transferred = 0;
 					if(active) transferred = transferEnergyToTarget(targetstorage);
-					if (world.isRemote) {
-				    	particleTick++;
-						BlockPos target = targetTile.getPos();
-						double yoffset = targetTile instanceof EnergyRelayTile ? 0.4 : 0.7;
-											}
 				} 
 			} else {
 				this.targetPos.invalidate();
 			}
 		}
+ 		
+ 		this.ticks++;
     }
     
-    private TileEntity getTargetTile() {
+    public TileEntity getTargetTile() {
 		return world.getTileEntity(targetPos.orElse(BlockPos.ZERO));
 	}
     
@@ -126,6 +123,8 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
     @Override
     public void read(CompoundNBT compound) {
         super.read(compound);
+        this.ticks = compound.getInt("ticks");
+        
         if(compound.contains("mana"))TileEntityManaStorage.getCap().readNBT(manastorage, null, compound.get("mana"));
         if(!compound.contains("pos")) return;
         targetPos = LazyOptional.of(() -> NBTUtil.readBlockPos(compound.getCompound("pos")));
@@ -134,6 +133,8 @@ public class EnergyRelayTile extends TileEntity implements ITickableTileEntity {
     @Override
     public CompoundNBT write(CompoundNBT compound) {
         super.write(compound);
+        compound.putInt("ticks", this.ticks);
+        
         compound.put("mana", TileEntityManaStorage.getCap().writeNBT(manastorage, null));
         targetPos.ifPresent(pos -> compound.put("pos", NBTUtil.writeBlockPos(pos)));
         return compound;

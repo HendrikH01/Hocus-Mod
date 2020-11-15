@@ -23,10 +23,8 @@ public abstract class ChargingWanditem extends WandItem {
 		PlayerEntity player = (PlayerEntity)entity;
 			
 		int energyneeded = getEnergyPerUse();
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player);
 
-		if (storage == null)
-			return;
 		if (storage.getEnergy() < energyneeded)
 			return;
 		
@@ -51,7 +49,7 @@ public abstract class ChargingWanditem extends WandItem {
 		PlayerEntity player = (PlayerEntity)entity;
 		
 		int energyneeded = getEnergyPerUse();
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player);
 
 		if (storage == null)
 			return;
@@ -71,10 +69,8 @@ public abstract class ChargingWanditem extends WandItem {
 
 	protected boolean canUse(PlayerEntity playerIn, ItemStack wand) {
 		int energyneeded = getEnergyPerUse();
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn);
 
-		if (storage == null)
-			return false;
 		if (storage.getEnergy() < energyneeded)
 			return false;
 		

@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
-import com.xX_deadbush_Xx.hocus.api.util.ModMathHelper;
-import com.xX_deadbush_Xx.hocus.client.effect.particles.LightningParticle;
+import com.xX_deadbush_Xx.hocus.common.spell.LightningSpell;
+import com.xX_deadbush_Xx.hocus.common.world.data.PlayerSpellCapability;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -19,14 +19,10 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public class LightningRod extends WandItem {
+public class LightningRod extends WandItem<LightningSpell> {
 	
 	public LightningRod(Properties properties) {
 		super(properties);
@@ -35,7 +31,6 @@ public class LightningRod extends WandItem {
 	private void performAttack(World world, ItemStack stack, PlayerEntity player) {
 		Vec3d look = player.getLookVec();
 		Vec3d eyes = player.getEyePosition(0);
-		BlockRayTraceResult raytrace = world.rayTraceBlocks(new RayTraceContext(eyes, look.add(eyes), BlockMode.COLLIDER, FluidMode.NONE, player));
 		List<LivingEntity> entities = getEntities(eyes, look,4, world, player);
 		for(LivingEntity entity : entities) {
 			entity.attackEntityFrom(DamageSource.causeIndirectMagicDamage(player, null), 2.5f);
@@ -50,6 +45,7 @@ public class LightningRod extends WandItem {
 		
 		Vec3d vec2 = pos.add(direction.scale(3*range/5));
 		AxisAlignedBB aabb2 = new AxisAlignedBB(vec2.add(2*range/5, 2*range/5, 2*range/5), vec2.subtract(2*range/5, 2*range/5, 2*range/5));
+		
 		Predicate<Entity> filter = entity -> {
 			return entity != null && entity.canBeCollidedWith() && entity.isAlive() && !entity.isSpectator() && entity instanceof LivingEntity && entity.getUniqueID() != player.getUniqueID();
 		};
@@ -68,14 +64,14 @@ public class LightningRod extends WandItem {
 
 		performAttack(world, wand, player);
 		
-		if(world.isRemote) {
-			Vec3d look = player.getLookVec();
-			Vec3d eyes = player.getPositionVec().add(0, player.getEyeHeight(), 0);
-			Vec3d startpos = hand == Hand.MAIN_HAND ? eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), -20)) : eyes.add(ModMathHelper.rotateY(look.mul(0.3, 0.3, 0.3), 20));
-			world.addParticle(LightningParticle.getData(true, 0xAFC6FF, 1), startpos.x, startpos.y- 0.3, startpos.z, look.x, look.y, look.z);
- 		}
-		
+		PlayerSpellCapability.getSpellCap(player).setActiveWand(player, wand);
 		return ActionResult.resultSuccess(wand);
+	}
+	
+	@Override
+	public LightningSpell getSpell(PlayerEntity caster, ItemStack wand, int... args) {
+		Vec3d look = caster.getLookVec();
+		return new LightningSpell(caster, wand, (int)(look.x*10000), (int)(look.y*10000), (int)(look.z*10000));
 	}
 	
 	@Override

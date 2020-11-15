@@ -30,7 +30,7 @@ public class NatureWand extends WandItem {
 		ItemStack wand = playerIn.getHeldItem(handIn);
 		
 		int energyneeded = getEnergyPerUse();
-		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn).orElse(null);
+		PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(playerIn);
 
 		if (storage == null)
 			return ActionResultType.PASS;

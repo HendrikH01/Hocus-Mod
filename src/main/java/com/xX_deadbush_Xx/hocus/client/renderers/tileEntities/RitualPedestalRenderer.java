@@ -1,7 +1,6 @@
 package com.xX_deadbush_Xx.hocus.client.renderers.tileEntities;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.xX_deadbush_Xx.hocus.common.register.ModTileEntities;
 import com.xX_deadbush_Xx.hocus.common.tile.RitualPedestalTile;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,6 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 
 @SuppressWarnings("deprecation")
 @OnlyIn(Dist.CLIENT)
@@ -45,9 +43,5 @@ public class RitualPedestalRenderer extends TileEntityRenderer<RitualPedestalTil
 			
 	        matrixStackIn.pop();
 	    }
-	}
-	
-	public static void register() {
-		ClientRegistry.bindTileEntityRenderer(ModTileEntities.RITUAL_PEDESTAL.get(), RitualPedestalRenderer::new);
 	}
 }

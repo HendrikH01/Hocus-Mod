@@ -23,7 +23,7 @@ public class ModDataGenerator {
             generator.addProvider(new BlockModelsDataGen(generator, Hocus.MOD_ID, event.getExistingFileHelper()));
             generator.addProvider(new BlockStatesDataGen(generator, Hocus.MOD_ID, event.getExistingFileHelper()));
             generator.addProvider(new ItemModelsDataGen(generator, Hocus.MOD_ID, event.getExistingFileHelper()));
-            generator.addProvider(new LanguagesDataGen(generator, Hocus.MOD_ID));
+            generator.addProvider(new LanguageDataGen(generator, Hocus.MOD_ID));
         }
     }
 }

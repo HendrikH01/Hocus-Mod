@@ -4,50 +4,50 @@
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Witchcraft-Mod2\build\natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Hocus-Mod\build\natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry output="bin/main" kind="src" path="src/main/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Witchcraft-Mod2\build\natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Hocus-Mod\build\natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry output="bin/main" kind="src" path="src/generated/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="main"/>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Witchcraft-Mod2\build\natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Hocus-Mod\build\natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry output="bin/test" kind="src" path="src/test/java">
 		<attributes>
 			<attribute name="gradle_scope" value="test"/>
 			<attribute name="gradle_used_by_scope" value="test"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Witchcraft-Mod2\build\natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Hocus-Mod\build\natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry output="bin/test" kind="src" path="src/test/resources">
 		<attributes>
 			<attribute name="gradle_scope" value="test"/>
 			<attribute name="gradle_used_by_scope" value="test"/>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Witchcraft-Mod2\build\natives"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:\Users\Admin\git\Hocus-Mod\build\natives"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="output" path="bin/default"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8/"/>
-	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.3.15_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.3.15_mapped_snapshot_20200617-1.15.1-api.jar">
+	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.3.15_mapped_snapshot_20201112-1.15.1/jei-1.15.2-6.0.3.15_mapped_snapshot_20201112-1.15.1-api.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value=""/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Admin/git/Witchcraft-Mod2/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1-sources.jar" kind="lib" path="C:/Users/Admin/git/Witchcraft-Mod2/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1-recomp.jar">
+	<classpathentry sourcepath="C:/Users/Admin/git/Hocus-Mod/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1-sources.jar" kind="lib" path="C:/Users/Admin/git/Hocus-Mod/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1-recomp.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry sourcepath="C:/Users/Admin/git/Witchcraft-Mod2/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1-sources.jar" kind="lib" path="C:/Users/Admin/git/Witchcraft-Mod2/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20200617-1.15.1-launcher.jar">
+	<classpathentry sourcepath="C:/Users/Admin/git/Hocus-Mod/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1-sources.jar" kind="lib" path="C:/Users/Admin/git/Hocus-Mod/build/fg_cache/net/minecraftforge/forge/1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1/forge-1.15.2-31.1.0_mapped_snapshot_20201112-1.15.1-launcher.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -97,7 +97,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/maven_downloader/de/oceanlabs/mcp/mcp_snapshot/20200617-1.15.1/mcp_snapshot-20200617-1.15.1.zip">
+	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/maven_downloader/de/oceanlabs/mcp/mcp_snapshot/20201112-1.15.1/mcp_snapshot-20201112-1.15.1.zip">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
@@ -407,7 +407,7 @@
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.3.15_mapped_snapshot_20200617-1.15.1/jei-1.15.2-6.0.3.15_mapped_snapshot_20200617-1.15.1.jar">
+	<classpathentry kind="lib" path="C:/Users/Admin/.gradle/caches/forge_gradle/deobf_dependencies/mezz/jei/jei-1.15.2/6.0.3.15_mapped_snapshot_20201112-1.15.1/jei-1.15.2-6.0.3.15_mapped_snapshot_20201112-1.15.1.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="main,test"/>
 		</attributes>

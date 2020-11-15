@@ -26,7 +26,9 @@ import net.minecraftforge.client.model.PerspectiveMapWrapper;
 @OnlyIn(Dist.CLIENT)
 public class GlowingBakedModel implements IBakedModel {	
     private final ImmutableList<IBakedModel> models;
-    private final ImmutableMap<TransformType, TransformationMatrix> cameraTransforms;
+    
+    @SuppressWarnings("deprecation")
+	private final ImmutableMap<TransformType, TransformationMatrix> cameraTransforms;
     protected final boolean ambientOcclusion;
     protected final boolean gui3d;
     protected final boolean isSideLit;

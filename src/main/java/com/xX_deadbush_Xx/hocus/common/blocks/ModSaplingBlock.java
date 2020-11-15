@@ -36,6 +36,7 @@ public class ModSaplingBlock extends BushBlock implements IGrowable {
 		return SHAPE;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
 		super.tick(state, worldIn, pos, rand);
@@ -54,7 +55,6 @@ public class ModSaplingBlock extends BushBlock implements IGrowable {
 		} else if (ForgeEventFactory.saplingGrowTree(serverWorld, rand, pos)) {
 			serverWorld.removeBlock(pos, false);
 			serverWorld.setBlockState(pos, Blocks.ANDESITE.getDefaultState(), 3);
-			System.out.println(serverWorld.getBlockState(pos));
 			this.tree.get().place(serverWorld, serverWorld.getChunkProvider().getChunkGenerator(), pos, state, rand);
 		}
 	}

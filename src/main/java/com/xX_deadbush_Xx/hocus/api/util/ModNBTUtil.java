@@ -26,6 +26,6 @@ public class ModNBTUtil {
 	}
 	
 	public static boolean getShiftMode(CompoundNBT tag) {
-		return !tag.getBoolean("shiftmode");
+		return tag.getBoolean("shiftmode");
 	}
 }

@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.SixWayBlock;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.potion.EffectInstance;
@@ -54,8 +55,8 @@ public class IvyBlock extends Block {
 
 	@Override
 	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entity) {
-		if (entity instanceof LivingEntity) {
-			((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.POISON, 3));
+		if (entity instanceof LivingEntity && entity.getType() != EntityType.BEE) {
+			((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.POISON, 60));
 		}
 	}
 

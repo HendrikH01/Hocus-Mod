@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "hocus:adonis"
+          "name": "hocus:adonis_seed_pod"
         }
       ],
       "conditions": [

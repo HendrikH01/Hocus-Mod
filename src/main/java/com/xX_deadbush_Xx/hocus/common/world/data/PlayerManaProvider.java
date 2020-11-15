@@ -27,8 +27,8 @@ public class PlayerManaProvider implements ICapabilitySerializable<INBT> {
         return Optional.of(Minecraft.getInstance().player).map(p -> p.getCapability(PlayerManaStorage.getCap())).orElse(null);
 	}
 	
-	public static  LazyOptional<PlayerManaStorage> getPlayerCapability(PlayerEntity player) {
-        return player.getCapability(PlayerManaStorage.getCap());
+	public static  PlayerManaStorage getPlayerCapability(PlayerEntity player) {
+        return player.getCapability(PlayerManaStorage.getCap()).orElse(new PlayerManaStorage());
 	}
 	
 	public static double getEnergy(PlayerEntity player) {

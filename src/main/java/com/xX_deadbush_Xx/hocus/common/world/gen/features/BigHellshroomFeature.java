@@ -33,7 +33,7 @@ public class BigHellshroomFeature extends AbstractBigMushroomFeature {
 			               if (i >= baseHeight || flag4 != flag5) {
 			                  blockpos$mutable.setPos(blockpos).move(l, i, i1);
 			                  if (worldIn.getBlockState(blockpos$mutable).canBeReplacedByLeaves(worldIn, blockpos$mutable)) {
-			                     this.setBlockState(worldIn, blockpos$mutable, ModBlocks.HELLSHROOM_BLOCK.get().getDefaultState());
+			                     this.setBlockState(worldIn, blockpos$mutable, ModBlocks.FUNKY_MUSHROOM_BLOCK.get().getDefaultState());
 			                  }
 			               }
 			            }

@@ -5,6 +5,8 @@ import java.util.Random;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.xX_deadbush_Xx.hocus.Hocus;
 import com.xX_deadbush_Xx.hocus.api.util.ModMathHelper;
+import com.xX_deadbush_Xx.hocus.client.gui.options.ManabarModeOption;
+import com.xX_deadbush_Xx.hocus.client.gui.options.ModClientOptions;
 import com.xX_deadbush_Xx.hocus.common.potion.ModPotions;
 import com.xX_deadbush_Xx.hocus.common.register.ModItems;
 import com.xX_deadbush_Xx.hocus.common.world.data.PlayerManaStorage;
@@ -78,8 +80,10 @@ public class IngameGuiOverlay extends AbstractGui {
 				evt.setCanceled(true);
 		}
 		
-		renderManaMeter();
-		restoreRenderSettings();	
+		if(ModClientOptions.INSTANCE.manabar_mode.get() != ManabarModeOption.HIDDEN && !mc.gameSettings.showDebugInfo)
+			this.renderManaBar();
+		
+		this.restoreRenderSettings();	
 	}
 
 	private PlayerEntity getPlayer() {
@@ -187,12 +191,14 @@ public class IngameGuiOverlay extends AbstractGui {
 		}
 	}
 	 
-	private void renderManaMeter() {
+	private void renderManaBar() {
 		Minecraft mc = Minecraft.getInstance();
 		
 		RenderSystem.disableDepthTest();
 		RenderSystem.depthMask(false);
 
+		boolean renderNumber = ModClientOptions.INSTANCE.manabar_mode.get() == ManabarModeOption.SHOWN;
+		
 		PlayerManaStorage energystorage = mc.player.getCapability(PlayerManaStorage.getCap(), null).orElse(null);
 		double energy = energystorage == null ? 0 : energystorage.getEnergy();
 		double maxenergy = energystorage == null ? 0 : energystorage.getMaxEnergy();
@@ -200,20 +206,24 @@ public class IngameGuiOverlay extends AbstractGui {
 		if(energy == 0) return;
 		
 		double ratio = energy/maxenergy;
-		int boxwidth = ModMathHelper.getIntDigits((int)energy)*6+16;
-		int boxY = windowheight - 20;
-		for(int i = 0; i < 28*ratio; i++) blit((int)(boxwidth/2 - 9), boxY - 7 - i*3, 32, 0, 17, 3);
+		int boxwidth = renderNumber ? ModMathHelper.getIntDigits((int)energy)*6+16 : 30;
+		int boxY = windowheight - (renderNumber ? 20 : 5);
+		int boxX = (int)(boxwidth/2 - 12);
+		int height = (int)(82*ratio);
 
+		blit(boxX + 3, boxY - height - 6, 0, 103 + 82 - height, 17, height);
 		
-		renderTextBox(3, boxY, (int)energy);
+		if(renderNumber) {
+			renderManabarNumberBox(3, boxY, (int)energy);
+		}
 	
-		blit((int)(boxwidth/2 - 12), boxY - 98, 23, 100);
+		blit(boxX, boxY - 98, 23, 100);
 
 		RenderSystem.enableDepthTest();
 		RenderSystem.depthMask(true);
 	}
 	
-	private void renderTextBox(int x, int y, int number) {
+	private void renderManabarNumberBox(int x, int y, int number) {
 		Minecraft mc = Minecraft.getInstance();
 		TextureManager texmanager = mc.getTextureManager();
 		RenderSystem.disableBlend();

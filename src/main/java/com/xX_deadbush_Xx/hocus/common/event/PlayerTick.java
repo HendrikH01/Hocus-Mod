@@ -4,6 +4,9 @@ import com.xX_deadbush_Xx.hocus.Hocus;
 import com.xX_deadbush_Xx.hocus.common.items.EnergyCrystal;
 import com.xX_deadbush_Xx.hocus.common.items.IManaTickingItem;
 import com.xX_deadbush_Xx.hocus.common.items.IPlayerInventoryTickingItem;
+import com.xX_deadbush_Xx.hocus.common.items.talisman.TalismanItem;
+import com.xX_deadbush_Xx.hocus.common.potion.ModPotions;
+import com.xX_deadbush_Xx.hocus.common.world.data.PlayerManaProvider;
 import com.xX_deadbush_Xx.hocus.common.world.data.PlayerManaStorage;
 import com.xX_deadbush_Xx.hocus.common.world.data.PlayerSpellCapability;
 
@@ -19,12 +22,13 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 
 @EventBusSubscriber(modid = Hocus.MOD_ID, bus=Bus.FORGE)
 public class PlayerTick {
+	
 	@SubscribeEvent
 	public static void onPlayerTick(PlayerTickEvent event) {
 		PlayerEntity player = event.player;
 		if(event.phase == TickEvent.Phase.END) {
 			//Energy
-			player.getCapability(PlayerManaStorage.getCap(), null).ifPresent(storage -> {
+			PlayerManaStorage storage = PlayerManaProvider.getPlayerCapability(player);
 				double inventoryEnergy = 0;
 				double maxenergy = 0;
 				double consumed = storage.getConsumedEnergy();
@@ -49,6 +53,9 @@ public class PlayerTick {
 					if(item.getManaCostPerTick() <= inventoryEnergy) {
 						ItemStack stack = player.inventory.getStackInSlot(talismans.getInt(item));
 						consumed += item.tick(stack, player, event.side);
+					} else if(item instanceof TalismanItem) {
+						ItemStack stack = player.inventory.getStackInSlot(talismans.getInt(item));
+						((TalismanItem)item).inactiveTick(stack, player, event.side);
 					}
 				}
 
@@ -56,12 +63,19 @@ public class PlayerTick {
 				storage.setEnergy(inventoryEnergy - consumed);
 				storage.setMaxEnergy(maxenergy);
 				storage.setConsumeZero();
-			});			
+			
+			
+			//Anti-flight
+			if (!player.abilities.isCreativeMode && player.isPotionActive(ModPotions.FALLEN_ANGEL_CURSE))
+				player.abilities.allowFlying = false;
 		} else {
-			//Spell cap
-			player.getCapability(PlayerSpellCapability.getCap(), null).ifPresent(spell -> {
-				spell.ticks++;
-			});
+			//Spell cap tick
+			PlayerSpellCapability cap = PlayerSpellCapability.getSpellCap(player);
+			if(cap.getSpell() != null) {
+				cap.getSpell().tick(player);
+			} else {
+				cap.stopSpell();
+			}
 		}
 	}
 }

@@ -13,6 +13,7 @@ import com.xX_deadbush_Xx.hocus.common.items.MagicChalk;
 import com.xX_deadbush_Xx.hocus.common.items.ModArmorMaterials;
 import com.xX_deadbush_Xx.hocus.common.items.SacrificeKnife;
 import com.xX_deadbush_Xx.hocus.common.items.WitchHatItem;
+import com.xX_deadbush_Xx.hocus.common.items.talisman.CelestialTablet;
 import com.xX_deadbush_Xx.hocus.common.items.talisman.MagnetTalisman;
 import com.xX_deadbush_Xx.hocus.common.items.talisman.WaterWalkingTalisman;
 import com.xX_deadbush_Xx.hocus.common.items.wands.FireWand;
@@ -20,6 +21,7 @@ import com.xX_deadbush_Xx.hocus.common.items.wands.LightningRod;
 import com.xX_deadbush_Xx.hocus.common.items.wands.LinkingWand;
 import com.xX_deadbush_Xx.hocus.common.items.wands.ParticleDebugger;
 import com.xX_deadbush_Xx.hocus.common.items.wands.StaffOfDestruction;
+import com.xX_deadbush_Xx.hocus.common.items.wands.StaffOfLight;
 import com.xX_deadbush_Xx.hocus.common.items.wands.ThunderStaff;
 
 import net.minecraft.inventory.EquipmentSlotType;
@@ -44,6 +46,12 @@ public class ModItems {
 	//CRYSTAL
 	public static final RegistryObject<Item> VIBRANT_CRYSTAL = ITEMS.register("vibrant_crystal", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> VIBRANT_DUST = ITEMS.register("vibrant_dust", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
+	public static final RegistryObject<Item> ONYX_CRYSTAL = ITEMS.register("onyx_crystal", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
+	public static final RegistryObject<Item> ONYX_DUST = ITEMS.register("onyx_dust", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
+
+	public static final RegistryObject<Item> RUBIX_CRYSTAL = ITEMS.register("rubix_crystal", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
+	public static final RegistryObject<Item> POLISHED_EMERALD = ITEMS.register("polished_emerald", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
+
 	public static final RegistryObject<Item> DUST_OF_NATURE = ITEMS.register("dust_of_nature", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DUST_OF_CORRUPTION = ITEMS.register("dust_of_corruption", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DUST_OF_SERENITY = ITEMS.register("dust_of_serenity", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
@@ -52,21 +60,23 @@ public class ModItems {
 	public static final RegistryObject<Item> DUST_OF_DESTRUCTION = ITEMS.register("dust_of_destruction", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 
 	//PLANTS
-	public static final RegistryObject<Item> ADONIS_SEED_POD = ITEMS.register("adonis_seed_pod", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
-	public static final RegistryObject<Item> BELLADONNA_BERRY = ITEMS.register("belladonna_berry", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> DREADWOOD_STICK = ITEMS.register("dreadwood_stick", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> SLEDGE_HAMMER = ITEMS.register("sledge_hammer", () -> new Item(new Item.Properties().maxDamage(200).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> PLANT_OIL = ITEMS.register("plant_oil_bowl", () -> new Item(new Item.Properties().maxStackSize(16).group(ModItemGroups.ITEMS)));
+	
+	//ENTITY
+	public static final RegistryObject<Item> RAVEN_FEATHER = ITEMS.register("raven_feather", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));
 	
 	//RITUAL
 	public static final RegistryObject<Item> WET_CHALK = ITEMS.register("wet_chalk", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> MAGIC_CHALK = ITEMS.register("magic_chalk", () -> new MagicChalk(new Item.Properties().group(ModItemGroups.ITEMS).maxDamage(50)));	
 	public static final RegistryObject<Item> RITUAL_ACTIVATOR = ITEMS.register("ritual_activator", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> SACRIFICE_KNIFE = ITEMS.register("sacrifice_knife", () -> new SacrificeKnife());	
-	
+	 
 	//TALISMAN
-	public static final RegistryObject<Item> WATER_WALKING_TALISMAN = ITEMS.register("water_walk_talisman", () -> new WaterWalkingTalisman(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
-	public static final RegistryObject<Item> MAGNET_TALISMAN = ITEMS.register("magnet_talisman", () -> new MagnetTalisman(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
+	public static final RegistryObject<Item> WATER_WALKING_TALISMAN = ITEMS.register("water_walk_talisman", () -> new WaterWalkingTalisman(new Item.Properties().group(ModItemGroups.ITEMS)));
+	public static final RegistryObject<Item> MAGNET_TALISMAN = ITEMS.register("magnet_talisman", () -> new MagnetTalisman(new Item.Properties().group(ModItemGroups.ITEMS)));
+	public static final RegistryObject<Item> CELESTIAL_TABLET = ITEMS.register("celestial_tablet", () -> new CelestialTablet(new Item.Properties().group(ModItemGroups.ITEMS)));
 
 	//WANDS/STAFFS
 	public static final RegistryObject<Item> LINKING_WAND = ITEMS.register("linking_wand", () -> new LinkingWand(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
@@ -74,7 +84,7 @@ public class ModItems {
 	public static final RegistryObject<Item> FIRE_STAFF = ITEMS.register("fire_staff", () -> new FireWand(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> THUNDER_STAFF = ITEMS.register("thunder_staff", () -> new ThunderStaff(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> STAFF_OF_DESTRUCTION = ITEMS.register("staff_of_destruction", () -> new StaffOfDestruction(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
-	public static final RegistryObject<Item> STAFF_OF_CREATION = ITEMS.register("staff_of_creation", () -> new LinkingWand(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
+	public static final RegistryObject<Item> STAFF_OF_LIGHT = ITEMS.register("staff_of_light", () -> new StaffOfLight(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 	
 	//MISC MAGIC
 	public static final RegistryObject<Item> WEAK_ENERGY_CRYSTAL = ITEMS.register("weak_energy_crystal", () -> new EnergyCrystal(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS), 500));
@@ -103,6 +113,9 @@ public class ModItems {
 	//NO GROUP
 	public static final RegistryObject<Item> BLOOD_PHIAL = ITEMS.register("blood_sample", () -> new BloodPhial(new Item.Properties().maxStackSize(1)));
 	
+	//SPECIAL GROUP
+	//public static final RegistryObject<Item> RAVEN_SPAWN_EGG = ITEMS.register("raven_spawn_egg", () -> new SpawnEggItem(ModEntities.RAVEN.get(), 0x23272B, 0xE6AE00, new Item.Properties().group(ModItemGroups.ITEMS)));
+
 	public enum ModArmorMaterial implements IArmorMaterial{
 		WITCH_HAT_MATERIAL(Hocus.MOD_ID + ":leather", 50, new int[] {1, 3, 4, 2}, 420, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, () -> {
 			return Ingredient.fromItems(Items.LEATHER);

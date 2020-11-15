@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "hocus:block/dreadwood_slab_top"
+    },
+    "type=bottom": {
+      "model": "hocus:block/dreadwood_slab"
+    },
+    "type=double": {
+      "model": "hocus:block/dreadwood_planks"
+    }
+  }
+}

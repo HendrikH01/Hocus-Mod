@@ -20,7 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class LightningBallRenderer extends EntityRenderer<LightningBallEntity> {
 	private static final ResourceLocation TEXTURE = new ResourceLocation(Hocus.MOD_ID, "textures/entity/lightning_ball.png");
-	private static final RenderType RENDER_TYPE = RenderType.getEntityTranslucentCull(TEXTURE);
+	private static final RenderType RENDER_TYPE = RenderType.getEntityCutoutNoCull(TEXTURE);
 
 	public LightningBallRenderer(EntityRendererManager rendermanager) {
 		super(rendermanager);

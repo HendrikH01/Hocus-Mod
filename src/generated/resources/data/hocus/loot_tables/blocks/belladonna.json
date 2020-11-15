@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "hocus:belladonna"
+          "name": "hocus:belladonna_berry"
         }
       ],
       "conditions": [

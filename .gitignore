@@ -26,3 +26,4 @@ cache
 
 # Files from Forge MDK
 forge*changelog.txt
+/target/

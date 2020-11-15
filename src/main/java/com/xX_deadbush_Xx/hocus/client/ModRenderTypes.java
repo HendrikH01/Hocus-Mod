@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.hocus.client;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.xX_deadbush_Xx.hocus.client.renderers.LightningRenderer;
 import com.xX_deadbush_Xx.hocus.client.renderers.ManawaveRenderer;
 
 import net.minecraft.client.Minecraft;
@@ -36,11 +37,27 @@ public class ModRenderTypes extends RenderType {
 				RenderSystem.disableBlend();
 			})).build(false));
 
+	public static final RenderType LIGHTNING_SPELL = makeType("lightning_spell", DefaultVertexFormats.POSITION_COLOR_TEX, 7, 262144, true, true, RenderType.State.getBuilder()
+			.shadeModel(SHADE_DISABLED)
+			.texture(new TextureState(LightningRenderer.TEXTURE_RL, false, true))
+			.transparency(new TransparencyState("lighting_transparency", () -> {
+				//pre render
+				RenderSystem.enableBlend();
+				RenderSystem.enableAlphaTest();
+				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+				RenderSystem.alphaFunc(GL11.GL_GEQUAL, 0.003921569F);
+				
+			}, () -> {
+				//post render
+				RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
+				RenderSystem.disableBlend();
+			})).build(false));
+	
 	public static final IParticleRenderType SHIMMER_PARTICLE_TYPE = new IParticleRenderType() {
 		@SuppressWarnings("deprecation")
 		public void beginRender(BufferBuilder buf, TextureManager texmanager) {
 			RenderSystem.enableBlend();
-			RenderSystem.disableCull();
+			RenderSystem.depthMask(false);
 			RenderSystem.depthFunc(GL11.GL_LEQUAL);
 			RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 			RenderSystem.alphaFunc(GL11.GL_GEQUAL, 0.003921569F);
@@ -56,7 +73,7 @@ public class ModRenderTypes extends RenderType {
 			tessellator.draw();
 			RenderSystem.alphaFunc(GL11.GL_GREATER, 0.1F);
 			RenderSystem.disableBlend();
-			RenderSystem.enableCull();
+			RenderSystem.depthMask(true);
 			Minecraft.getInstance().textureManager.getTexture(AtlasTexture.LOCATION_PARTICLES_TEXTURE)
 					.restoreLastBlurMipmap();
 		}

@@ -5,6 +5,9 @@ import com.xX_deadbush_Xx.hocus.common.blocks.blockstate.ModBlockStateProperties
 import com.xX_deadbush_Xx.hocus.common.register.ModBlocks;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SlabBlock;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.block.WallBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
@@ -28,8 +31,7 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.DREADWOOD_LEAVES.get(), models().getExistingFile(getModelPath(ModBlocks.DREADWOOD_LEAVES)));
 		simpleBlock(ModBlocks.DREADWOOD_PLANKS.get(), models().getExistingFile(getModelPath(ModBlocks.DREADWOOD_PLANKS)));
 		simpleBlock(ModBlocks.DREADWOOD_SAPLING.get(), models().getExistingFile(getModelPath(ModBlocks.DREADWOOD_SAPLING)));
-		simpleBlock(ModBlocks.HARDENED_NETHERRACK.get(), models().getExistingFile(getModelPath(ModBlocks.HARDENED_NETHERRACK)));
-		simpleBlock(ModBlocks.HELLSHROOM.get(), models().getExistingFile(getModelPath(ModBlocks.HELLSHROOM)));
+		simpleBlock(ModBlocks.FUNKY_MUSHROOM.get(), models().getExistingFile(getModelPath(ModBlocks.FUNKY_MUSHROOM)));
 		simpleBlock(ModBlocks.RITUAL_PEDESTAL.get(), models().getExistingFile(getModelPath(ModBlocks.RITUAL_PEDESTAL)));
 		simpleBlock(ModBlocks.RITUAL_STONE.get(), models().getExistingFile(getModelPath(ModBlocks.RITUAL_STONE)));
 		simpleBlock(ModBlocks.VIBRANT_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.VIBRANT_BLOCK)));
@@ -43,8 +45,17 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.SHALE_BRICKS.get(), models().getExistingFile(getModelPath(ModBlocks.SHALE_BRICKS)));
 		simpleBlock(ModBlocks.CHISELED_SHALE.get(), models().getExistingFile(getModelPath(ModBlocks.CHISELED_SHALE)));
 		simpleBlock(ModBlocks.POLISHED_WOOD.get(), models().getExistingFile(getModelPath(ModBlocks.POLISHED_WOOD)));
+		simpleBlock(ModBlocks.ONYX_CRYSTAL_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.ONYX_CRYSTAL_BLOCK)));
+		simpleBlock(ModBlocks.MUD.get(), models().getExistingFile(getModelPath(ModBlocks.MUD)));
+		simpleBlock(ModBlocks.SHIMMER_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.SHIMMER_BLOCK)));
+		simpleBlock(ModBlocks.MOSSY_SHALE_BRICKS.get(), models().getExistingFile(getModelPath(ModBlocks.MOSSY_SHALE_BRICKS)));
 
 		tallBlock(ModBlocks.SWIRLY_PLANT);
+		
+		wallBlock((WallBlock)ModBlocks.SHALE_BRICKS_WALL.get(), getTextureRL(getBlockName(ModBlocks.SHALE_BRICKS)));
+		slabAndStairs(ModBlocks.SHALE_BRICKS, ModBlocks.SHALE_BRICKS_STAIRS, ModBlocks.SHALE_BRICKS_SLAB);
+		slabAndStairs(ModBlocks.POLISHED_WOOD, ModBlocks.POLISHED_WOOD_STAIRS, ModBlocks.POLISHED_WOOD_SLAB);
+		slabAndStairs(ModBlocks.DREADWOOD_PLANKS, ModBlocks.DREADWOOD_STAIRS, ModBlocks.DREADWOOD_SLAB);
 		
 		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));
 		horizontalBlock(ModBlocks.TOOL_TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TOOL_TABLE)));
@@ -53,7 +64,6 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		horizontalBlock(ModBlocks.GREEN_TOTEM.get(), models().getExistingFile(getModelPath(ModBlocks.GREEN_TOTEM)));
 		horizontalBlock(ModBlocks.PURPLE_TOTEM.get(), models().getExistingFile(getModelPath(ModBlocks.PURPLE_TOTEM)));
 
-		
 		getVariantBuilder(ModBlocks.CANDLE.get())
 			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 1).setModels(newConfiguredModel("one_" + getBlockName(ModBlocks.CANDLE)))
 			.partialState().with(ModBlockStateProperties.CANDLES_1_3, 2).setModels(newConfiguredModel("two_" + getBlockName(ModBlocks.CANDLE) + "s"))
@@ -69,8 +79,8 @@ public class BlockStatesDataGen extends BlockStateProvider {
 			.partialState().with(BlockStateProperties.LIT, true).setModels(newConfiguredModel(getBlockName(ModBlocks.FIRE_BOWL) + "_lit"))
 			.partialState().with(BlockStateProperties.LIT, false).setModels(newConfiguredModel(getBlockName(ModBlocks.FIRE_BOWL) + "_unlit"));
 
-		buildMushroomBlock(ModBlocks.HELLSHROOM_BLOCK);
-		buildMushroomBlock(ModBlocks.HELLSHROOM_STEM);
+		buildMushroomBlock(ModBlocks.FUNKY_MUSHROOM_BLOCK);
+		buildMushroomBlock(ModBlocks.FUNKY_MUSHROOM_STEM);
 		
 		poisonIvy(ModBlocks.POISON_IVY);
 	}
@@ -97,6 +107,12 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		return new ConfiguredModel(models().getExistingFile(getModelPath(path)));
 	}
 	
+	private void slabAndStairs(RegistryObject<Block> base, RegistryObject<Block> stairs, RegistryObject<Block> slab) {
+		ResourceLocation tex = getTextureRL(getBlockName(base));
+		stairsBlock((StairsBlock) stairs.get(), tex);
+		slabBlock((SlabBlock)slab.get(), getModelPath(base), tex);
+	}
+	
 	private void buildMushroomBlock(RegistryObject<Block> block) {
 		getMultipartBuilder(block.get())
 			.part().modelFile(models().getExistingFile(getModelPath(block))).addModel().condition(BlockStateProperties.NORTH, true).end()
@@ -111,6 +127,10 @@ public class BlockStatesDataGen extends BlockStateProvider {
 			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_inside"))).uvLock(false).rotationX(270).addModel().condition(BlockStateProperties.UP, false).end()
 			.part().modelFile(models().getExistingFile(getModelPath(block))).uvLock(true).rotationX(90).addModel().condition(BlockStateProperties.DOWN, true).end()
 			.part().modelFile(models().getExistingFile(getModelPath(getBlockName(block) + "_inside"))).uvLock(false).rotationX(90).addModel().condition(BlockStateProperties.DOWN, false).end();
+	}
+	
+	private ResourceLocation getTextureRL(String name) {
+		return new ResourceLocation(Hocus.MOD_ID, "blocks/" + name);
 	}
 	
 	private String getBlockName(RegistryObject<Block> block) {

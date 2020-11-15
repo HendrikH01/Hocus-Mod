@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "hocus:block/polished_wood_slab_top"
+    },
+    "type=bottom": {
+      "model": "hocus:block/polished_wood_slab"
+    },
+    "type=double": {
+      "model": "hocus:block/polished_wood"
+    }
+  }
+}

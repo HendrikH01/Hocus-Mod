@@ -24,8 +24,6 @@ public ShimmerParticle(World worldIn, double xCoordIn, double yCoordIn, double z
       this.particleRed = (float)((color & 0xFF0000) >> 16 ) / 255;
       this.particleGreen = (float)((color & 0xFF00) >> 8 ) / 255;
       this.particleBlue = (float)(color & 0xFF) / 255;
-      System.out.println(((color & 0xFF0000) >> 16) + " " + ((color & 0xFF00) >> 8) + " " + (color & 0xFF)/255);
-      System.out.println(color + " " + particleRed + " " +particleGreen + " " + particleBlue);
    }
    
    @Override
