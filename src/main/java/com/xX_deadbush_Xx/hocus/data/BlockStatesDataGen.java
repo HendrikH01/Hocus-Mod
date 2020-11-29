@@ -48,6 +48,7 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		
 		horizontalBlock(ModBlocks.TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TABLE)));
 		horizontalBlock(ModBlocks.TOOL_TABLE.get(), models().getExistingFile(getModelPath(ModBlocks.TOOL_TABLE)));
+		horizontalBlock(ModBlocks.AUTO_TOOLTABLE.get(), models().getExistingFile(getModelPath(ModBlocks.AUTO_TOOLTABLE)));
 		horizontalBlock(ModBlocks.DRYING_RACK.get(), models().getExistingFile(getModelPath(ModBlocks.DRYING_RACK)));
 		horizontalBlock(ModBlocks.RED_TOTEM.get(), models().getExistingFile(getModelPath(ModBlocks.RED_TOTEM)));
 		horizontalBlock(ModBlocks.GREEN_TOTEM.get(), models().getExistingFile(getModelPath(ModBlocks.GREEN_TOTEM)));

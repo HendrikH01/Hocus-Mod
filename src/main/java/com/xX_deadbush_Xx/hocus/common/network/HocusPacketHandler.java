@@ -32,6 +32,7 @@ public class HocusPacketHandler {
 		INSTANCE.registerMessage(id++, HocusSSpellCapUpdatePacket.class, HocusSSpellCapUpdatePacket::encode, HocusSSpellCapUpdatePacket::decode, HocusSSpellCapUpdatePacket::handle);
 
 		//CLIENT
+		INSTANCE.registerMessage(id++, HocusCPrintRecipePacket.class, HocusCPrintRecipePacket::encode, HocusCPrintRecipePacket::decode, HocusCPrintRecipePacket::handle);
 	}
 	
 	public static void sendToNearby(World worldIn, BlockPos pos, Object toSend) {

@@ -63,6 +63,7 @@ public class LanguagesDataGen extends LanguageProvider {
 		addItem(ModItems.PLANT_OIL::get, "Plant Oil");
 		addItem(ModItems.FIRE_STAFF::get, "Fire Wand");
 		addItem(ModItems.WATER_WALKING_TALISMAN::get, "Water Walking Talisman");
+		addItem(ModItems.RECIPE, "Recipe");
 
 	}
 
@@ -86,6 +87,7 @@ public class LanguagesDataGen extends LanguageProvider {
 		addBlock(ModBlocks.STONE_MORTAR::get, "Vibrant Crystal Ore");
 		addBlock(ModBlocks.TABLE::get, "Table");
 		addBlock(ModBlocks.TOOL_TABLE::get, "Tool Table");
+		addBlock(ModBlocks.AUTO_TOOLTABLE::get, "Auto Tool Table");
 		addBlock(ModBlocks.CRYSTAL_RECHARGER::get, "Crystal Recharger");
 		addBlock(ModBlocks.RED_TOTEM::get, "Red Totem");
 		addBlock(ModBlocks.PURPLE_TOTEM::get, "Purple Totem");

@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.hocus.common.register;
 
 import com.xX_deadbush_Xx.hocus.Hocus;
+import com.xX_deadbush_Xx.hocus.common.blocks.AutoToolTable;
 import com.xX_deadbush_Xx.hocus.common.blocks.CandleBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.ChalkBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.CreativeManaSourceBlock;
@@ -78,6 +79,7 @@ public class ModBlocks {
 		public static final RegistryObject<Block> RITUAL_PEDESTAL = BLOCKS.register("ritual_pedestal", () -> new RitualPedestal(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).notSolid().sound(SoundType.STONE)));
 		public static final RegistryObject<Block> STONE_MORTAR = BLOCKS.register("stone_mortar", () -> new MortarBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_WOOD).notSolid().sound(SoundType.STONE)));
 		public static final RegistryObject<Block> TOOL_TABLE = BLOCKS.register("tool_table", () -> new ToolTable(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> AUTO_TOOLTABLE = BLOCKS.register("auto_tooltable", () -> new AutoToolTable(Block.Properties.create(Material.WOOD).notSolid().harvestTool(ToolType.AXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.WOOD)));
 		public static final RegistryObject<Block> FIRE_BOWL = BLOCKS.register("fire_bowl", () -> new FireBowlBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(HARVEST_LEVEL_STONE).notSolid().sound(SoundType.STONE)));
 		public static final RegistryObject<Block> CRYSTAL_RECHARGER = BLOCKS.register("crystal_recharger", () -> new CrystalRechargerBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).lightValue(13)));
 		public static final RegistryObject<Block> ENERGY_RELAY = BLOCKS.register("energy_relay", () -> new EnergyRelayBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(1.0F, 2.0F).sound(SoundType.METAL)));

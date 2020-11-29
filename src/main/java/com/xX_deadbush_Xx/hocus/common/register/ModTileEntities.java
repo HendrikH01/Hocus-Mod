@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.hocus.common.register;
 
 import com.xX_deadbush_Xx.hocus.Hocus;
+import com.xX_deadbush_Xx.hocus.common.tile.AutoToolTableTile;
 import com.xX_deadbush_Xx.hocus.common.tile.CreativeManaSourceTile;
 import com.xX_deadbush_Xx.hocus.common.tile.CrystalRechargerTile;
 import com.xX_deadbush_Xx.hocus.common.tile.DryingRackTile;
@@ -28,6 +29,8 @@ public class ModTileEntities {
             () -> TileEntityType.Builder.create(MortarTile::new, ModBlocks.STONE_MORTAR.get()).build(null));
     public static final RegistryObject<TileEntityType<ToolTableTile>> TOOL_TABLE = TILE_ENTITIES.register("tool_table",
             () -> TileEntityType.Builder.create(ToolTableTile::new, ModBlocks.TOOL_TABLE.get()).build(null));
+    public static final RegistryObject<TileEntityType<AutoToolTableTile>> AUTO_TOOLTABLE = TILE_ENTITIES.register("auto_tooltable",
+            () -> TileEntityType.Builder.create(AutoToolTableTile::new, ModBlocks.AUTO_TOOLTABLE.get()).build(null));
     public static final RegistryObject<TileEntityType<CrystalRechargerTile>> CRYSTAL_RECHARGER_TILE = TILE_ENTITIES.register("crystal_recharger_tile",
             () -> TileEntityType.Builder.create(CrystalRechargerTile::new, ModBlocks.CRYSTAL_RECHARGER.get()).build(null));
     public static final RegistryObject<TileEntityType<EnergyRelayTile>> ENERGY_RELAY_TILE = TILE_ENTITIES.register("energy_relay_tile",

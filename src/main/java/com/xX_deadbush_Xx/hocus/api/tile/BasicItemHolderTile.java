@@ -70,7 +70,7 @@ public abstract class BasicItemHolderTile extends TileEntity {
 		ItemStackHelper.saveAllItems(nbt, this.inventory.toNonNullList());
 		return nbt;
 	}
-	
+
 	@Override
 	public void markDirty() {
 		this.world.markBlockRangeForRenderUpdate(this.pos, this.getBlockState(), this.getBlockState());

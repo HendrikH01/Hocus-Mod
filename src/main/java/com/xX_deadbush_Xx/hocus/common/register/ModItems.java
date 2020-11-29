@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import com.xX_deadbush_Xx.hocus.Hocus;
 import com.xX_deadbush_Xx.hocus.client.ModItemGroups;
 import com.xX_deadbush_Xx.hocus.common.items.BloodPhial;
+import com.xX_deadbush_Xx.hocus.common.items.RecipeItem;
 import com.xX_deadbush_Xx.hocus.common.items.BottomlessBagItem;
 import com.xX_deadbush_Xx.hocus.common.items.EnergyCrystal;
 import com.xX_deadbush_Xx.hocus.common.items.EternalBagOfBonemeal;
@@ -99,6 +100,7 @@ public class ModItems {
 	public static final RegistryObject<Item> PESTLE = ITEMS.register("pestle", () -> new Item(new Item.Properties().group(ModItemGroups.ITEMS)));	
 	public static final RegistryObject<Item> EMPTY_PHIAL = ITEMS.register("empty_phial", () -> new Item(new Item.Properties().maxStackSize(16).group(ModItemGroups.ITEMS)));
 	public static final RegistryObject<Item> WOOD_SAW = ITEMS.register("wood_saw", () -> new Item(new Item.Properties().maxDamage(200).group(ModItemGroups.ITEMS)));
+	public static final RegistryObject<Item> RECIPE = ITEMS.register("recipe", () -> new RecipeItem(new Item.Properties().maxStackSize(1).group(ModItemGroups.ITEMS)));
 
 	//NO GROUP
 	public static final RegistryObject<Item> BLOOD_PHIAL = ITEMS.register("blood_sample", () -> new BloodPhial(new Item.Properties().maxStackSize(1)));

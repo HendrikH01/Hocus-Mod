@@ -1,6 +1,7 @@
 package com.xX_deadbush_Xx.hocus.common.register;
 
 import com.xX_deadbush_Xx.hocus.Hocus;
+import com.xX_deadbush_Xx.hocus.common.container.AutoToolTableContainer;
 import com.xX_deadbush_Xx.hocus.common.container.BottomLessBagContainer;
 import com.xX_deadbush_Xx.hocus.common.container.CrystalRechargerContainer;
 import com.xX_deadbush_Xx.hocus.common.container.ToolTableContainer;
@@ -16,6 +17,8 @@ public class ModContainers {
 
 	public static final RegistryObject<ContainerType<ToolTableContainer>> TOOL_TABLE = CONTAINER_TYPES
 			.register("tool_table", () -> IForgeContainerType.create(ToolTableContainer::new));
+	public static final RegistryObject<ContainerType<AutoToolTableContainer>> AUTO_TOOLTABLE = CONTAINER_TYPES
+			.register("auto_tooltable", () -> IForgeContainerType.create(AutoToolTableContainer::new));
 	public static final RegistryObject<ContainerType<CrystalRechargerContainer>> CRYSTAL_RECHARGER = CONTAINER_TYPES
 			.register("crystal_recharger", () -> IForgeContainerType.create(CrystalRechargerContainer::new));
 

@@ -1,4 +1,5 @@
 e0caf365259b0bcf43abda33a4da3e830daf76c5 assets\hocus\blockstates\adonis.json
+74dee302a12a9806bcb1c48d12b123f03e7ad716 assets\hocus\blockstates\auto_tooltable.json
 ecdaa092d15043a30c16d2c16101735866860f66 assets\hocus\blockstates\belladonna.json
 2a9c816f0c2cf7fc14800f2455b4ab48b2510edb assets\hocus\blockstates\candle.json
 4fa5eeb47766172b62feede4d6fc8e3d0de62847 assets\hocus\blockstates\cave_flower.json
@@ -31,7 +32,7 @@ da6e16e12eeddadbb38a7a455d24d9ae71d8838b assets\hocus\blockstates\swirly_plant.j
 bf51ad655f1b648009d8b876f13b9406e0178a68 assets\hocus\blockstates\tool_table.json
 2b8723a5b6830418775d194d70b754185a7742c1 assets\hocus\blockstates\vibrant_block.json
 b4b66c2189093b74ee67e0ed0dfba514e951158e assets\hocus\blockstates\vibrant_crystal_ore.json
-2f4c0dfcc9d8d1258d872c1dd80a683be4f64482 assets\hocus\lang\en_us.json
+080e9ab2faa1f468c91385f96605299bb6324a82 assets\hocus\lang\en_us.json
 e5c438d696d58a83268ef7b1ba83d9cb147da552 assets\hocus\models\block\adonis.json
 80547e42b78ffd8bb863c84c79e4e9d5d8ff15e6 assets\hocus\models\block\belladonna.json
 7e9abff7d868033f69e6e3c4893c85a8b184bd8c assets\hocus\models\block\cave_flower.json
@@ -74,6 +75,7 @@ fd562742c8aec05512a069a960a1086a50e1cd34 assets\hocus\models\block\vibrant_block
 648ccd431e64858d10bc364e70f3f1e157fcd928 assets\hocus\models\item\adonis.json
 f07fd2f43787bd5478c312bb51644023bb7c23df assets\hocus\models\item\adonis_seed_pod.json
 600e56c2c9324b6f1d8d83243a899ce65a886e69 assets\hocus\models\item\advanced_energy_crystal.json
+ae5b0b7b62f4d037d15137713fb05bf95b43173e assets\hocus\models\item\auto_tooltable.json
 5a3aa0bd221b70baf706981f1c5a509c41c4b713 assets\hocus\models\item\belladonna.json
 ef9ee80fccb921057777f03d3b6730c1538bf717 assets\hocus\models\item\belladonna_berry.json
 a686e07c9dadf762d4fa54c6a2499e0146de7115 assets\hocus\models\item\blood_sample.json
@@ -117,6 +119,7 @@ aa2888920d694eba223906b2c497bfc12211808b assets\hocus\models\item\manaspecs.json
 5a14ebd096ac40c9938b0b006eae810c3aebefa2 assets\hocus\models\item\poison_ivy.json
 35817e6aa0652696ff88ef5854ab81704ee4b4c4 assets\hocus\models\item\polished_wood.json
 dbe71d8e313078b88e6a9467bc4090ba370cc0ca assets\hocus\models\item\purple_totem.json
+791bdcfdb124f26914bd9098f60a4f835b76617c assets\hocus\models\item\recipe.json
 9052ed6eb36a584a962da62a1ba1170acf757a7e assets\hocus\models\item\red_totem.json
 26f98dde563a5be17a5a8f08ff71711c9a3bef12 assets\hocus\models\item\ritual_activator.json
 968d1abd6ead020d8020968d9b12303c1a575045 assets\hocus\models\item\ritual_pedestal.json
@@ -147,6 +150,7 @@ fb7891012f32e69b13b3f5165e06874a231b81d2 assets\hocus\models\item\vibrant_crysta
 7822865c442035645e4498f98212afa87d2cbc9d assets\hocus\models\item\wood_saw.json
 66cadb161681cbf0c278b0e5082908b014b3f9e5 data\hocus\advancements\recipes\hocus_blocks\vibrant_block.json
 033a0ec8441d5631bb68672275b1b2b743ba3cb8 data\hocus\loot_tables\blocks\adonis.json
+41b7f6ad9d51418ebaf72180446cd877c465e36c data\hocus\loot_tables\blocks\auto_tooltable.json
 2d91ae97561baea41efea4a0e0dd1c4de15fb352 data\hocus\loot_tables\blocks\belladonna.json
 393cbd9714b3a369c3dfd4152c76bbc3b204e491 data\hocus\loot_tables\blocks\candle.json
 390102bbce5e189a219d6894cbe882f9bddbed9e data\hocus\loot_tables\blocks\cave_flower.json

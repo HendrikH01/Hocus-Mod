@@ -3,6 +3,7 @@ package com.xX_deadbush_Xx.hocus.common.event;
 import com.xX_deadbush_Xx.hocus.Hocus;
 import com.xX_deadbush_Xx.hocus.api.util.RenderHelper;
 import com.xX_deadbush_Xx.hocus.client.ModColorHandler;
+import com.xX_deadbush_Xx.hocus.client.gui.AutoToolTableScreen;
 import com.xX_deadbush_Xx.hocus.client.gui.BottomLessBagScreen;
 import com.xX_deadbush_Xx.hocus.client.gui.CrystalRechargerScreen;
 import com.xX_deadbush_Xx.hocus.client.gui.ToolTableScreen;
@@ -47,6 +48,7 @@ public class OnClientSetup {
     	RitualStoneRenderer.register();
     	RitualPedestalRenderer.register();
     	
+    	ScreenManager.registerFactory(ModContainers.AUTO_TOOLTABLE.get(), AutoToolTableScreen::new);
     	ScreenManager.registerFactory(ModContainers.TOOL_TABLE.get(), ToolTableScreen::new);
     	ScreenManager.registerFactory(ModContainers.BOTTOM_LESS_BAG.get(), BottomLessBagScreen::new);
     	ScreenManager.registerFactory(ModContainers.CRYSTAL_RECHARGER.get(), CrystalRechargerScreen::new);

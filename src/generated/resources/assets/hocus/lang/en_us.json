@@ -1,5 +1,6 @@
 {
   "block.hocus.adonis": "Adonis",
+  "block.hocus.auto_tooltable": "Auto Tool Table",
   "block.hocus.belladonna": "Belladonna",
   "block.hocus.candle": "Candle",
   "block.hocus.cave_flower": "Cave Flower",
@@ -51,6 +52,7 @@
   "item.hocus.particle_debugger": "Particle Debugger",
   "item.hocus.pestle": "Pestle",
   "item.hocus.plant_oil_bowl": "Plant Oil",
+  "item.hocus.recipe": "Recipe",
   "item.hocus.ritual_activator": "Creative Ritual Activator",
   "item.hocus.sacrifice_knife": "Sacrifice Knife",
   "item.hocus.silver_boots": "Silver Boots",
