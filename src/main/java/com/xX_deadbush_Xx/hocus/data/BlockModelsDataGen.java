@@ -46,6 +46,7 @@ public class BlockModelsDataGen extends BlockModelProvider {
 		cross(getBlockName(ModBlocks.DREADWOOD_SAPLING), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.DREADWOOD_SAPLING)));
 		cross(getBlockName(ModBlocks.FUNKY_MUSHROOM), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.FUNKY_MUSHROOM)));
 		cross(getBlockName(ModBlocks.CAVE_FLOWER), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.CAVE_FLOWER)));
+		cross(getBlockName(ModBlocks.FUNGAL_GRASS), new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.FUNGAL_GRASS)));
 
 		cross(getBlockName(ModBlocks.SWIRLY_PLANT) + "_top", new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.SWIRLY_PLANT) + "_top"));
 		cross(getBlockName(ModBlocks.SWIRLY_PLANT) + "_bottom", new ResourceLocation(Hocus.MOD_ID, "blocks/" + getBlockName(ModBlocks.SWIRLY_PLANT) + "_bottom"));

@@ -9,8 +9,10 @@ import com.xX_deadbush_Xx.hocus.common.blocks.DreadwoodLog;
 import com.xX_deadbush_Xx.hocus.common.blocks.DryingRackBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.EnergyRelayBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.FireBowlBlock;
+import com.xX_deadbush_Xx.hocus.common.blocks.FungalGrassBlock;
+import com.xX_deadbush_Xx.hocus.common.blocks.FunkyMushroomBlock;
+import com.xX_deadbush_Xx.hocus.common.blocks.GlimsporesBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.IvyBlock;
-import com.xX_deadbush_Xx.hocus.common.blocks.ModMushroomBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.ModSaplingBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.MortarBlock;
 import com.xX_deadbush_Xx.hocus.common.blocks.MudBlock;
@@ -47,9 +49,11 @@ public class ModBlocks {
 		public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, Hocus.MOD_ID);
 		
 		//PLANTS
-		public static final RegistryObject<Block> FUNKY_MUSHROOM = BLOCKS.register("hellshroom", () -> new ModMushroomBlock(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().sound(SoundType.PLANT)));	 	
-		public static final RegistryObject<Block> FUNKY_MUSHROOM_BLOCK = BLOCKS.register("hellshroom_block", () -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).notSolid().harvestTool(ToolType.AXE).harvestLevel(HARVEST_LEVEL_WOOD).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
-		public static final RegistryObject<Block> FUNKY_MUSHROOM_STEM = BLOCKS.register("hellshroom_stem", () -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).harvestTool(ToolType.AXE).harvestLevel(HARVEST_LEVEL_WOOD).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> FUNKY_MUSHROOM = BLOCKS.register("funky_mushroom", () -> new FunkyMushroomBlock(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().sound(SoundType.PLANT)));	 	
+		public static final RegistryObject<Block> FUNKY_MUSHROOM_BLOCK = BLOCKS.register("funky_mushroom_block", () -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).notSolid().harvestTool(ToolType.AXE).harvestLevel(HARVEST_LEVEL_WOOD).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> FUNKY_MUSHROOM_STEM = BLOCKS.register("funky_mushroom_stem", () -> new HugeMushroomBlock(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.DIRT).harvestTool(ToolType.AXE).harvestLevel(HARVEST_LEVEL_WOOD).hardnessAndResistance(0.2F, 2.0F).sound(SoundType.WOOD)));
+		public static final RegistryObject<Block> FUNGAL_GRASS = BLOCKS.register("fungal_grass", () -> new FungalGrassBlock(Block.Properties.create(Material.TALL_PLANTS).notSolid().hardnessAndResistance(0.0F).sound(SoundType.PLANT)));
+		public static final RegistryObject<Block> GLIMSPORES = BLOCKS.register("glimspores", () -> new GlimsporesBlock(Block.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().tickRandomly().sound(SoundType.PLANT)));	 	
 		public static final RegistryObject<Block> BELLADONNA = BLOCKS.register("belladonna", () -> new FlowerBlock(new BelladonnaPoisionEffect(), 400, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.2F, 2.0F).sound(SoundType.PLANT)));
 		public static final RegistryObject<Block> CAVE_FLOWER = BLOCKS.register("cave_flower", () -> new FlowerBlock(Effects.LUCK, 400, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.2F, 2.0F).sound(SoundType.PLANT)));
 		public static final RegistryObject<Block> ADONIS = BLOCKS.register("adonis", () -> new FlowerBlock(new HealthBoostEffect(EffectType.BENEFICIAL, 2), 0, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().hardnessAndResistance(0.2F, 2.0F).sound(SoundType.PLANT)));
@@ -74,7 +78,7 @@ public class ModBlocks {
 		public static final RegistryObject<Block> CREATIVE_MANA_SOURCE = BLOCKS.register("creative_mana_source", () -> new CreativeManaSourceBlock(Block.Properties.create(Material.IRON).notSolid().harvestTool(ToolType.PICKAXE).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.METAL)));
 		
 		//DECORATION
-		public static final RegistryObject<Block> MUD = BLOCKS.register("mud", () -> new Block(Block.Properties.create(Material.CLAY).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.6F).sound(SoundType.GROUND)));
+		public static final RegistryObject<Block> MUD = BLOCKS.register("mud", () -> new MudBlock(Block.Properties.create(Material.CLAY).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.6F).sound(SoundType.GROUND)));
 		public static final RegistryObject<Block> CHISELED_SHALE = BLOCKS.register("chiseled_shale", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
 		public static final RegistryObject<Block> MOSSY_SHALE_BRICKS = BLOCKS.register("mossy_shale_bricks", () -> new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.STONE)));
 		public static final RegistryObject<Block> POLISHED_WOOD = BLOCKS.register("polished_wood", () -> new Block(Block.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 10.0F).sound(SoundType.WOOD)));

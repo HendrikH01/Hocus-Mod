@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.mojang.datafixers.Dynamic;
+import com.xX_deadbush_Xx.hocus.common.register.ModBlocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -27,18 +28,17 @@ public class DreadwoodTreePlacement  extends Placement<AtSurfaceWithExtraConfig>
 	}
 
 	public Stream<BlockPos> getPositions(IWorld worldIn, ChunkGenerator<? extends GenerationSettings> generatorIn, Random random, AtSurfaceWithExtraConfig config, BlockPos pos) {
-		Set<BlockPos> set = new HashSet<>();
 		for (int i = 0; i < config.count + (random.nextFloat() < config.extraChance ? 0 : config.extraCount); i++) {
 			int x = random.nextInt(16) + pos.getX();
 			int z = random.nextInt(16) + pos.getZ();
 			int y = worldIn.getHeight(Heightmap.Type.WORLD_SURFACE_WG, x, z);
 			BlockPos surface = new BlockPos(x, y - 1, z);
 			Block block = worldIn.getBlockState(surface).getBlock();
-			if (block == Blocks.GRASS_BLOCK) {
-				set.add(surface);
+			if (block == ModBlocks.MUD.get()) {
+				return Stream.of(surface);
 			}
 		}
-
-		return set.stream();
+		
+		return Stream.empty();
 	}
 }

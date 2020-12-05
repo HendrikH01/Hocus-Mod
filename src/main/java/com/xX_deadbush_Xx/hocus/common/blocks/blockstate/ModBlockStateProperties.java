@@ -10,4 +10,5 @@ public class ModBlockStateProperties {
 	public static final EnumProperty<GlowType> GLOW_TYPE = EnumProperty.create("glowtype", GlowType.class);
 	public static final IntegerProperty OIL_FILLLEVEL = IntegerProperty.create("oil_filllevel", 0, 3);
 	public static final BooleanProperty BERRIES = BooleanProperty.create("berries");
+	public static final BooleanProperty IS_GLOWING = BooleanProperty.create("is_glowing");
 }

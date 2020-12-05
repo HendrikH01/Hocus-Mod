@@ -33,7 +33,8 @@ public class ItemModelsDataGen extends ItemModelProvider {
 		GENERATED_MODEL.add(ModBlocks.FUNKY_MUSHROOM.get());
 		GENERATED_MODEL.add(ModBlocks.DREADWOOD_SAPLING.get());
 		GENERATED_MODEL.add(ModBlocks.CAVE_FLOWER.get());
-		
+		GENERATED_MODEL.add(ModBlocks.FUNGAL_GRASS.get());
+
 		GENERATED_MODEL_SPECIAL.put(ModBlocks.ENERGY_RELAY.get(), (name) -> new ResourceLocation(Hocus.MOD_ID, "items/" + name));
 		GENERATED_MODEL_SPECIAL.put(ModBlocks.FIRE_BOWL.get(), (name) -> new ResourceLocation(Hocus.MOD_ID, "items/" + name));
 		GENERATED_MODEL_SPECIAL.put(ModBlocks.CANDLE.get(), (name) -> new ResourceLocation(Hocus.MOD_ID, "items/" + name));

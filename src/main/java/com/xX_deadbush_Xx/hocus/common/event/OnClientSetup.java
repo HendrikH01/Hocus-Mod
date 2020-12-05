@@ -10,6 +10,7 @@ import com.xX_deadbush_Xx.hocus.client.gui.CrystalRechargerScreen;
 import com.xX_deadbush_Xx.hocus.client.gui.ToolTableScreen;
 import com.xX_deadbush_Xx.hocus.client.models.model_loaders.GlowingModelLoader;
 import com.xX_deadbush_Xx.hocus.client.renderers.entities.LightningBallRenderer;
+import com.xX_deadbush_Xx.hocus.client.renderers.entities.ManaShardRenderer;
 import com.xX_deadbush_Xx.hocus.client.renderers.entities.RavenRenderer;
 import com.xX_deadbush_Xx.hocus.client.renderers.tileEntities.DryingRackRenderer;
 import com.xX_deadbush_Xx.hocus.client.renderers.tileEntities.EnergyRelayRenderer;
@@ -49,6 +50,7 @@ public class OnClientSetup {
     	registerTER(ModTileEntities.ENERGY_RELAY_TILE.get(), EnergyRelayRenderer::new);
     	
 		RenderingRegistry.registerEntityRenderingHandler(ModEntities.LIGHTING_BALL.get(), LightningBallRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(ModEntities.MANA_SHARD.get(), ManaShardRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(ModEntities.RAVEN.get(), RavenRenderer::new);
 
     	ScreenManager.registerFactory(ModContainers.TOOL_TABLE.get(), ToolTableScreen::new);
@@ -65,6 +67,8 @@ public class OnClientSetup {
     	RenderTypeLookup.setRenderLayer(ModBlocks.SWIRLY_PLANT.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.CAVE_FLOWER.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.POISON_IVY.get(), RenderType.getCutout());
+    	RenderTypeLookup.setRenderLayer(ModBlocks.FUNGAL_GRASS.get(), RenderType.getCutout());
+    	RenderTypeLookup.setRenderLayer(ModBlocks.GLIMSPORES.get(), RenderType.getCutout());
 
     	RenderTypeLookup.setRenderLayer(ModBlocks.CHALK_BLOCK.get(), RenderType.getCutout());
     	RenderTypeLookup.setRenderLayer(ModBlocks.FUNKY_MUSHROOM_BLOCK.get(), RenderType.getTranslucent());

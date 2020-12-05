@@ -33,7 +33,7 @@ public class ModColorHandler {
 		}, ModBlocks.RITUAL_STONE.get());
 		
 		colors.register((state, light, pos, color) ->  {
-	         return 0x22721D;
+	         return 0x399316;
 		}, ModBlocks.DREADWOOD_LEAVES.get());
 	}
 	

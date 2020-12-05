@@ -46,8 +46,8 @@ public class CraftingHelper {
 		return null;
 	}
 	
-	public static List<ItemStack> asList(RecipeWrapper inv) {
-		List<ItemStack> out = new ArrayList<>();
+	public static NonNullList<ItemStack> asList(RecipeWrapper inv) {
+		NonNullList<ItemStack> out = NonNullList.create();
 		for(int i = 0; i < inv.getSizeInventory(); i++) {
 			out.add(inv.getStackInSlot(i));
 		}
@@ -110,4 +110,5 @@ public class CraftingHelper {
         }
         return false;
 	}
+	
 }

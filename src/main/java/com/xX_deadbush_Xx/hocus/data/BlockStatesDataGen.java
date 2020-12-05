@@ -49,6 +49,7 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		simpleBlock(ModBlocks.MUD.get(), models().getExistingFile(getModelPath(ModBlocks.MUD)));
 		simpleBlock(ModBlocks.SHIMMER_BLOCK.get(), models().getExistingFile(getModelPath(ModBlocks.SHIMMER_BLOCK)));
 		simpleBlock(ModBlocks.MOSSY_SHALE_BRICKS.get(), models().getExistingFile(getModelPath(ModBlocks.MOSSY_SHALE_BRICKS)));
+		simpleBlock(ModBlocks.FUNGAL_GRASS.get(), models().getExistingFile(getModelPath(ModBlocks.FUNGAL_GRASS)));
 
 		tallBlock(ModBlocks.SWIRLY_PLANT);
 		
@@ -78,7 +79,16 @@ public class BlockStatesDataGen extends BlockStateProvider {
 		getVariantBuilder(ModBlocks.FIRE_BOWL.get())
 			.partialState().with(BlockStateProperties.LIT, true).setModels(newConfiguredModel(getBlockName(ModBlocks.FIRE_BOWL) + "_lit"))
 			.partialState().with(BlockStateProperties.LIT, false).setModels(newConfiguredModel(getBlockName(ModBlocks.FIRE_BOWL) + "_unlit"));
+		
+		getVariantBuilder(ModBlocks.GLIMSPORES.get())
+			.partialState().with(ModBlockStateProperties.IS_GLOWING, false).setModels(new ConfiguredModel(models().withExistingParent(getBlockName(ModBlocks.GLIMSPORES), getModelPath("glowing_cross"))
+					.texture("tex1", new ResourceLocation(Hocus.MOD_ID, "blocks/glimspores_closed"))
+					.texture("tex2", new ResourceLocation(Hocus.MOD_ID, "blocks/blank"))))
+			.partialState().with(ModBlockStateProperties.IS_GLOWING, true).setModels(new ConfiguredModel(models().withExistingParent(getBlockName(ModBlocks.GLIMSPORES), getModelPath("glowing_cross"))
+					.texture("tex1", new ResourceLocation(Hocus.MOD_ID, "blocks/glimspores"))
+					.texture("tex2", new ResourceLocation(Hocus.MOD_ID, "blocks/glimspores_bubbles"))));
 
+		
 		buildMushroomBlock(ModBlocks.FUNKY_MUSHROOM_BLOCK);
 		buildMushroomBlock(ModBlocks.FUNKY_MUSHROOM_STEM);
 		

@@ -17,11 +17,11 @@ import net.minecraft.util.math.RayTraceContext.FluidMode;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.World;
 
-public class StaffOfLight extends WandItem<NoSpell> {
+public class WandOfLights extends WandItem<NoSpell> {
 
 	private static final float RANGE_SQUARED = 64;
 
-	public StaffOfLight(Properties properties) {
+	public WandOfLights(Properties properties) {
 		super(properties);
 	}
 	

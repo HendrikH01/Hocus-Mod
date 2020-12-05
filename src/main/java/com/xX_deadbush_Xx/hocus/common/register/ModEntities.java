@@ -2,6 +2,7 @@ package com.xX_deadbush_Xx.hocus.common.register;
 
 import com.xX_deadbush_Xx.hocus.Hocus;
 import com.xX_deadbush_Xx.hocus.common.entity.LightningBallEntity;
+import com.xX_deadbush_Xx.hocus.common.entity.ManaShardEntity;
 import com.xX_deadbush_Xx.hocus.common.entity.RavenEntity;
 
 import net.minecraft.entity.EntityClassification;
@@ -22,5 +23,8 @@ public class ModEntities {
 	
 	public static final RegistryObject<EntityType<RavenEntity>> RAVEN = ENTITIES.register("raven", () -> EntityType.Builder.<RavenEntity>create(RavenEntity::new, EntityClassification.CREATURE)
 			.size(0.6f, 0.7f).build(new ResourceLocation(Hocus.MOD_ID, "raven").toString()));
+
+	public static final RegistryObject<EntityType<ManaShardEntity>> MANA_SHARD = ENTITIES.register("mana_shard", () -> EntityType.Builder.<ManaShardEntity>create(ManaShardEntity::new, EntityClassification.MISC)
+			.size(0.5f, 0.5f).build(new ResourceLocation(Hocus.MOD_ID, "mana_shard").toString()));
 	
 }

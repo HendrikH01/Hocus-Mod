@@ -19,19 +19,20 @@ import net.minecraft.world.gen.feature.BigMushroomFeatureConfig;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.server.ServerWorld;
 
-public class ModMushroomBlock extends MushroomBlock implements IGrowable {
+public class FunkyMushroomBlock extends MushroomBlock {
 
-	public ModMushroomBlock(Properties properties) {
+	public FunkyMushroomBlock(Properties properties) {
 		super(properties);
 	}
 	
-	public boolean growHugeMushroom(ServerWorld worldIn, BlockPos blockpos, BlockState blockstate, Random rand) {
+	@Override
+	public boolean grow(ServerWorld worldIn, BlockPos blockpos, BlockState blockstate, Random rand) {
 		
 		worldIn.removeBlock(blockpos, false);
 	    ConfiguredFeature<BigMushroomFeatureConfig, ?> configuredfeature;
 	    
 	    if (this == ModBlocks.FUNKY_MUSHROOM.get()) {
-	    	configuredfeature = ModFeatures.BIG_HELLSHROOM.get().withConfiguration(ModFeatureConfigs.HUGE_FUNKY_MUSHROOM);
+	    	configuredfeature = ModFeatures.HUGE_FUNKY_MUSHROOM.get().withConfiguration(ModFeatureConfigs.HUGE_FUNKY_MUSHROOM);
 	    } else {
     		worldIn.setBlockState(blockpos, blockstate, 3);
     		return false;
@@ -45,15 +46,4 @@ public class ModMushroomBlock extends MushroomBlock implements IGrowable {
 	    }
 	}
 	
-	public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
-		return true;
-	}
-
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
-	   return (double)rand.nextFloat() < 0.4D;
-	}
-
-	public void grow(ServerWorld worldIn, Random rand, BlockPos blockpos, BlockState blockstate) {
-		this.growHugeMushroom(worldIn, blockpos, blockstate, rand);
-	}
 }

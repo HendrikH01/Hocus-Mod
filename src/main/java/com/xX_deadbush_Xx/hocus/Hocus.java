@@ -21,6 +21,7 @@ import com.xX_deadbush_Xx.hocus.common.register.ModTileEntities;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.client.event.RecipesUpdatedEvent;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -55,9 +56,17 @@ public class Hocus {
 
         MinecraftForge.EVENT_BUS.register(this);
         
-        
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ModClientOptions.SPEC);
     }
+	
+	public static void log(Object... args) {
+		String out = "";
+		for(Object o : args) {
+			out += o.toString() + " ";
+		}
+		
+		System.out.println(out);
+	}
 	
     @SubscribeEvent
     public static void onRegisterBiomes(final RegistryEvent.Register<Biome> event) {

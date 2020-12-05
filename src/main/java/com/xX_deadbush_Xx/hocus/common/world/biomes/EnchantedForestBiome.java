@@ -1,11 +1,13 @@
 package com.xX_deadbush_Xx.hocus.common.world.biomes;
 
 import com.google.common.collect.ImmutableList;
-import com.xX_deadbush_Xx.hocus.common.register.ModBlocks;
+import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.util.Pair;
 import com.xX_deadbush_Xx.hocus.common.register.ModEntities;
 import com.xX_deadbush_Xx.hocus.common.register.ModFeatures;
 import com.xX_deadbush_Xx.hocus.common.world.biomes.surface.ModSurfaces;
 import com.xX_deadbush_Xx.hocus.common.world.gen.features.config.ModFeatureConfigs;
+import com.xX_deadbush_Xx.hocus.common.world.gen.features.config.MultipleWithChanceBlockDependantConfig;
 import com.xX_deadbush_Xx.hocus.common.world.gen.placement.ModPlacements;
 
 import net.minecraft.block.Blocks;
@@ -16,7 +18,6 @@ import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;
 import net.minecraft.world.gen.feature.MultipleWithChanceRandomFeatureConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftConfig;
 import net.minecraft.world.gen.feature.structure.MineshaftStructure;
@@ -24,9 +25,9 @@ import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.FrequencyConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.NoPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
-import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 public class EnchantedForestBiome extends HocusBiome {
 
@@ -64,18 +65,6 @@ public class EnchantedForestBiome extends HocusBiome {
 		this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, ModFeatures.WIZARD_TOWER.get().withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)
 				.withPlacement(Placement.NOPE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
 		
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(
-        		new MultipleRandomFeatureConfig(ImmutableList.of(
-        				Feature.HUGE_BROWN_MUSHROOM.withConfiguration(DefaultBiomeFeatures.BIG_BROWN_MUSHROOM).withChance(0.003F), 
-        				Feature.HUGE_RED_MUSHROOM.withConfiguration(DefaultBiomeFeatures.BIG_RED_MUSHROOM).withChance(0.003F), 
-        				ModFeatures.BIG_HELLSHROOM.get().withConfiguration(ModFeatureConfigs.HUGE_FUNKY_MUSHROOM).withChance(0.004F), 
-        				ModFeatures.DREADWOOD_TREE.get().withConfiguration(ModFeatureConfigs.DREADWOOD_TREE).withChance(0.8F), 
-        				Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.BIRCH_TREE_CONFIG).withChance(0.08F), 
-        				Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.06F),
-        				Feature.NO_OP.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withChance(0.05F)), //sometimes leave empty spaces
-        				Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG)))
-        		.withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(20))));
-		
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_RANDOM_SELECTOR.withConfiguration(
         		new MultipleWithChanceRandomFeatureConfig(ImmutableList.of(
         				Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.ADONIS_FEATURE),
@@ -83,16 +72,36 @@ public class EnchantedForestBiome extends HocusBiome {
         				Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.SWIRLY_PLANT_FEATURE), 
         				Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.ROSE_BUSH_WHITELISTED),
         				Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.LILAC_WHITELISTED_FEATURE), 
-        				Feature.FLOWER.withConfiguration(ModFeatureConfigs.CORNFLOWER_WHITELISTED),
-						Feature.FLOWER.withConfiguration(ModFeatureConfigs.DANDELION_WHITELISTED)), 2))
-        		.withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(4))));
-
+        				Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.CORNFLOWER_WHITELISTED),
+						Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.DANDELION_WHITELISTED)), 2))
+        		.withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(4))));
+	
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, ModFeatures.BLOCK_DEPENDANT_SELECTOR.get().withConfiguration(
+        		new MultipleWithChanceBlockDependantConfig(ImmutableList.of(
+        				Pair.of(Feature.HUGE_BROWN_MUSHROOM.withConfiguration(DefaultBiomeFeatures.BIG_BROWN_MUSHROOM).withChance(0.05F), ImmutableMap.of(Blocks.GRASS_BLOCK, 0.3f, Blocks.MYCELIUM, 0.7f)), 
+        				Pair.of(Feature.HUGE_RED_MUSHROOM.withConfiguration(DefaultBiomeFeatures.BIG_RED_MUSHROOM).withChance(0.05F), ImmutableMap.of(Blocks.GRASS_BLOCK, 0.3f, Blocks.MYCELIUM, 0.7f)), 
+        				Pair.of(ModFeatures.HUGE_FUNKY_MUSHROOM.get().withConfiguration(ModFeatureConfigs.HUGE_FUNKY_MUSHROOM).withChance(0.04F), ImmutableMap.of(Blocks.GRASS_BLOCK, 0.3f, Blocks.MYCELIUM, 0.7f)), 
+        				Pair.of(ModFeatures.DREADWOOD_TREE.get().withConfiguration(ModFeatureConfigs.DREADWOOD_TREE).withChance(0.8F), ImmutableMap.of(Blocks.GRASS_BLOCK, 1.0f, Blocks.MYCELIUM, 0.02f)), 
+        				Pair.of(Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.BIRCH_TREE_CONFIG).withChance(0.08F), ImmutableMap.of(Blocks.GRASS_BLOCK, 1.0f, Blocks.MYCELIUM, 0.05f)), 
+        				Pair.of(Feature.FANCY_TREE.withConfiguration(DefaultBiomeFeatures.FANCY_TREE_CONFIG).withChance(0.06F), ImmutableMap.of(Blocks.GRASS_BLOCK, 1.0f, Blocks.MYCELIUM, 0.05f)),
+        				Pair.of(Feature.NORMAL_TREE.withConfiguration(DefaultBiomeFeatures.OAK_TREE_CONFIG).withChance(0.1F), ImmutableMap.of(Blocks.GRASS_BLOCK, 1.0f, Blocks.MYCELIUM, 0.05f))), //sometimes leave empty spaces
+        				Feature.NO_OP.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG)))
+        		.withPlacement(Placement.DARK_OAK_TREE.configure(new NoPlacementConfig())));
+	
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.LILY_PAD_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(4))));
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.GRASS_CONFIG_WHITELISTED).withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(5))));
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.TALL_GRASS_CONFIG_WHITELISTED).withPlacement(Placement.COUNT_TOP_SOLID.configure(new FrequencyConfig(7))));
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.BROWN_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(3))));
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.RED_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(3))));
-        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.FUNKY_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(3))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.GRASS_CONFIG_WHITELISTED).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(5))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.TALL_GRASS_CONFIG_WHITELISTED).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(7))));
+        
+        //shrooms
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.BROWN_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(5))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.RED_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(5))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.FUNKY_MUSHROOM_CONFIG).withPlacement(Placement.CHANCE_HEIGHTMAP_DOUBLE.configure(new ChanceConfig(4))));
+       
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.FUNKY_MUSHROOM_CONFIG_WHITELISTED).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(5))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.RED_MUSHROOM_WHITELISTED).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(6))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.BROWN_MUSHROOM_WHITELISTED).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(6))));
+
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(ModFeatureConfigs.FUNGAL_GRASS).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(5))));
 
         DefaultBiomeFeatures.addLakes(this);
         DefaultBiomeFeatures.addExtraEmeraldOre(this);
@@ -103,7 +112,6 @@ public class EnchantedForestBiome extends HocusBiome {
         DefaultBiomeFeatures.addStoneVariants(this);
         DefaultBiomeFeatures.addOres(this);
         DefaultBiomeFeatures.addSedimentDisks(this);
-        DefaultBiomeFeatures.addFossils(this);
 	}
 	
 	@Override

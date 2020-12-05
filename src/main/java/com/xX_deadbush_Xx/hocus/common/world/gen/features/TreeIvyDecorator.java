@@ -48,6 +48,9 @@ public class TreeIvyDecorator extends TreeDecorator {
 		int minY = 999;
 		int maxCount = rand.nextInt(5);
 		
+		if(rand.nextFloat() > 0.2)
+			return;
+		
 		for (BlockPos pos : trunk) {
 			int y = pos.getY();
 			minY = y < minY ? y : minY;
@@ -60,7 +63,7 @@ public class TreeIvyDecorator extends TreeDecorator {
 			if (pos.getY() >= minY + 3)
 				continue;
 
-			if (rand.nextInt(CHANCE) > 0) {
+			if (rand.nextInt(CHANCE) == 0) {
 				BlockPos blockpos = pos.west();
 				if (AbstractTreeFeature.isAir(world, blockpos)) {
 					this.placeIvy(world, blockpos, IvyBlock.EAST, decorations, bb);
@@ -68,7 +71,7 @@ public class TreeIvyDecorator extends TreeDecorator {
 				}
 			}
 
-			if (rand.nextInt(CHANCE) > 0) {
+			if (rand.nextInt(CHANCE) == 0) {
 				BlockPos blockpos1 = pos.east();
 				if (AbstractTreeFeature.isAir(world, blockpos1)) {
 					this.placeIvy(world, blockpos1, IvyBlock.WEST, decorations, bb);
@@ -76,7 +79,7 @@ public class TreeIvyDecorator extends TreeDecorator {
 				}
 			}
 
-			if (rand.nextInt(CHANCE) > 0) {
+			if (rand.nextInt(CHANCE) == 0) {
 				BlockPos blockpos2 = pos.north();
 				if (AbstractTreeFeature.isAir(world, blockpos2)) {
 					this.placeIvy(world, blockpos2, IvyBlock.SOUTH, decorations, bb);
@@ -84,7 +87,7 @@ public class TreeIvyDecorator extends TreeDecorator {
 				}
 			}
 
-			if (rand.nextInt(CHANCE) > 0) {
+			if (rand.nextInt(CHANCE) == 0) {
 				BlockPos blockpos3 = pos.south();
 				if (AbstractTreeFeature.isAir(world, blockpos3)) {
 					this.placeIvy(world, blockpos3, IvyBlock.NORTH, decorations, bb);
@@ -92,7 +95,7 @@ public class TreeIvyDecorator extends TreeDecorator {
 				}
 			}
 
-			if (rand.nextInt(CHANCE) > 0) {
+			if (rand.nextInt(CHANCE) == 0) {
 				BlockPos blockpos2 = pos.up();
 				if (AbstractTreeFeature.isAir(world, blockpos2)) {
 					this.placeIvy(world, blockpos2, IvyBlock.UP, decorations, bb);

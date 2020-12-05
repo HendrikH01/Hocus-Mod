@@ -55,7 +55,7 @@ public class ModMathHelper {
 	
 	public static double getYaw(Vec3d vec) {
 		Vec3d normalized = vec.normalize();
-		return 2*Math.PI - Math.atan2(normalized.x, normalized.z);
+		return 2*Math.PI - MathHelper.atan2(normalized.x, normalized.z);
 	}
 	
 	public static int getIntDigits(int i) {
